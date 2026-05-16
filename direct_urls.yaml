@@ -1,0 +1,284 @@
+# ============================================================================
+# WZ UW IntraLex — Rejestr aktów do pobrania z konkretnych URLi
+# ============================================================================
+# Ten plik zawiera akty, które nie są automatycznie wykrywane przez scrapery
+# Monitor UW ani WZ UW. Są to dokumenty fundamentalne (regulaminy, statut)
+# oraz akty wydziałowe dostępne pod konkretnymi adresami.
+#
+# Każdy wpis ma:
+#   id:          unikalny identyfikator (prefiks "direct_")
+#   tytul:       pełna nazwa aktu
+#   organ:       organ wydający (Senat, Rektor, Rada Dydaktyczna, KJD, Dziekan)
+#   typ:         typ aktu (uchwała, zarządzenie, regulamin, obwieszczenie)
+#   rok:         rok wydania/uchwalenia
+#   data_wydania: data w formacie YYYY-MM-DD (jeśli znana)
+#   url_pdf:     bezpośredni link do PDF
+#   url_page:    strona, na której akt jest opublikowany (do wyświetlenia jako źródło)
+#   kategoria:   tag tematyczny (studia, pomoc_materialna, dyplomowanie, organizacja, opłaty, praktyki)
+#   uwagi:       opcjonalne notatki
+# ============================================================================
+
+akty:
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # A. AKTY OGÓLNOUNIWERSYTECKIE — kluczowe regulaminy i statut
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - id: "direct_statut_uw"
+    tytul: "UCHWAŁA NR 443 SENATU UNIWERSYTETU WARSZAWSKIEGO z dnia 26 czerwca 2019 r. w sprawie uchwalenia Statutu Uniwersytetu Warszawskiego"
+    organ: "Senat"
+    typ: "uchwała"
+    rok: 2019
+    data_wydania: "2019-06-26"
+    url_pdf: "https://monitor.uw.edu.pl/Lists/Uchway/Attachments/4934/M.2019.190.U.443.pdf"
+    url_page: "https://www.uw.edu.pl/uniwersytet/wazne-dokumenty/"
+    kategoria: "organizacja"
+    uwagi: "Tekst jednolity Statutu UW — dokument ustrojowy"
+
+  - id: "direct_regulamin_studiow_uw"
+    tytul: "UCHWAŁA NR 441 SENATU UNIWERSYTETU WARSZAWSKIEGO z dnia 19 czerwca 2019 r. w sprawie uchwalenia Regulaminu Studiów na Uniwersytecie Warszawskim"
+    organ: "Senat"
+    typ: "uchwała"
+    rok: 2019
+    data_wydania: "2019-06-19"
+    url_pdf: "https://ws.uw.edu.pl/wp-content/uploads/2020/11/5db5e9db41acf_regulamin-UW.pdf"
+    url_page: "https://www.uw.edu.pl/uniwersytet/wazne-dokumenty/"
+    kategoria: "studia"
+    uwagi: "Regulamin Studiów — urlopy, zaliczenia, skreślenia, ECTS, przeniesienia"
+
+  - id: "direct_regulamin_swiadczen_studenci"
+    tytul: "OBWIESZCZENIE NR 18 REKTORA UNIWERSYTETU WARSZAWSKIEGO z dnia 16 lipca 2021 r. w sprawie ogłoszenia tekstu jednolitego zarządzenia nr 142 Rektora UW — Regulamin świadczeń dla studentów UW"
+    organ: "Rektor"
+    typ: "obwieszczenie"
+    rok: 2021
+    data_wydania: "2021-07-16"
+    url_pdf: "https://monitor.uw.edu.pl/Lists/Uchway/Attachments/5978/M.2021.215.Obw.18.pdf"
+    url_page: "https://bpm.uw.edu.pl/akty-prawne/"
+    kategoria: "pomoc_materialna"
+    uwagi: "Stypendia rektora, socjalne, zapomogi, stypendium dla ON"
+
+  - id: "direct_oplaty_edukacyjne_2024"
+    tytul: "ZARZĄDZENIE NR 67 REKTORA UNIWERSYTETU WARSZAWSKIEGO z dnia 12 czerwca 2024 r. w sprawie wysokości opłat za usługi edukacyjne"
+    organ: "Rektor"
+    typ: "zarządzenie"
+    rok: 2024
+    data_wydania: "2024-06-12"
+    url_pdf: "https://monitor.uw.edu.pl/Lists/Uchway/Attachments/7016/M.2024.204.Zarz.67.pdf"
+    url_page: "https://bok.uw.edu.pl/sekcja-toku-studiow/oplaty-za-uslugi-edukacyjne/"
+    kategoria: "opłaty"
+    uwagi: "Wysokość opłat za usługi edukacyjne — czesne, powtarzanie przedmiotów"
+
+  - id: "direct_zasady_oplat_2019"
+    tytul: "ZARZĄDZENIE NR 130 REKTORA UNIWERSYTETU WARSZAWSKIEGO z dnia 30 września 2019 r. w sprawie zasad pobierania opłat i warunków oraz trybu zwalniania studentów z opłat za usługi edukacyjne na UW"
+    organ: "Rektor"
+    typ: "zarządzenie"
+    rok: 2019
+    data_wydania: "2019-09-30"
+    url_pdf: "https://monitor.uw.edu.pl/Lists/Uchway/Attachments/5062/M.2019.296.Zarz.130.pdf"
+    url_page: "https://bok.uw.edu.pl/sekcja-toku-studiow/oplaty-za-uslugi-edukacyjne/"
+    kategoria: "opłaty"
+    uwagi: "Zasady pobierania opłat, zwolnienia, raty — akt bazowy"
+
+  - id: "direct_oplaty_edukacyjne_2023"
+    tytul: "ZARZĄDZENIE NR 62 REKTORA UNIWERSYTETU WARSZAWSKIEGO z 2023 r. w sprawie wysokości opłat za usługi edukacyjne"
+    organ: "Rektor"
+    typ: "zarządzenie"
+    rok: 2023
+    data_wydania: "2023-06-01"
+    url_pdf: "https://monitor.uw.edu.pl/Lists/Uchway/Attachments/6512/M.2023.131.Zarz.62.pdf"
+    url_page: "https://bok.uw.edu.pl/sekcja-toku-studiow/oplaty-za-uslugi-edukacyjne/"
+    kategoria: "opłaty"
+    uwagi: "Opłaty edukacyjne 2023 — starsze roczniki"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # B. AKTY WYDZIAŁOWE WZ UW — dyplomowanie, praktyki, organizacja
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - id: "direct_dyplomowanie_wz_2025"
+    tytul: "UCHWAŁA NR 1/3/2025 RADY DYDAKTYCZNEJ WZ UW — aktualne procedury dyplomowania na kierunkach studiów prowadzonych na WZ UW"
+    organ: "Rada Dydaktyczna"
+    typ: "uchwała"
+    rok: 2025
+    data_wydania: "2025-03-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2025/03/Aktualne-procedury-dyplomowania.pdf"
+    url_page: "https://wz.uw.edu.pl/en/student-2/for-students/important-documents/"
+    kategoria: "dyplomowanie"
+    uwagi: "Aktualne zasady dyplomowania — praca lic./mgr, seminaria, egzamin dyplomowy"
+
+  - id: "direct_dyplomowanie_wz_2022"
+    tytul: "Szczegółowe zasady procesu dyplomowania na Wydziale Zarządzania UW (2022)"
+    organ: "Rada Dydaktyczna"
+    typ: "uchwała"
+    rok: 2022
+    data_wydania: "2022-01-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/Szczegolowe_zasady_procesu_dyplomowania_2022.pdf"
+    url_page: "https://wz.uw.edu.pl/en/student-2/for-students/important-documents/"
+    kategoria: "dyplomowanie"
+    uwagi: "Starsze zasady dyplomowania — nadal stosowane do roczników sprzed 2025"
+
+  - id: "direct_praktyki_wz_2022"
+    tytul: "UCHWAŁA NR 2/3/2022 RADY DYDAKTYCZNEJ WZ UW w sprawie szczegółowych zasad odbywania i zaliczania praktyk zawodowych"
+    organ: "Rada Dydaktyczna"
+    typ: "uchwała"
+    rok: 2022
+    data_wydania: "2022-01-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/UCHWALA_nr_2_3_2022_w_sprawie_szczego%C2%B4lowych_zasad_odbywania_i_zaliczania_praktyk_zawodowych_21.pdf"
+    url_page: "https://wz.uw.edu.pl/en/student-2/for-students/student-practice/"
+    kategoria: "praktyki"
+    uwagi: "Regulamin praktyk studenckich WZ — wymiar godzin, zaliczanie, dokumentacja"
+
+  - id: "direct_praktyki_instrukcja_2024"
+    tytul: "Jak rozliczyć obowiązkowe praktyki studenckie — instrukcja (WZ UW, grudzień 2024)"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2024
+    data_wydania: "2024-12-03"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2024/12/Praktyki-instrukcja-3.12.24.pdf"
+    url_page: "https://wz.uw.edu.pl/en/student-2/for-students/student-practice/"
+    kategoria: "praktyki"
+    uwagi: "Instrukcja krok po kroku — który typ praktyk wybrać, jakie dokumenty"
+
+  - id: "direct_regulamin_wz"
+    tytul: "Regulamin Wydziału Zarządzania Uniwersytetu Warszawskiego (Zarządzenie nr 38 Rektora UW, tekst jednolity 2020)"
+    organ: "Rektor"
+    typ: "zarządzenie"
+    rok: 2020
+    data_wydania: "2020-03-06"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/M.2020.106.Zarz_.38_Regulamin_WZUW.pdf"
+    url_page: "http://www.wz.uw.edu.pl/wydzial/akty-prawne/uchwaly-zarzadzenia-regulaminy-wz-uw"
+    kategoria: "organizacja"
+    uwagi: "Regulamin organizacyjny WZ — struktura, kompetencje dziekana i prodziekanów"
+
+  - id: "direct_organizacja_2025_2026"
+    tytul: "ZARZĄDZENIE NR 25/2025 KJD WZ UW w sprawie organizacji kształcenia w roku akademickim 2025/2026"
+    organ: "KJD"
+    typ: "zarządzenie"
+    rok: 2025
+    data_wydania: "2025-09-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2025/09/ZARZADZENIE-KJD-nr-25_2025-w-sprawie-organizacji-ksztalcenia-w-roku-ak.-2025_2026.pdf"
+    url_page: "https://wz.uw.edu.pl/en/the-faculty/legal-acts/"
+    kategoria: "organizacja"
+    uwagi: "Organizacja kształcenia — sesje, terminy, rejestracje 2025/2026"
+
+  - id: "direct_egzamin_dyplomowy_pytania"
+    tytul: "Wymagania merytoryczne dotyczące egzaminu dyplomowego i pytania kierunkowe (WZ UW)"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2021
+    data_wydania: "2021-04-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/Egz._dypl._Inf._Prom._IV.21docx.pdf"
+    url_page: "https://wz.uw.edu.pl/en/student-2/for-students/important-documents/"
+    kategoria: "dyplomowanie"
+    uwagi: "Pytania kierunkowe na egzaminy dyplomowe"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # ──────────────────────────────────────────────────────────────────────────
+  # C. AKTY PRACOWNICZE — regulaminy pracy, wynagradzanie, ocena okresowa
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - id: "direct_regulamin_pracy_uw"
+    tytul: "OBWIESZCZENIE NR 1 REKTORA UW z dnia 24 stycznia 2024 r. w sprawie ogłoszenia tekstu jednolitego zarządzenia nr 143 Rektora UW — Regulamin pracy pracowników UW"
+    organ: "Rektor"
+    typ: "obwieszczenie"
+    rok: 2024
+    data_wydania: "2024-01-24"
+    url_pdf: "https://www.uw.edu.pl/wp-content/uploads/2024/01/m.2024.23.obw_.1.pdf"
+    url_page: "https://www.uw.edu.pl/uniwersytet/wazne-dokumenty/"
+    kategoria: "pracownicze"
+    uwagi: "Tekst jednolity regulaminu pracy — czas pracy, urlopy, obowiązki pracodawcy/pracownika"
+
+  - id: "direct_regulamin_wynagradzania_uw"
+    tytul: "OBWIESZCZENIE NR 4 REKTORA UW z 2023 r. — tekst jednolity zarządzenia nr 9 Rektora UW z dnia 17 stycznia 2020 r. w sprawie Regulaminu Wynagradzania na UW"
+    organ: "Rektor"
+    typ: "obwieszczenie"
+    rok: 2023
+    data_wydania: "2023-02-01"
+    url_pdf: "https://monitor.uw.edu.pl/Lists/Uchway/Attachments/6416/M.2023.35.Obw.4.pdf"
+    url_page: "https://www.uw.edu.pl/regulamin-wynagradzania-na-uw/"
+    kategoria: "pracownicze"
+    uwagi: "Tabele stawek, dodatki, premie, wynagrodzenie zasadnicze i uzupełniające"
+
+  - id: "direct_wynagradzanie_zmiana_2024"
+    tytul: "ZARZĄDZENIE NR 22 REKTORA UW z dnia 4 marca 2024 r. zmieniające zarządzenie nr 9 Rektora UW w sprawie Regulaminu Wynagradzania na UW"
+    organ: "Rektor"
+    typ: "zarządzenie"
+    rok: 2024
+    data_wydania: "2024-03-04"
+    url_pdf: "https://monitor.uw.edu.pl/Lists/Uchway/Attachments/6882/M.2024.72.Zarz.22.pdf"
+    url_page: "https://www.uw.edu.pl/zmiany-w-regulaminie-wynagradzania-na-uw/"
+    kategoria: "pracownicze"
+    uwagi: "Nowelizacja regulaminu wynagradzania 2024"
+
+  - id: "direct_ocena_okresowa_2023"
+    tytul: "ZARZĄDZENIE NR 9 REKTORA UW z dnia 25 stycznia 2023 r. w sprawie określenia trybu, zasad i kryteriów oceny okresowej nauczycieli akademickich"
+    organ: "Rektor"
+    typ: "zarządzenie"
+    rok: 2023
+    data_wydania: "2023-01-25"
+    url_pdf: "https://monitor.uw.edu.pl/Lists/Uchway/Attachments/6407/M.2023.26.Zarz.9.pdf"
+    url_page: "https://bsp.adm.uw.edu.pl/bsp-druki-do-pobrania/"
+    kategoria: "pracownicze"
+    uwagi: "Tryb, zasady i kryteria oceny okresowej — arkusz, KOONA, EVA"
+
+  - id: "direct_pensum_118_2024"
+    tytul: "ZARZĄDZENIE NR 118 REKTORA UW z dnia 11 października 2024 r. w sprawie szczegółowych zasad ustalania pensum dydaktycznego i rozliczania godzin dydaktycznych"
+    organ: "Rektor"
+    typ: "zarządzenie"
+    rok: 2024
+    data_wydania: "2024-10-11"
+    url_pdf: "https://www.uw.edu.pl/wp-content/uploads/2024/10/m.2024.309.zarz_.118.pdf"
+    url_page: "https://www.uw.edu.pl/uniwersytet/wazne-dokumenty/"
+    kategoria: "pracownicze"
+    uwagi: "Pensum dydaktyczne — wymiar, zasady rozliczania, zniżki, nadgodziny"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # D. DO RĘCZNEGO UZUPEŁNIENIA — URLe do ustalenia
+  # ──────────────────────────────────────────────────────────────────────────
+  # Poniższe akty są ważne, ale wymagają ręcznego znalezienia aktualnego PDF.
+  # Odkomentuj i uzupełnij url_pdf gdy znajdziesz właściwy dokument.
+  # ──────────────────────────────────────────────────────────────────────────
+
+  # - id: "direct_regulamin_studiow_podyplomowych"
+  #   tytul: "Regulamin studiów podyplomowych na Uniwersytecie Warszawskim"
+  #   organ: "Senat"
+  #   typ: "uchwała"
+  #   rok: 2019
+  #   url_pdf: ""  # TODO: znaleźć PDF
+  #   url_page: "https://www.uw.edu.pl/uniwersytet/wazne-dokumenty/"
+  #   kategoria: "studia"
+
+  # - id: "direct_regulamin_szkoly_doktorskiej"
+  #   tytul: "Regulamin Szkoły Doktorskiej UW"
+  #   organ: "Senat"
+  #   typ: "uchwała"
+  #   rok: 2019
+  #   url_pdf: ""  # TODO: znaleźć PDF
+  #   url_page: "https://www.uw.edu.pl/uniwersytet/wazne-dokumenty/"
+  #   kategoria: "studia"
+
+  # - id: "direct_regulamin_domow_studenckich"
+  #   tytul: "Regulamin domów studenckich UW"
+  #   organ: "Rektor"
+  #   typ: "zarządzenie"
+  #   rok: 2019
+  #   url_pdf: ""  # TODO: znaleźć PDF
+  #   url_page: "https://www.uw.edu.pl/uniwersytet/wazne-dokumenty/"
+  #   kategoria: "organizacja"
+
+  # - id: "direct_regulamin_antyplagiatowy"
+  #   tytul: "Zarządzenie Rektora UW w sprawie Jednolitego Systemu Antyplagiatowego"
+  #   organ: "Rektor"
+  #   typ: "zarządzenie"
+  #   rok: 2019
+  #   url_pdf: ""  # TODO: znaleźć PDF
+  #   url_page: ""
+  #   kategoria: "studia"
+
+  # - id: "direct_organizacja_roku_2025_2026"
+  #   tytul: "Zarządzenie Rektora UW w sprawie organizacji roku akademickiego 2025/2026"
+  #   organ: "Rektor"
+  #   typ: "zarządzenie"
+  #   rok: 2025
+  #   url_pdf: ""  # TODO: znaleźć PDF
+  #   url_page: ""
+  #   kategoria: "studia"

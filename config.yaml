@@ -1,0 +1,44 @@
+# lex-uwwz configuration
+
+sources:
+  monitor_uw:
+    base_url: "https://monitor.uw.edu.pl"
+    views:
+      zarzadzenia_rektora:
+        path: "/lists/uchway/zarzdzenia%20rektora.aspx"
+        organ: "Rektor"
+        type: "zarządzenie"
+      uchway_senatu:
+        path: "/lists/uchway/uchway%20senatu.aspx"
+        organ: "Senat"
+        type: "uchwała"
+      zarzadzenia_kanclerza:
+        path: "/lists/uchway/zarzdzenia%20kanclerza.aspx"
+        organ: "Kanclerz"
+        type: "zarządzenie"
+    # PDF pattern: /Lists/Uchway/Attachments/{ID}/{filename}.pdf
+
+  wz_uw:
+    base_url: "https://wz.uw.edu.pl"
+    pages:
+      akty_prawne:
+        path: "/wydzial/akty-prawne/uchwaly-zarzadzenia-regulaminy-wz-uw"
+        organ: "WZ"
+        type: "mixed"
+
+  direct_urls:
+    registry: "direct_urls.yaml"
+    # Config-driven scraper for specific act URLs (foundational docs,
+    # regulations not captured by automated scrapers).
+    pdf_dir: "data/pdfs/direct"
+
+database:
+  path: "data/lex-uwwz.db"
+
+pdf_storage:
+  path: "data/pdfs"
+
+scraping:
+  delay_seconds: 2
+  max_retries: 3
+  user_agent: "lex-uwwz/0.1 (academic research tool)"

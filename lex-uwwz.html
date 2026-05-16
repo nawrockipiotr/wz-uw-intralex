@@ -1,0 +1,4255 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="version" content="v1.1">
+<title>WZ UW IntraLex — Wyszukiwarka aktów wewnętrznych UW i WZ UW</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: transparent;
+  --surface: #ffffff;
+  --surface2: #edf0f5;
+  --border: #c9cdd4;
+  --text: #1f1f1f;
+  --text-dim: #5f6368;
+  --accent: #1E3050;
+  --accent-dim: #e0e5ed;
+  --accent-teal: #3B5088;
+  --accent-teal-dim: #e3e8f2;
+  --green: #16a34a;
+  --green-dim: #16a34a12;
+  --yellow: #ca8a04;
+  --yellow-dim: #ca8a0415;
+  --red: #dc2626;
+  --red-dim: #dc262615;
+  --blue: #3b82f6;
+  --blue-dim: #3b82f615;
+  --radius: 14px;
+}
+
+body {
+  font-family: 'Titillium Web', Arial, sans-serif;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--text);
+  padding: 0;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+/* ── Hero ── */
+.hero {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 0;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.hero-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-teal) 50%, var(--accent) 100%);
+  border-radius: 0 0 var(--radius) var(--radius);
+  margin-bottom: 2rem;
+}
+
+.hero-top-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.hero-top-row .version-badge { margin-left: auto; }
+
+.lang-switch { display: flex; gap: 2px; }
+.lang-btn {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.lang-btn:first-child { border-radius: 4px 0 0 4px; }
+.lang-btn:last-child { border-radius: 0 4px 4px 0; }
+.lang-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.org-badge {
+  display: inline-block;
+  background: var(--accent-teal-dim);
+  border: 1px solid var(--accent-teal);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-teal);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.version-badge {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+.hero-update { color: var(--text-dim); font-size: 0.75rem; margin-top: 0.15rem; margin-bottom: 0.6rem; }
+.hero-lead { color: var(--text-dim); font-size: 0.82rem; line-height: 1.6; margin-bottom: 0.75rem; }
+
+.info-box {
+  background: var(--surface2);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  border-left: 3px solid var(--accent);
+}
+.info-title { font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+.info-content { font-size: 0.78rem; color: var(--text-dim); line-height: 1.7; }
+.info-content code {
+  background: var(--surface);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+}
+
+.hero-author {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  opacity: 0.7;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+/* ── Stats bar ── */
+.stats-bar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: box-shadow 0.15s, background 0.15s;
+  user-select: none;
+  min-width: 5.5rem;
+  text-align: center;
+  flex: 1 1 5.5rem;
+  max-width: 8rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03);
+}
+.stat:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+}
+.stat.active {
+  background: var(--accent-teal-dim);
+  box-shadow: 0 0 0 2px var(--accent-teal);
+  color: var(--accent-teal);
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+
+/* ── Mode toggle (tabs) ── */
+.mode-toggle {
+  display: flex;
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 0.65rem 0.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  transition: all 0.2s;
+  font-family: 'Titillium Web', Arial, sans-serif;
+  min-width: 120px;
+}
+
+.mode-btn.active { background: var(--accent-teal-dim); color: var(--accent-teal); }
+.mode-btn:hover:not(.active) { background: var(--surface2); }
+
+/* ── Search section ── */
+.search-section {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.search-section label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.search-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.search-row .field { display: flex; flex-direction: column; gap: 0.35rem; }
+
+.search-row input, .search-row select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  color: var(--text);
+  font-family: 'Titillium Web', Arial, sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-row input:focus, .search-row select:focus { border-color: var(--accent-teal); }
+.search-row input::placeholder { color: var(--text-dim); opacity: 0.6; }
+
+.search-btn {
+  padding: 0.6rem 1.5rem;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Titillium Web', Arial, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.search-btn:hover { opacity: 0.9; }
+
+/* ── Results ── */
+.results-info {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+.result-card {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.result-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.organ-tag {
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.organ-Rektor { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+.organ-Senat { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+.organ-Kanclerz { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+.organ-Dziekan { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+.organ-KJD { background: #f59e0b15; color: #d97706; border: 1px solid #d97706; }
+.organ-WZ { background: #6366f115; color: #6366f1; border: 1px solid #6366f1; }
+.organ-Rada { background: #6366f115; color: #4338ca; border: 1px solid #4338ca; }
+
+.result-date {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.result-source {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  opacity: 0.7;
+}
+
+.result-body { padding: 0.75rem 1rem; }
+
+.result-body h3 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  line-height: 1.4;
+}
+
+.result-body .title-text {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+.result-body .snippet {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-top: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--surface2);
+  border-radius: 6px;
+}
+
+.result-body .snippet mark {
+  background: #fef08a;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.result-links {
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.result-links a {
+  padding: 0.3rem 0.6rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.result-links a:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+/* Status badges */
+.status-tag {
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.status-obowiazujacy { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+.status-zmieniony { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+.status-uchylony { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+.status-tekst-jednolity { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+
+.amendment-chain {
+  padding: 0.4rem 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  background: var(--surface2);
+}
+.amendment-chain a {
+  color: var(--accent-teal);
+  text-decoration: none;
+  font-weight: 600;
+}
+.amendment-chain a:hover { text-decoration: underline; }
+
+/* Bookmarks */
+.bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.15rem 0.3rem;
+  opacity: 0.35;
+  transition: all 0.15s;
+  line-height: 1;
+}
+.bookmark-btn:hover { opacity: 0.7; }
+.bookmark-btn.bookmarked { opacity: 1; color: var(--yellow); }
+.bookmark-filter {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.bookmark-filter:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+.bookmark-filter.active { background: var(--yellow-dim); border-color: var(--yellow); color: var(--yellow); }
+
+/* ── Q&A section ── */
+.qa-section { display: none; }
+.qa-section.active { display: block; }
+
+.qa-config {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.qa-config label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.provider-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.provider-tab {
+  flex: 1;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  transition: all 0.2s;
+  font-family: 'Titillium Web', Arial, sans-serif;
+}
+
+.provider-tab.active { background: var(--accent-teal-dim); color: var(--accent-teal); }
+.provider-tab:hover:not(.active) { background: var(--surface2); }
+
+.api-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.api-row input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.api-row input:focus { border-color: var(--accent-teal); }
+
+.api-hint {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  opacity: 0.7;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+.save-check {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.save-check input[type="checkbox"] { accent-color: var(--accent-teal); }
+
+.local-fields { display: none; margin-top: 0.75rem; }
+.local-fields.visible { display: block; }
+.local-fields label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.qa-lang-section { padding: 0 1.5rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.qa-lang-section label { font-size: 0.8rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+.qa-lang-section select { padding: 0.3rem 0.5rem; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 0.82rem; background: var(--surface); color: var(--text); }
+.qa-lang-hint { font-size: 0.7rem; color: var(--text-dim); }
+
+/* FAQ */
+.faq-section {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03);
+}
+.faq-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+}
+.faq-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0.7rem;
+  flex-wrap: wrap;
+}
+.faq-tab {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.faq-tab:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+.faq-tab.active { background: var(--accent-teal); color: #fff; border-color: var(--accent-teal); }
+.faq-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.faq-chip {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface2);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.3;
+}
+.faq-chip:hover { background: var(--accent-teal-dim); border-color: var(--accent-teal); color: var(--accent-teal); }
+
+.qa-input-section {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.qa-input-section label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.qa-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.qa-input-row input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  color: var(--text);
+  font-family: 'Titillium Web', Arial, sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.qa-input-row input:focus { border-color: var(--accent-teal); }
+.qa-input-row input::placeholder { color: var(--text-dim); opacity: 0.6; }
+
+.ask-btn, .followup-btn {
+  padding: 0.6rem 1.5rem;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Titillium Web', Arial, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.ask-btn:hover, .followup-btn:hover { opacity: 0.9; }
+
+.qa-answer-area {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.qa-answer-area.visible { display: block; }
+
+.qa-answer-header {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.qa-answer-body {
+  padding: 1rem;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.qa-answer-sources {
+  padding: 0.6rem 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.source-tag {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+a.source-tag:hover, span.source-tag:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.source-tag .source-num {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 0.25rem;
+  margin-right: 0.2rem;
+  font-size: 0.62rem;
+  min-width: 1rem;
+  text-align: center;
+}
+a.source-tag:hover .source-num, span.source-tag:hover .source-num {
+  background: #fff;
+  color: var(--accent);
+}
+.source-tag.highlighted {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.source-tag.highlighted .source-num {
+  background: #fff;
+  color: var(--accent);
+}
+.cite-ref {
+  display: inline;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 0.3rem;
+  font-size: 0.7em;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  vertical-align: super;
+  line-height: 1;
+  margin: 0 0.05rem;
+}
+.cite-ref:hover {
+  opacity: 0.8;
+}
+.source-tag.uncited {
+  opacity: 0.35;
+  border-style: dashed;
+}
+.source-legend-toggle {
+  display: inline-block;
+  font-size: 0.68rem;
+  color: var(--muted);
+  cursor: pointer;
+  margin-top: 0.35rem;
+  border-bottom: 1px dashed var(--muted);
+  user-select: none;
+}
+.source-legend-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.source-legend {
+  display: none;
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--fg);
+  line-height: 1.7;
+}
+.source-legend.open { display: block; }
+.source-legend-item { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.15rem; }
+.source-legend-item .legend-swatch {
+  flex-shrink: 0;
+  display: inline-block;
+  border-radius: 3px;
+}
+.legend-swatch.swatch-cite {
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0 0.3rem;
+  line-height: 1.4;
+}
+.legend-swatch.swatch-chip {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.58rem;
+  font-weight: 600;
+  padding: 0 0.25rem;
+  line-height: 1.4;
+}
+.legend-swatch.swatch-uncited {
+  background: var(--accent-dim);
+  border: 1px dashed var(--accent);
+  color: var(--accent);
+  font-size: 0.58rem;
+  font-weight: 600;
+  padding: 0 0.25rem;
+  line-height: 1.4;
+  opacity: 0.35;
+}
+.answer-block { margin-bottom: 1rem; }
+.answer-block + .answer-block { padding-top: 1rem; border-top: 1px solid var(--border); }
+.answer-label { font-size: 0.72rem; font-weight: 700; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+.answer-text { line-height: 1.65; }
+.answer-text p { margin-bottom: 0.5em; }
+.answer-text ul, .answer-text ol { margin: 0.4em 0 0.4em 1.5em; }
+.answer-text li { margin-bottom: 0.2em; }
+.answer-text h3, .answer-text h4, .answer-text h5 { font-size: 0.9rem; font-weight: 700; margin: 0.8em 0 0.3em; }
+.answer-text h3 { font-size: 0.95rem; }
+.answer-text hr { border: none; border-top: 1px solid var(--border); margin: 0.8em 0; }
+.answer-text code { background: var(--surface2); padding: 0.1em 0.3em; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 0.8em; }
+
+/* ── Follow-up actions ── */
+.qa-actions {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  display: none;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.qa-actions.visible { display: flex; }
+
+.qa-actions-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.explain-btn, .new-question-btn {
+  padding: 0.4rem 0.75rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Titillium Web', Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.explain-btn:hover, .new-question-btn:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+.followup-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.followup-row input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  color: var(--text);
+  font-family: 'Titillium Web', Arial, sans-serif;
+  font-size: 0.82rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.followup-row input:focus { border-color: var(--accent-teal); }
+.followup-row input::placeholder { color: var(--text-dim); opacity: 0.6; }
+
+.followup-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+}
+
+.qa-loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+/* ── Error ── */
+.error-msg {
+  background: var(--red-dim);
+  border: 1px solid var(--red);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: var(--red);
+}
+
+/* ── Loading ── */
+#loading {
+  text-align: center;
+  padding: 4rem;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+/* ── Detail view ── */
+.detail-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+.detail-overlay.visible { display: block; }
+
+.detail-container { max-width: 960px; margin: 0 auto; }
+
+.detail-topbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.detail-back {
+  padding: 0.4rem 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.detail-back:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+.detail-header {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+}
+.detail-header h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+}
+.detail-header .detail-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.detail-header .detail-title-full {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.detail-header .detail-links {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+.detail-header .detail-links a {
+  padding: 0.3rem 0.6rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.detail-header .detail-links a:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+.detail-body-wrap {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.detail-nav {
+  position: sticky;
+  top: 1rem;
+  width: 220px;
+  min-width: 180px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03);
+}
+.detail-nav-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+.detail-nav a {
+  display: block;
+  padding: 0.25rem 0.4rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-radius: 4px;
+  line-height: 1.35;
+  transition: all 0.15s;
+  margin-bottom: 1px;
+}
+.detail-nav a:hover { background: var(--accent-teal-dim); color: var(--accent-teal); }
+.detail-nav a.active { background: var(--accent-teal-dim); color: var(--accent-teal); font-weight: 600; }
+.detail-nav a.nav-level-1 { padding-left: 0.4rem; font-weight: 600; }
+.detail-nav a.nav-level-2 { padding-left: 1rem; font-size: 0.72rem; }
+
+.detail-content {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+}
+.detail-content .section-heading {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--accent-teal);
+  margin: 1.5rem 0 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 1.5rem;
+}
+.detail-content .section-heading:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+.detail-content .paragraph-block {
+  font-size: 0.84rem;
+  line-height: 1.7;
+  margin-bottom: 0.6rem;
+  color: var(--text);
+  position: relative;
+}
+.detail-content .paragraph-block:hover .par-actions { opacity: 1; }
+.detail-content .paragraph-ref {
+  font-weight: 700;
+  color: var(--accent-teal);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+}
+/* Citation copy & deep link buttons */
+.par-actions {
+  position: absolute;
+  right: -0.2rem;
+  top: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+  display: flex;
+  gap: 2px;
+}
+.par-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  padding: 2px 4px;
+  line-height: 1;
+}
+.par-btn:hover { background: var(--accent); color: #fff; }
+/* Copy toast */
+.copy-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  z-index: 10000;
+  animation: toastFade 1.5s ease forwards;
+}
+@keyframes toastFade {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+/* Deep link flash highlight */
+.highlight-flash {
+  animation: flashBg 2s ease;
+}
+@keyframes flashBg {
+  0%, 10% { background: rgba(var(--accent-rgb, 37,99,235), 0.15); }
+  100% { background: transparent; }
+}
+/* Cross-references */
+.cross-refs-section {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 2px solid var(--border);
+}
+.cross-refs-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+  color: var(--text);
+}
+.cross-refs-group {
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.5rem;
+}
+.cross-refs-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.cross-ref-link {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--accent-teal);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.cross-ref-link:hover {
+  background: var(--accent-teal);
+  color: #fff;
+}
+/* Analytics */
+.analytics-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.6rem;
+  transition: background 0.15s;
+}
+.analytics-btn:hover { background: var(--accent-teal); color: #fff; }
+.analytics-section h3 { margin: 0 0 0.5rem; font-size: 1rem; }
+.analytics-chart-title { font-weight: 600; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+.analytics-bars { display: flex; align-items: flex-end; gap: 2px; height: 80px; border-bottom: 1px solid var(--border); margin-bottom: 0.3rem; }
+.analytics-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+.analytics-bar { width: 100%; min-width: 4px; background: var(--accent); border-radius: 2px 2px 0 0; transition: height 0.2s; }
+.analytics-bar-label { font-size: 0.55rem; color: var(--text-muted); transform: rotate(-45deg); white-space: nowrap; margin-top: 2px; }
+.analytics-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.analytics-table th { text-align: left; border-bottom: 2px solid var(--border); padding: 0.3rem 0.5rem; font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; }
+.analytics-table td { padding: 0.25rem 0.5rem; border-bottom: 1px solid var(--border); }
+.analytics-table tr:hover td { background: var(--surface); }
+.btn-clear-log { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 0.3rem 0.8rem; font-size: 0.75rem; cursor: pointer; color: var(--text-muted); }
+.btn-clear-log:hover { border-color: #e55; color: #e55; }
+.detail-no-text {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .container { padding: 1rem; }
+  .mode-toggle { flex-direction: column; }
+  .provider-tabs { flex-wrap: wrap; }
+  .search-row { flex-direction: column; }
+  .search-row .field { width: 100%; }
+  .followup-row { flex-direction: column; }
+  .detail-body-wrap { flex-direction: column; }
+  .detail-nav { position: static; width: 100%; max-height: 200px; }
+}
+
+/* ── Print styles for PDF export ── */
+@media print {
+  body { padding: 0; background: #fff; }
+  .hero, .stats-bar, .mode-toggle, .search-section, .qa-config,
+  .qa-lang-section, .faq-section, .qa-input-section, .qa-actions,
+  #search-panel, .detail-overlay, .bookmark-filter { display: none !important; }
+  .container { max-width: 100%; }
+  .qa-section { display: block !important; }
+  .qa-answer-area { border: none; box-shadow: none; }
+  .qa-answer-area.visible { display: block !important; }
+  .qa-answer-body { max-height: none; overflow: visible; }
+  .qa-answer-header { font-size: 1.1rem; }
+  .answer-text { font-size: 0.95rem; }
+  .source-tag { border: 1px solid #999; color: #333; background: #f0f0f0; }
+  .print-header { display: block !important; text-align: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #333; }
+  .print-header h1 { font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .print-header .print-date { font-size: 0.8rem; color: #666; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-top-row">
+      <div class="org-badge" id="org-badge">Wydział Zarządzania · Uniwersytet Warszawski</div>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-uilang="pl" onclick="switchUILang('pl')">PL</button>
+        <button class="lang-btn" data-uilang="en" onclick="switchUILang('en')">EN</button>
+      </div>
+      <span class="version-badge">v1.0</span>
+    </div>
+
+    <h1>WZ UW IntraLex</h1>
+    <p class="hero-update" id="hero-update"></p>
+    <p class="hero-lead">
+      Wyszukiwarka i baza aktów wewnętrznych <strong>Uniwersytetu Warszawskiego</strong> oraz
+      <strong>Wydziału Zarządzania UW</strong>. Wyszukuj pełnotekstowo lub zadawaj pytania w języku naturalnym z wykorzystaniem AI.
+    </p>
+
+    <div class="info-box">
+      <div class="info-title">Jak korzystać z narzędzia</div>
+      <div class="info-content">
+        <strong>1.</strong> Zakładka <strong>Wyszukiwarka</strong> — wpisz frazę (np. „rekrutacja", „pensum", „środki trwałe"), opcjonalnie zawęź organ i rok. Wyniki sortowane wg trafności (BM25).<br>
+        <strong>2.</strong> Zakładka <strong>Zadaj pytanie (AI)</strong> — wpisz pytanie w języku naturalnym. Narzędzie znajdzie najbardziej trafne akty i wyśle je do wybranego modelu AI, który odpowie z cytatami źródłowymi.<br>
+        <strong>3.</strong> Do trybu AI potrzebujesz klucza API (OpenAI, Anthropic lub Google) albo lokalnego serwera (Ollama).<br>
+        <strong>4.</strong> Po otrzymaniu odpowiedzi możesz kliknąć <strong>Wyjaśnij prostszym językiem</strong> lub zadać pytanie uzupełniające — AI zachowa kontekst rozmowy.
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-title">Aktualizacja bazy aktów</div>
+      <div class="info-content">
+        Baza jest ładowana z pliku <code>data/akty.json</code>. Aby pobrać najnowsze akty, uruchom w terminalu:<br>
+        <code>python -m src.ingestion.monitor_uw && python -m src.ingestion.wz_uw && python -m src.export_json</code>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-title">Źródła danych</div>
+      <div class="info-content">
+        <strong>Monitor UW</strong> (monitor.uw.edu.pl) — zarządzenia Rektora, uchwały Senatu, zarządzenia Kanclerza.<br>
+        <strong>WZ UW</strong> (wz.uw.edu.pl) — zarządzenia Dziekana, uchwały KJD, uchwały Rady Dydaktycznej, uchwały Rady Wydziału.
+      </div>
+    </div>
+
+    <div class="hero-author">WZ UW IntraLex · Piotr Nawrocki · Wydział Zarządzania UW</div>
+  </div>
+  <div class="hero-bar"></div>
+
+  <!-- Loading -->
+  <div id="loading">Ładowanie bazy aktów...</div>
+
+  <!-- App -->
+  <div id="app" style="display:none">
+
+    <!-- Stats -->
+    <div class="stats-bar" id="stats-bar"></div>
+
+    <!-- Mode toggle -->
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-mode="search" onclick="switchTab('search')">Wyszukiwarka</button>
+      <button class="mode-btn" data-mode="qa" onclick="switchTab('qa')">Zadaj pytanie (AI)</button>
+    </div>
+
+    <!-- ═══ SEARCH TAB ═══ -->
+    <div id="search-panel">
+      <div class="search-section">
+        <div class="search-row">
+          <div class="field" style="flex:3;min-width:200px">
+            <label>Szukaj w aktach prawnych</label>
+            <input type="text" id="search-input" placeholder="np. środki trwałe, rekrutacja, pensum..."
+                   onkeydown="if(event.key==='Enter') doSearch()">
+          </div>
+          <div class="field" style="flex:0.8;min-width:120px">
+            <label>Organ</label>
+            <select id="filter-organ"><option value="">Wszystkie</option></select>
+          </div>
+          <div class="field" style="flex:0.6;min-width:90px">
+            <label>Rok</label>
+            <select id="filter-rok"><option value="">Wszystkie</option></select>
+          </div>
+          <div class="field" style="flex:0.9;min-width:120px">
+            <label id="filter-cat-label">Kategoria</label>
+            <select id="filter-cat"><option value="">Wszystkie</option></select>
+          </div>
+          <button class="search-btn" onclick="doSearch()">Szukaj</button>
+          <button class="bookmark-filter" id="bookmark-filter-btn" onclick="toggleBookmarkFilter()">Ulubione</button>
+          <button class="analytics-btn" onclick="showAnalytics()" title="Statystyki wyszukiwań">📊</button>
+        </div>
+      </div>
+      <div class="results-info" id="results-info"></div>
+      <div id="results"></div>
+    </div>
+
+    <!-- ═══ Q&A TAB ═══ -->
+    <div class="qa-section" id="qa-panel">
+
+      <!-- Provider config -->
+      <div class="qa-config">
+        <label>Provider AI</label>
+        <div class="provider-tabs">
+          <button class="provider-tab active" data-provider="openai" onclick="setProvider('openai')">OpenAI (GPT-4o-mini)</button>
+          <button class="provider-tab" data-provider="anthropic" onclick="setProvider('anthropic')">Anthropic (Claude)</button>
+          <button class="provider-tab" data-provider="google" onclick="setProvider('google')">Google (Gemini)</button>
+          <button class="provider-tab" data-provider="ollama" onclick="setProvider('ollama')">Ollama (lokalne)</button>
+        </div>
+
+        <div id="api-key-field">
+          <label id="apiKeyLabel">Klucz API OpenAI</label>
+          <div class="api-row">
+            <input type="password" id="qa-apikey" placeholder="sk-...">
+          </div>
+          <div class="api-hint">Klucz jest przechowywany wyłącznie w przeglądarce (localStorage) i wysyłany tylko do wybranego providera.</div>
+        </div>
+
+        <div class="local-fields" id="local-fields">
+          <label>Adres serwera</label>
+          <div class="api-row">
+            <input type="text" id="ollama-url" value="http://localhost:11434" placeholder="http://localhost:11434">
+          </div>
+          <div class="api-hint">Endpoint zgodny z OpenAI API. Ollama: localhost:11434 · LM Studio: localhost:1234</div>
+          <label>Nazwa modelu</label>
+          <div class="api-row">
+            <input type="text" id="ollama-model" value="llama3.1" placeholder="np. llama3.1, mistral, gemma2">
+          </div>
+          <div class="api-hint">Nazwa modelu zainstalowanego na serwerze (<code>ollama list</code> pokaże dostępne).</div>
+        </div>
+
+        <label class="save-check">
+          <input type="checkbox" id="saveKey"> <span id="saveKeyText">Zapamiętaj ustawienia na tym komputerze</span>
+        </label>
+      </div>
+
+      <!-- Response language -->
+      <div class="qa-lang-section">
+        <label>Język odpowiedzi</label>
+        <select id="qa-lang" onchange="saveSettings()">
+          <option value="polski">Polski</option>
+          <option value="English">English</option>
+          <option value="українська">Українська</option>
+          <option value="español">Español</option>
+          <option value="français">Français</option>
+          <option value="Deutsch">Deutsch</option>
+          <option value="中文">中文</option>
+          <option value="日本語">日本語</option>
+          <option value="한국어">한국어</option>
+          <option value="العربية">العربية</option>
+          <option value="हिन्दी">हिन्दी</option>
+          <option value="Türkçe">Türkçe</option>
+          <option value="Tiếng Việt">Tiếng Việt</option>
+          <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+        </select>
+        <span class="qa-lang-hint">Pytanie możesz zadać w dowolnym języku. Źródła zawsze prowadzą do oryginalnych dokumentów polskich.</span>
+      </div>
+
+      <!-- FAQ -->
+      <div class="faq-section" id="faq-section">
+        <div class="faq-title" id="faq-title">Częste pytania</div>
+        <div class="faq-tabs" id="faq-tabs"></div>
+        <div class="faq-grid" id="faq-grid"></div>
+      </div>
+
+      <!-- Question input -->
+      <div class="qa-input-section">
+        <label>Zadaj pytanie o akty wewnętrzne UW / WZ</label>
+        <div class="qa-input-row">
+          <input type="text" id="qa-input"
+                 placeholder="np. Jakie są zasady likwidacji środków trwałych?"
+                 onkeydown="if(event.key==='Enter') doQA()">
+          <button class="ask-btn" onclick="doQA()">Zapytaj</button>
+        </div>
+      </div>
+
+      <!-- Print header (visible only in print) -->
+      <div class="print-header" style="display:none">
+        <h1 id="print-title">WZ UW IntraLex — Odpowiedź AI</h1>
+        <div class="print-date" id="print-date"></div>
+      </div>
+
+      <!-- Answer -->
+      <div class="qa-answer-area" id="qa-answer-area">
+        <div class="qa-answer-header">Odpowiedź</div>
+        <div class="qa-answer-body" id="qa-answer-body"></div>
+        <div class="qa-answer-sources" id="qa-answer-sources"></div>
+        <!-- Actions: explain + follow-up -->
+        <div class="qa-actions" id="qa-actions">
+          <div class="qa-actions-row">
+            <button class="explain-btn" onclick="doExplain()">Wyjaśnij prostszym językiem</button>
+            <button class="explain-btn" onclick="exportAnswerPdf()">Eksportuj do PDF</button>
+            <button class="new-question-btn" onclick="doNewQuestion()">Nowe pytanie</button>
+          </div>
+          <div class="followup-row">
+            <input type="text" id="followup-input"
+                   placeholder="Zadaj pytanie uzupełniające..."
+                   onkeydown="if(event.key==='Enter') doFollowUp()">
+            <button class="followup-btn" onclick="doFollowUp()">Dopytaj</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- #app -->
+</div><!-- .container -->
+
+<!-- ═══ ANALYTICS OVERLAY ═══ -->
+<div class="detail-overlay" id="analytics-overlay">
+  <div class="detail-container" style="max-width:720px">
+    <div class="detail-topbar">
+      <button class="detail-back" onclick="closeAnalytics()">← Powrót</button>
+      <span style="font-size:0.78rem;color:var(--text-dim)">Analityka wyszukiwań</span>
+    </div>
+    <div class="detail-content" id="analytics-body" style="padding:1rem"></div>
+  </div>
+</div>
+
+<!-- ═══ DETAIL OVERLAY ═══ -->
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail-container">
+    <div class="detail-topbar">
+      <button class="detail-back" onclick="closeDetail()">← Powrót</button>
+      <span id="detail-breadcrumb" style="font-size:0.78rem;color:var(--text-dim)"></span>
+    </div>
+    <div class="detail-header" id="detail-header"></div>
+    <div class="detail-body-wrap">
+      <nav class="detail-nav" id="detail-nav"></nav>
+      <div class="detail-content" id="detail-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Data loader: works with file:// (no server needed) -->
+<script src="data/akty.js" onerror=""></script>
+<script>
+// ============================================================
+// DATA & STATE
+// ============================================================
+let AKTY = [];
+let CHUNKS = [];       // chunk-level index for BM25
+let ACT_BY_ID = {};    // quick lookup: act id → act object
+let currentTab = 'search';
+let currentProvider = 'openai';
+
+// Conversation state for follow-ups
+let conversationHistory = [];
+let lastChunks = [];
+let lastQueryTokens = [];
+
+// ============================================================
+// i18n — Polish / English UI
+// ============================================================
+const UI_STRINGS = {
+  pl: {
+    tabSearch: 'Wyszukiwarka',
+    tabQA: 'Zadaj pytanie (AI)',
+    providerLabel: 'Provider AI',
+    ollamaLocal: 'Ollama (lokalne)',
+    saveSettings: 'Zapamiętaj ustawienia na tym komputerze',
+    langLabel: 'Język odpowiedzi',
+    langHint: 'Pytanie możesz zadać w dowolnym języku. Źródła zawsze prowadzą do oryginalnych dokumentów polskich.',
+    questionLabel: 'Zadaj pytanie o akty wewnętrzne UW / WZ',
+    questionPlaceholder: 'np. Jakie są zasady likwidacji środków trwałych?',
+    askBtn: 'Zapytaj',
+    answerHeader: 'Odpowiedź',
+    explainBtn: 'Wyjaśnij prostszym językiem',
+    newQuestionBtn: 'Nowe pytanie',
+    followupPlaceholder: 'Zadaj pytanie uzupełniające...',
+    followupBtn: 'Dopytaj',
+    sourcesLabel: 'Źródła:',
+    legendToggle: 'Jak czytać źródła?',
+    legendCiteRef: 'Numerek w tekście — kliknij, by podświetlić źródło na dole.',
+    legendChipCited: 'Źródło cytowane w odpowiedzi — kliknij, by otworzyć szczegóły aktu.',
+    legendChipUncited: 'Źródło podane jako kontekst, ale nieużyte w odpowiedzi.',
+    searchPlaceholder: 'Szukaj w aktach...',
+    filterOrgan: 'Wszystkie organy',
+    filterYear: 'Wszystkie lata',
+    loading: 'Ładowanie bazy aktów...',
+    noResults: 'Brak wyników.',
+    latestActs: 'Najnowsze akty',
+    statsLatest: 'Najnowsze',
+    searchFound: 'Znaleziono',
+    searchResultsFor: 'wyników dla',
+    lastUpdate: 'Ostatnia aktualizacja',
+    heroLead: 'Wyszukiwarka i baza aktów wewnętrznych <strong>Uniwersytetu Warszawskiego</strong> oraz <strong>Wydziału Zarządzania UW</strong>. Wyszukuj pełnotekstowo lub zadawaj pytania w języku naturalnym z wykorzystaniem AI.',
+    howToTitle: 'Jak korzystać z narzędzia',
+    howToContent: '<strong>1.</strong> Zakładka <strong>Wyszukiwarka</strong> — wpisz frazę, opcjonalnie zawęź organ i rok.<br><strong>2.</strong> Zakładka <strong>Zadaj pytanie (AI)</strong> — wpisz pytanie w języku naturalnym. Narzędzie znajdzie trafne akty i wyśle je do modelu AI.<br><strong>3.</strong> Do trybu AI potrzebujesz klucza API lub lokalnego serwera (Ollama).<br><strong>4.</strong> Po odpowiedzi możesz kliknąć <strong>Wyjaśnij prostszym językiem</strong> lub zadać pytanie uzupełniające.',
+    updateTitle: 'Aktualizacja bazy aktów',
+    updateContent: 'Baza jest ładowana z pliku <code>data/akty.json</code>. Aby pobrać najnowsze akty, uruchom w terminalu:<br><code>python -m src.ingestion.monitor_uw && python -m src.ingestion.wz_uw && python -c "from src.ingestion.direct_urls import main; main()" && python -m src.export_json</code>',
+    sourcesTitle: 'Źródła danych',
+    sourcesContent: '<strong>Monitor UW</strong> (monitor.uw.edu.pl) — bieżące zarządzenia Rektora, uchwały Senatu, zarządzenia Kanclerza.<br><strong>WZ UW</strong> (wz.uw.edu.pl) — zarządzenia Dziekana i KJD, uchwały Rady Dydaktycznej i Rady Wydziału.<br><strong>Akty fundamentalne</strong> — Statut UW, Regulamin Studiów, regulamin świadczeń, zasady opłat, procedury dyplomowania, regulamin praktyk, regulamin organizacyjny WZ.',
+    loadingAnswer: 'Szukam w aktach i generuję odpowiedź...',
+    loadingFollowup: 'Generuję odpowiedź...',
+    loadingExplain: 'Przygotowuję...',
+    explainLabel: 'Wyjaśnienie prostszym językiem',
+    noChunksFound: 'Nie znalazłem aktów pasujących do pytania. Spróbuj inne słowa kluczowe.',
+    explainPrompt: 'Wyjaśnij powyższą odpowiedź prostszym, bardziej przystępnym językiem. Zachowaj odniesienia do konkretnych aktów, ale unikaj żargonu prawniczego. Pisz krótko i na temat.',
+    orgBadge: 'Wydział Zarządzania · Uniwersytet Warszawski',
+    heroAuthor: 'WZ UW IntraLex · Piotr Nawrocki · Wydział Zarządzania UW',
+    statsActs: 'Aktów w bazie',
+    statsWithText: 'Z pełnym tekstem',
+    apiKeyHint: 'Klucz jest przechowywany wyłącznie w przeglądarce (localStorage) i wysyłany tylko do wybranego providera.',
+    apiKeyLabelOpenai: 'Klucz API OpenAI',
+    apiKeyLabelAnthropic: 'Klucz API Anthropic',
+    apiKeyLabelGoogle: 'Klucz API Google',
+    searchLabel: 'Szukaj w aktach prawnych',
+    searchBtn: 'Szukaj',
+    filterOrganLabel: 'Organ',
+    filterYearLabel: 'Rok',
+    filterCatLabel: 'Kategoria',
+    filterCat: 'Wszystkie',
+    organRektor: 'Rektor',
+    organSenat: 'Senat',
+    organKanclerz: 'Kanclerz',
+    organDziekan: 'Dziekan',
+    organKJD: 'KJD',
+    organWZ: 'WZ',
+    organRada: 'Rada',
+    organRadaDydaktyczna: 'Rada Dydaktyczna',
+    organRadaWydzialu: 'Rada Wydziału',
+    organInne: 'Inne',
+    detailFullText: 'Pokaż treść',
+    detailBack: '← Powrót',
+    detailContents: 'Spis treści',
+    detailNoText: 'Pełny tekst niedostępny. Użyj linku do PDF powyżej.',
+    detailRelated: 'Powiązane akty',
+    statusActive: 'obowiązujący',
+    statusAmended: 'zmieniony',
+    statusRepealed: 'uchylony',
+    statusConsolidated: 'tekst jednolity',
+    amendmentAmends: 'Zmienia:',
+    amendmentAmendedBy: 'Zmieniony przez:',
+    amendmentConsolidates: 'Tekst jednolity dla:',
+    bookmarkAdd: 'Dodaj do ulubionych',
+    bookmarkRemove: 'Usuń z ulubionych',
+    bookmarkFilter: 'Ulubione',
+    bookmarkFilterCount: 'Ulubione ({count})',
+    exportPdf: 'Eksportuj do PDF',
+    printTitle: 'WZ UW IntraLex — Odpowiedź AI',
+  },
+  en: {
+    tabSearch: 'Search',
+    tabQA: 'Ask a question (AI)',
+    providerLabel: 'AI Provider',
+    ollamaLocal: 'Ollama (local)',
+    saveSettings: 'Save settings on this computer',
+    langLabel: 'Response language',
+    langHint: 'You can ask in any language. Source links always point to original Polish documents.',
+    questionLabel: 'Ask about UW / WZ internal regulations',
+    questionPlaceholder: 'e.g. What are the rules for commission exams?',
+    askBtn: 'Ask',
+    answerHeader: 'Answer',
+    explainBtn: 'Explain in simpler terms',
+    newQuestionBtn: 'New question',
+    followupPlaceholder: 'Ask a follow-up question...',
+    followupBtn: 'Follow up',
+    sourcesLabel: 'Sources:',
+    legendToggle: 'How to read sources?',
+    legendCiteRef: 'Number in text — click to highlight the source below.',
+    legendChipCited: 'Source cited in the answer — click to open act details.',
+    legendChipUncited: 'Source provided as context but not used in the answer.',
+    searchPlaceholder: 'Search regulations...',
+    filterOrgan: 'All bodies',
+    filterYear: 'All years',
+    loading: 'Loading regulations database...',
+    noResults: 'No results.',
+    latestActs: 'Latest regulations',
+    statsLatest: 'Latest',
+    searchFound: 'Found',
+    searchResultsFor: 'results for',
+    lastUpdate: 'Last update',
+    heroLead: 'Search engine and database of internal regulations of the <strong>University of Warsaw</strong> and the <strong>Faculty of Management</strong>. Full-text search or ask questions in natural language using AI.',
+    howToTitle: 'How to use this tool',
+    howToContent: '<strong>1.</strong> <strong>Search</strong> tab — enter a phrase, optionally filter by body and year.<br><strong>2.</strong> <strong>Ask a question (AI)</strong> tab — type a question in natural language. The tool finds relevant regulations and sends them to an AI model.<br><strong>3.</strong> AI mode requires an API key or a local server (Ollama).<br><strong>4.</strong> After receiving an answer, click <strong>Explain in simpler terms</strong> or ask a follow-up.',
+    updateTitle: 'Database update',
+    updateContent: 'The database loads from <code>data/akty.json</code>. To fetch latest regulations, run in terminal:<br><code>python -m src.ingestion.monitor_uw && python -m src.ingestion.wz_uw && python -c "from src.ingestion.direct_urls import main; main()" && python -m src.export_json</code>',
+    sourcesTitle: 'Data sources',
+    sourcesContent: '<strong>Monitor UW</strong> (monitor.uw.edu.pl) — current Rector\'s orders, Senate resolutions, Chancellor\'s orders.<br><strong>WZ UW</strong> (wz.uw.edu.pl) — Dean\'s and KJD orders, Teaching Council and Faculty Council resolutions.<br><strong>Foundational acts</strong> — UW Statute, Study Regulations, student benefits regulations, tuition fees, thesis defense procedures, internship rules, FoM organizational regulations.',
+    loadingAnswer: 'Searching regulations and generating answer...',
+    loadingFollowup: 'Generating answer...',
+    loadingExplain: 'Preparing...',
+    explainLabel: 'Simplified explanation',
+    noChunksFound: 'No matching regulations found. Try different keywords.',
+    explainPrompt: 'Explain the above answer in simpler, more accessible language. Keep references to specific regulations, but avoid legal jargon. Be concise.',
+    orgBadge: 'Faculty of Management · University of Warsaw',
+    heroAuthor: 'WZ UW IntraLex · Piotr Nawrocki · Faculty of Management, University of Warsaw',
+    statsActs: 'Regulations',
+    statsWithText: 'With full text',
+    apiKeyHint: 'Key is stored only in your browser (localStorage) and sent exclusively to the selected provider.',
+    apiKeyLabelOpenai: 'OpenAI API Key',
+    apiKeyLabelAnthropic: 'Anthropic API Key',
+    apiKeyLabelGoogle: 'Google API Key',
+    searchLabel: 'Search regulations',
+    searchBtn: 'Search',
+    filterOrganLabel: 'Body',
+    filterYearLabel: 'Year',
+    filterCatLabel: 'Category',
+    filterCat: 'All',
+    organRektor: 'Rector',
+    organSenat: 'Senate',
+    organKanclerz: 'Chancellor',
+    organDziekan: 'Dean',
+    organKJD: 'KJD',
+    organWZ: 'FoM',
+    organRada: 'Council',
+    organRadaDydaktyczna: 'Teaching Council',
+    organRadaWydzialu: 'Faculty Council',
+    organInne: 'Other',
+    detailFullText: 'Full text',
+    detailBack: '← Back',
+    detailContents: 'Contents',
+    detailNoText: 'Full text not available. Use the PDF link above.',
+    detailRelated: 'Related acts',
+    statusActive: 'active',
+    statusAmended: 'amended',
+    statusRepealed: 'repealed',
+    statusConsolidated: 'consolidated',
+    amendmentAmends: 'Amends:',
+    amendmentAmendedBy: 'Amended by:',
+    amendmentConsolidates: 'Consolidation of:',
+    bookmarkAdd: 'Add to favorites',
+    bookmarkRemove: 'Remove from favorites',
+    bookmarkFilter: 'Favorites',
+    bookmarkFilterCount: 'Favorites ({count})',
+    exportPdf: 'Export to PDF',
+    printTitle: 'WZ UW IntraLex — AI Answer',
+  }
+};
+
+let uiLang = 'pl'; // current UI language, independent of response language
+
+function getUILang() {
+  return uiLang;
+}
+
+function switchUILang(lang) {
+  uiLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.uilang === lang));
+  // Sync response language selector if switching to PL → set polski, EN → set English
+  const qaLang = document.getElementById('qa-lang');
+  if (qaLang) {
+    if (lang === 'pl') qaLang.value = 'polski';
+    else if (lang === 'en' && qaLang.value === 'polski') qaLang.value = 'English';
+  }
+  updateUILanguage();
+  saveSettings();
+}
+
+function t(key) {
+  const lang = getUILang();
+  return UI_STRINGS[lang]?.[key] || UI_STRINGS.pl[key] || key;
+}
+
+function updateUILanguage() {
+  const $ = id => document.getElementById(id);
+  const $$ = sel => document.querySelectorAll(sel);
+
+  // Tabs
+  $$('.mode-btn[data-mode="search"]').forEach(b => b.textContent = t('tabSearch'));
+  $$('.mode-btn[data-mode="qa"]').forEach(b => b.textContent = t('tabQA'));
+
+  // Provider section
+  const provLabel = $('qa-panel')?.querySelector('.qa-config > label');
+  if (provLabel) provLabel.textContent = t('providerLabel');
+  $$('.provider-tab[data-provider="ollama"]').forEach(b => b.textContent = t('ollamaLocal'));
+
+  // Save checkbox
+  if ($('saveKeyText')) $('saveKeyText').textContent = t('saveSettings');
+
+  // Language section
+  $$('.qa-lang-section label').forEach(l => l.textContent = t('langLabel'));
+  $$('.qa-lang-hint').forEach(h => h.textContent = t('langHint'));
+
+  // Question section
+  const qLabel = $('qa-input')?.closest('.qa-input-section')?.querySelector('label');
+  if (qLabel) qLabel.textContent = t('questionLabel');
+  if ($('qa-input')) $('qa-input').placeholder = t('questionPlaceholder');
+  $$('.ask-btn').forEach(b => b.textContent = t('askBtn'));
+
+  // Answer section
+  $$('.qa-answer-header').forEach(h => h.textContent = t('answerHeader'));
+  const explainBtns = $$('.explain-btn');
+  if (explainBtns[0]) explainBtns[0].textContent = t('explainBtn');
+  if (explainBtns[1]) explainBtns[1].textContent = t('exportPdf');
+  $$('.new-question-btn').forEach(b => b.textContent = t('newQuestionBtn'));
+  if ($('followup-input')) $('followup-input').placeholder = t('followupPlaceholder');
+  $$('.followup-btn').forEach(b => b.textContent = t('followupBtn'));
+
+  // Search section
+  if ($('search-input')) $('search-input').placeholder = t('searchPlaceholder');
+  const searchLabel = $('search-input')?.closest('.field')?.querySelector('label');
+  if (searchLabel) searchLabel.textContent = t('searchLabel');
+  $$('.search-btn').forEach(b => b.textContent = t('searchBtn'));
+  const organLabel = $('filter-organ')?.closest('.field')?.querySelector('label');
+  if (organLabel) organLabel.textContent = t('filterOrganLabel');
+  const yearLabel = $('filter-rok')?.closest('.field')?.querySelector('label');
+  if (yearLabel) yearLabel.textContent = t('filterYearLabel');
+  const catLabel = $('filter-cat-label');
+  if (catLabel) catLabel.textContent = t('filterCatLabel');
+  // Re-categorize to update labels
+  if (AKTY.length) categorizeActs();
+
+  // Hero
+  if ($('org-badge')) $('org-badge').textContent = t('orgBadge');
+  const heroLead = document.querySelector('.hero-lead');
+  if (heroLead) heroLead.innerHTML = t('heroLead');
+  const heroAuthor = document.querySelector('.hero-author');
+  if (heroAuthor) heroAuthor.textContent = t('heroAuthor');
+  $$('.info-box').forEach((box, i) => {
+    const title = box.querySelector('.info-title');
+    const content = box.querySelector('.info-content');
+    if (i === 0 && title) { title.textContent = t('howToTitle'); if (content) content.innerHTML = t('howToContent'); }
+    if (i === 1 && title) { title.textContent = t('updateTitle'); if (content) content.innerHTML = t('updateContent'); }
+    if (i === 2 && title) { title.textContent = t('sourcesTitle'); if (content) content.innerHTML = t('sourcesContent'); }
+  });
+
+  // API hint
+  const apiHint = $('api-key-field')?.querySelector('.api-hint');
+  if (apiHint) apiHint.textContent = t('apiKeyHint');
+  // API key label — update based on current provider
+  const keyLabel = $('apiKeyLabel');
+  if (keyLabel) {
+    const labels = { openai: t('apiKeyLabelOpenai'), anthropic: t('apiKeyLabelAnthropic'), google: t('apiKeyLabelGoogle') };
+    keyLabel.textContent = labels[currentProvider] || t('apiKeyLabelOpenai');
+  }
+
+  // Stats bar — full re-render with translated organ names
+  renderStatsBar();
+
+  // Filter selects — translate organ options and "All" defaults
+  const organSel = $('filter-organ');
+  if (organSel && window._statsData) {
+    const currentVal = organSel.value;
+    organSel.innerHTML = `<option value="">${t('filterOrgan')}</option>`;
+    Object.keys(window._statsData.organs).sort().forEach(o => {
+      organSel.innerHTML += `<option value="${o}">${translateOrgan(o)} (${window._statsData.organs[o]})</option>`;
+    });
+    organSel.value = currentVal;
+  }
+  const rokSel = $('filter-rok');
+  if (rokSel) {
+    const firstOpt = rokSel.querySelector('option[value=""]');
+    if (firstOpt) firstOpt.textContent = t('filterYear');
+  }
+
+  // Bookmark filter
+  updateBookmarkFilterBtn();
+
+  // Loading
+  if ($('loading')) $('loading').textContent = t('loading');
+
+  // Last update — reformat from stored ISO date
+  const heroUpdate = $('hero-update');
+  if (heroUpdate && heroUpdate.dataset.iso) {
+    heroUpdate.textContent = t('lastUpdate') + ': ' + formatDate(heroUpdate.dataset.iso);
+  }
+
+  // FAQ
+  const faqTitle = $('faq-title');
+  if (faqTitle) faqTitle.textContent = getUILang() === 'en' ? 'Frequently asked questions' : 'Częste pytania';
+  renderFaqTabs();
+  renderFaqQuestions();
+
+  // Title
+  document.title = getUILang() === 'pl'
+    ? 'WZ UW IntraLex — Wyszukiwarka aktów wewnętrznych UW i WZ UW'
+    : 'WZ UW IntraLex — UW & WZ UW Internal Regulations Search';
+}
+
+// ============================================================
+// FAQ DATA
+const FAQ_DATA = {
+  pl: {
+    categories: [
+      { id: 'student', label: 'Sprawy studenckie' },
+      { id: 'dyplom', label: 'Dyplomowanie' },
+      { id: 'finanse', label: 'Opłaty i stypendia' },
+      { id: 'pracownik', label: 'Sprawy pracownicze' },
+      { id: 'organizacja', label: 'Organizacja' },
+    ],
+    questions: {
+      student: [
+        'Jakie są zasady udzielania urlopu dziekańskiego?',
+        'Kiedy student może być skreślony z listy studentów?',
+        'Jak przenieść się na inny kierunek studiów?',
+        'Jakie są zasady warunkowego zaliczenia semestru?',
+        'Czym jest Indywidualny Tok Studiów (ITS) i jak go uzyskać?',
+        'Jakie są zasady powtarzania roku/semestru?',
+        'Ile razy można przystąpić do egzaminu z danego przedmiotu?',
+        'Jak wygląda procedura wznowienia studiów?',
+      ],
+      dyplom: [
+        'Jakie są wymagania formalne pracy licencjackiej/magisterskiej?',
+        'Jak wygląda procedura składania pracy dyplomowej?',
+        'Jakie są zasady egzaminu dyplomowego na WZ?',
+        'Jak działa system antyplagiatowy dla prac dyplomowych?',
+        'Jakie dokumenty potrzebne do obrony pracy?',
+      ],
+      finanse: [
+        'Jakie są opłaty za powtarzanie przedmiotu?',
+        'Jak ubiegać się o stypendium rektora?',
+        'Jakie są zasady przyznawania stypendium socjalnego?',
+        'Jak złożyć wniosek o zapomogę?',
+        'Czy można rozłożyć opłaty na raty?',
+        'Jakie są zasady zwolnienia z opłat za studia?',
+      ],
+      pracownik: [
+        'Jakie są zasady oceny okresowej nauczycieli akademickich?',
+        'Jak wygląda regulamin pracy na UW?',
+        'Jakie są zasady wynagradzania pracowników UW?',
+        'Jakie są obowiązki dydaktyczne (pensum)?',
+        'Jak rozliczać praktyki studenckie jako opiekun?',
+      ],
+      organizacja: [
+        'Jakie są terminy sesji egzaminacyjnej 2025/2026?',
+        'Jaka jest struktura organizacyjna Wydziału Zarządzania?',
+        'Jakie są kompetencje Dziekana WZ?',
+        'Jak wygląda organizacja kształcenia na WZ w roku 2025/2026?',
+        'Gdzie znajdę regulamin organizacyjny WZ?',
+      ],
+    }
+  },
+  en: {
+    categories: [
+      { id: 'student', label: 'Student affairs' },
+      { id: 'dyplom', label: 'Thesis & defense' },
+      { id: 'finanse', label: 'Fees & scholarships' },
+      { id: 'pracownik', label: 'Staff matters' },
+      { id: 'organizacja', label: 'Organization' },
+    ],
+    questions: {
+      student: [
+        'What are the rules for a dean\'s leave of absence?',
+        'When can a student be removed from the student list?',
+        'How to transfer to a different study program?',
+        'What are the rules for conditional semester completion?',
+        'What is an Individual Study Plan (ITS) and how to get one?',
+        'What are the rules for repeating a year/semester?',
+        'How many times can you take an exam for a given course?',
+        'What is the procedure for resuming studies?',
+      ],
+      dyplom: [
+        'What are the formal requirements for a bachelor\'s/master\'s thesis?',
+        'What is the procedure for submitting a thesis?',
+        'What are the rules for the diploma exam at FoM?',
+        'How does the anti-plagiarism system work for theses?',
+        'What documents are needed for the thesis defense?',
+      ],
+      finanse: [
+        'What are the fees for repeating a course?',
+        'How to apply for the rector\'s scholarship?',
+        'What are the rules for a social scholarship?',
+        'How to apply for emergency financial aid (zapomoga)?',
+        'Can tuition fees be paid in installments?',
+        'What are the rules for tuition fee waivers?',
+      ],
+      pracownik: [
+        'What are the rules for periodic evaluation of academic staff?',
+        'What does the UW work regulation cover?',
+        'What are the salary rules for UW employees?',
+        'What are the teaching obligations (pensum)?',
+        'How to supervise student internships?',
+      ],
+      organizacja: [
+        'What are the exam session dates for 2025/2026?',
+        'What is the organizational structure of the Faculty of Management?',
+        'What are the competences of the Dean of FoM?',
+        'How is teaching organized at FoM in 2025/2026?',
+        'Where can I find the FoM organizational regulations?',
+      ],
+    }
+  }
+};
+
+let currentFaqCategory = 'student';
+
+function initFAQ() {
+  renderFaqTabs();
+  renderFaqQuestions();
+}
+
+function renderFaqTabs() {
+  const lang = getUILang();
+  const cats = FAQ_DATA[lang]?.categories || FAQ_DATA.pl.categories;
+  const container = document.getElementById('faq-tabs');
+  container.innerHTML = cats.map(c =>
+    `<button class="faq-tab${c.id === currentFaqCategory ? ' active' : ''}" data-cat="${c.id}" onclick="switchFaqCategory('${c.id}')">${c.label}</button>`
+  ).join('');
+}
+
+function renderFaqQuestions() {
+  const lang = getUILang();
+  const qs = (FAQ_DATA[lang]?.questions || FAQ_DATA.pl.questions)[currentFaqCategory] || [];
+  const container = document.getElementById('faq-grid');
+  container.innerHTML = qs.map(q =>
+    `<button class="faq-chip" onclick="askFaqQuestion(this.textContent)">${q}</button>`
+  ).join('');
+}
+
+function switchFaqCategory(catId) {
+  currentFaqCategory = catId;
+  document.querySelectorAll('.faq-tab').forEach(b => b.classList.toggle('active', b.dataset.cat === catId));
+  renderFaqQuestions();
+}
+
+function askFaqQuestion(question) {
+  document.getElementById('qa-input').value = question;
+  // Switch to QA tab if not already there
+  switchTab('qa');
+  doQA();
+}
+
+// LOAD DATA
+// ============================================================
+async function loadData() {
+  let data = null;
+
+  // Method 1: data loaded via <script src="data/akty.js"> (works with file://)
+  if (window.AKTY_DATA) {
+    data = window.AKTY_DATA;
+  }
+
+  // Method 2: fetch JSON (works with http://)
+  if (!data) {
+    const paths = ['data/akty.json', './data/akty.json', 'akty.json'];
+    for (const p of paths) {
+      try {
+        const resp = await fetch(p);
+        if (resp.ok) { data = await resp.json(); break; }
+      } catch(e) { continue; }
+    }
+  }
+
+  if (!data) {
+    const msg = getUILang() === 'en'
+      ? 'File <code>data/akty.json</code> not found.<br>Run: <code>python3 src/export_json.py</code>'
+      : 'Nie znaleziono pliku <code>data/akty.json</code>.<br>Uruchom: <code>python3 src/export_json.py</code>';
+    document.getElementById('loading').innerHTML = '<div class="error-msg">' + msg + '</div>';
+    return;
+  }
+  AKTY = data.akty || [];
+  CHUNKS = data.chunks || [];
+  ACT_BY_ID = {};
+  AKTY.forEach(a => { ACT_BY_ID[a.id] = a; });
+  // Lazy tokenization — happens on first search, not at load time
+  initApp(data);
+}
+
+function formatDate(isoStr) {
+  if (!isoStr) return '?';
+  try {
+    const d = new Date(isoStr);
+    const locale = getUILang() === 'en' ? 'en-US' : 'pl-PL';
+    return d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  } catch(e) { return isoStr.substring(0, 16); }
+}
+
+function initApp(data) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+
+  const organs = {};
+  const years = new Set();
+  AKTY.forEach(a => {
+    const o = organGroup(a.organ);
+    organs[o] = (organs[o] || 0) + 1;
+    if (a.rok) years.add(a.rok);
+  });
+  // Store for re-rendering on language switch
+  window._statsData = { total: AKTY.length, withText: data.stats?.with_text || '?', organs };
+  renderStatsBar();
+
+  // Update date under title — store ISO for language switching
+  const heroUpdate = document.getElementById('hero-update');
+  if (heroUpdate && data.exported_at) {
+    heroUpdate.dataset.iso = data.exported_at;
+    heroUpdate.textContent = t('lastUpdate') + ': ' + formatDate(data.exported_at);
+  }
+
+  const organSel = document.getElementById('filter-organ');
+  Object.keys(organs).sort().forEach(o => {
+    organSel.innerHTML += `<option value="${o}">${o} (${organs[o]})</option>`;
+  });
+  const rokSel = document.getElementById('filter-rok');
+  [...years].sort((a,b) => b-a).forEach(y => {
+    rokSel.innerHTML += `<option value="${y}">${y}</option>`;
+  });
+
+  loadBookmarks();
+  buildAmendmentMap();
+  categorizeActs();
+  buildCrossReferences();
+  renderResults(AKTY.slice(0, 30), '');
+  updateBookmarkFilterBtn();
+  initFAQ();
+  restoreSettings();
+}
+
+function organGroup(organ) {
+  if (organ?.startsWith('Rada')) return 'Rada';
+  return organ || 'Inne';
+}
+
+function translateOrgan(organKey) {
+  const map = {
+    'Rektor': 'organRektor',
+    'Senat': 'organSenat',
+    'Kanclerz': 'organKanclerz',
+    'Dziekan': 'organDziekan',
+    'KJD': 'organKJD',
+    'WZ': 'organWZ',
+    'Rada': 'organRada',
+    'Rada Dydaktyczna': 'organRadaDydaktyczna',
+    'Rada Wydziału': 'organRadaWydzialu',
+    'Inne': 'organInne',
+  };
+  const key = map[organKey];
+  return key ? t(key) : organKey;
+}
+
+let activeStatFilter = null; // null = show latest (no filter)
+
+function renderStatsBar() {
+  const d = window._statsData;
+  if (!d) return;
+  const isLatest = activeStatFilter === null;
+  document.getElementById('stats-bar').innerHTML = `
+    <div class="stat${isLatest ? ' active' : ''}" onclick="filterByStatTile(null)"><strong>${d.total}</strong>${t('statsLatest')}</div>
+    ${Object.entries(d.organs).sort((a,b) => b[1]-a[1]).map(([o,c]) =>
+      `<div class="stat${activeStatFilter === o ? ' active' : ''}" onclick="filterByStatTile('${o.replace(/'/g, "\\'")}')"><strong>${c}</strong>${translateOrgan(o)}</div>`
+    ).join('')}
+  `;
+}
+
+function filterByStatTile(organ) {
+  activeStatFilter = organ;
+  renderStatsBar(); // update active state
+
+  // Clear search field and dropdown filters
+  document.getElementById('search-input').value = '';
+  document.getElementById('filter-organ').value = '';
+  document.getElementById('filter-rok').value = '';
+  const catSel = document.getElementById('filter-cat');
+  if (catSel) catSel.value = '';
+
+  let filtered = AKTY;
+  let label;
+  if (organ) {
+    filtered = AKTY.filter(a => organGroup(a.organ) === organ);
+    label = `${translateOrgan(organ)} (${filtered.length})`;
+  } else {
+    label = t('latestActs') + ` (${Math.min(filtered.length, 50)})`;
+  }
+
+  // Sort by date descending
+  filtered = [...filtered].sort((a, b) => (b.data_wydania || '').localeCompare(a.data_wydania || ''));
+
+  document.getElementById('results-info').textContent = label;
+  renderResults(filtered.slice(0, 50), '');
+
+  // Switch to search tab and scroll to results
+  switchTab('search');
+  document.getElementById('results-info').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// SETTINGS PERSISTENCE
+// ============================================================
+function restoreSettings() {
+  try {
+    const saved = localStorage.getItem('intralex-settings');
+    if (!saved) return;
+    const s = JSON.parse(saved);
+    if (s.provider) { setProvider(s.provider); }
+    if (s.apiKey) { document.getElementById('qa-apikey').value = s.apiKey; }
+    if (s.ollamaUrl) { document.getElementById('ollama-url').value = s.ollamaUrl; }
+    if (s.ollamaModel) { document.getElementById('ollama-model').value = s.ollamaModel; }
+    if (s.saveKey) { document.getElementById('saveKey').checked = true; }
+    if (s.lang) { document.getElementById('qa-lang').value = s.lang; }
+    if (s.uiLang) { uiLang = s.uiLang; document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.uilang === s.uiLang)); }
+    updateUILanguage();
+  } catch(e) {}
+}
+
+function saveSettings() {
+  if (!document.getElementById('saveKey').checked) {
+    try { localStorage.removeItem('intralex-settings'); } catch(e) {}
+    return;
+  }
+  try {
+    localStorage.setItem('intralex-settings', JSON.stringify({
+      provider: currentProvider,
+      apiKey: document.getElementById('qa-apikey').value,
+      ollamaUrl: document.getElementById('ollama-url').value,
+      ollamaModel: document.getElementById('ollama-model').value,
+      lang: document.getElementById('qa-lang').value,
+      uiLang: uiLang,
+      saveKey: true,
+    }));
+  } catch(e) {}
+}
+
+// ============================================================
+// BM25-LIKE SEARCH
+// ============================================================
+// Synonym map: colloquial/student terms → formal equivalents used in legal acts
+// Generated from domain analysis of 106 acts + student vocabulary
+const QUERY_SYNONYMS = {
+  // ── Urlopy studenckie ──
+  // Akty używają: "urlop od zajęć", "przerwa w studiach", formy: zdrowotny/naukowy/okolicznościowy
+  'dziekański': ['urlop', 'zajęć', 'zdrowotny', 'naukowy', 'okolicznościowy', 'przerw'],
+  'dziekańskiego': ['urlop', 'zajęć', 'zdrowotny', 'naukowy', 'okolicznościowy'],
+  'dziekańskim': ['urlop', 'zajęć', 'zdrowotny', 'naukowy', 'okolicznościowy'],
+  'dziekanka': ['urlop', 'zajęć', 'zdrowotny', 'naukowy', 'okolicznościowy', 'przerw'],
+  'dziekanki': ['urlop', 'zajęć', 'zdrowotny', 'naukowy', 'okolicznościowy'],
+  'urlopem': ['urlop', 'zajęć', 'zdrowotny', 'naukowy'],
+
+  // ── Zaliczenia i egzaminy ──
+  // Akty: "warunkowy wpis", "powtarzanie etapu/przedmiotu/semestru/roku", "sesja egzaminacyjna/poprawkowa",
+  //        "egzamin komisyjny", "osiągnięcia efektów uczenia się", "deficyt punktów", "ocena niedostateczna"
+  'warunkowy': ['warunkowo', 'warunkowe', 'warunkow', 'zaliczenie', 'wpis', 'semestr', 'etap'],
+  'warunek': ['warunkowo', 'warunkowe', 'zaliczenie', 'etap', 'wpis'],
+  'warunki': ['warunkowo', 'warunkowe', 'zaliczenie'],
+  'poprawka': ['poprawkowy', 'egzamin', 'sesja', 'termin', 'egzaminacyjn'],
+  'poprawki': ['poprawkowy', 'egzamin', 'sesja'],
+  'poprawkowy': ['egzamin', 'sesja', 'termin', 'drugi'],
+  'komisyjny': ['komisja', 'egzaminacyjna', 'egzamin', 'odwołanie'],
+  'komisyjnego': ['komisja', 'egzaminacyjna', 'egzamin'],
+  'komisyjnie': ['komisja', 'egzaminacyjna', 'egzamin'],
+  'kolokwium': ['zaliczenie', 'egzamin', 'przedmiot'],
+  'sesja': ['egzamin', 'zaliczenie', 'termin', 'poprawkow', 'egzaminacyjn'],
+  'zaliczka': ['zaliczenie', 'przedmiot'],
+  'niezaliczenie': ['niezalicz', 'powtarzanie', 'skreśl', 'niezłożeni'],
+  'oblał': ['niedostateczn', 'niezalicz', 'powtarzanie'],
+  'oblałem': ['niedostateczn', 'niezalicz', 'powtarzanie'],
+  'dwója': ['niedostateczn', 'niezalicz', 'ocena'],
+  'powtarzam': ['powtarzani', 'etap', 'semestr', 'rok', 'przedmiot'],
+  'wpis': ['wpis', 'warunkow', 'etap', 'kolejny'],
+  'etap': ['etap', 'studiów', 'semestr', 'wpis', 'zaliczeni'],
+  'cykl': ['cykl', 'dydaktyczn', 'kształceni', 'semestr'],
+
+  // ── Skreślenie i wznowienie ──
+  // Akty: "skreślenia z listy studentów" (463x), "wznowienia studiów" (486x), "utrata praw studenta"
+  'skreślenie': ['skreśl', 'listy', 'studentów', 'wznowieni'],
+  'skreślony': ['skreśl', 'listy', 'studentów', 'wznowieni'],
+  'wyrzucenie': ['skreśl', 'listy', 'studentów'],
+  'wyrzucony': ['skreśl', 'listy', 'studentów'],
+  'wywalony': ['skreśl', 'listy', 'studentów'],
+  'wznowienie': ['wznowi', 'studia', 'skreśl', 'ponown'],
+  'reaktywacja': ['wznowi', 'studia', 'skreśl', 'ponown'],
+  'reaktywować': ['wznowi', 'studia', 'ponown'],
+  'wygaśnięcie': ['wygaśnięci', 'praw', 'student'],
+
+  // ── Dyplomowanie ──
+  // Akty: "praca dyplomowa" (1280x), "egzamin dyplomowy" (69x), "seminarium dyplomowe" (1286x),
+  //        "opiekun pracy", "promotor" (588x), "recenzja" (82x), "złożenie pracy dyplomowej" (1020x),
+  //        "APD" (103x), "Archiwum Prac Dyplomowych", "dyplom z wyróżnieniem", "suplement do dyplomu"
+  'obrona': ['dyplomow', 'egzamin', 'praca', 'złożeni'],
+  'obronić': ['dyplomow', 'egzamin', 'praca', 'złożeni'],
+  'obronę': ['dyplomow', 'egzamin', 'praca'],
+  'magisterka': ['dyplomow', 'praca', 'seminari', 'magistersk', 'złożeni'],
+  'licencjat': ['dyplomow', 'praca', 'seminari', 'licencjack'],
+  'dyplom': ['dyplomow', 'praca', 'egzamin', 'ukończeni', 'wyróżnieni', 'suplement'],
+  'dyplomówka': ['dyplomow', 'praca', 'seminari', 'złożeni'],
+  'praca': ['dyplomow', 'seminari', 'złożeni', 'opiekun'],
+  'temat': ['dyplomow', 'seminari', 'praca'],
+  'promotor': ['seminari', 'dyplomow', 'praca', 'opiekun'],
+  'recenzent': ['recenz', 'dyplomow', 'praca', 'ocena'],
+  'złożenie': ['złożeni', 'dyplomow', 'praca', 'termin'],
+  'absolwent': ['absolwent', 'ukończeni', 'dyplom', 'studia'],
+  'absolutorium': ['absolutorium', 'zaliczeni', 'wszystk', 'przedmiot'],
+
+  // ── Plagiat ──
+  'plagiat': ['antyplagiat', 'nieuczciw', 'nieetyczn', 'dyplomow'],
+  'plagiatu': ['antyplagiat', 'nieuczciw', 'nieetyczn'],
+  'ściąganie': ['nieetyczn', 'nieuczciw', 'dyscyplinar'],
+  'oszustwo': ['nieetyczn', 'nieuczciw', 'dyscyplinar'],
+
+  // ── ITS/IOS ──
+  'its': ['indywidualn', 'tok', 'studiów', 'organizacj'],
+  'ios': ['indywidualn', 'organizacj', 'studiów'],
+  'indywidualny': ['indywidualn', 'tok', 'organizacj', 'studiów', 'program'],
+
+  // ── Przeniesienie i mobilność ──
+  // Akty: "przeniesienie z innej uczelni", "zmiana kierunku studiów", "zmiana formy studiów",
+  //        "różnice programowe", "uznanie efektów uczenia się"
+  'przeniesienie': ['przenosi', 'przeniesien', 'kierunek', 'zmiana', 'uczelni', 'różnic'],
+  'przenieść': ['przeniesien', 'kierunek', 'zmiana', 'uczelni'],
+  'zmiana': ['przeniesien', 'kierunek', 'zmiana', 'form'],
+  'erasmus': ['mobilnoś', 'wymian', 'zagranicz', 'ects'],
+  'wymiana': ['mobilnoś', 'wymian', 'erasmus', 'zagranicz'],
+  'wymianę': ['mobilnoś', 'wymian', 'erasmus'],
+  'most': ['mobilnoś', 'wymian', 'przeniesien'],
+  'różnice': ['różnic', 'programow', 'uzupełnien'],
+
+  // ── Opłaty ──
+  // Akty: "opłaty za usługi edukacyjne", "opłata za powtarzanie" (16x), "zwolnienie z opłaty",
+  //        "rozłożenie na raty", "umowa o warunkach odpłatności"
+  'czesne': ['opłat', 'usług', 'edukacyj', 'odpłatn'],
+  'opłata': ['opłat', 'usług', 'edukacyj', 'powtarzanie', 'odpłatn'],
+  'płacić': ['opłat', 'usług', 'odpłatn'],
+  'płatność': ['opłat', 'usług', 'rat'],
+  'powtórka': ['powtarzanie', 'powtórne', 'opłat'],
+  'powtarzanie': ['powtarzan', 'opłat', 'przedmiot', 'etap', 'semestr', 'rok'],
+  'raty': ['rat', 'rozłożeni', 'opłat'],
+  'zwolnienie': ['zwolnieni', 'opłat', 'obniżeni'],
+  'odpłatność': ['odpłatn', 'usług', 'edukacyj', 'umow'],
+
+  // ── Stypendia i pomoc materialna ──
+  // Akty: "stypendium rektora" (28x), "stypendium socjalne" (22x), "stypendium dla osób
+  //         niepełnosprawnych" (8x), "zapomoga", "dochód na osobę", "stypendium doktoranckie" (23x)
+  'stypendium': ['stypend', 'świadczen', 'pomoc', 'socjaln', 'rektora', 'doktoranck'],
+  'stypendia': ['stypend', 'świadczen', 'pomoc', 'rektora'],
+  'socjalne': ['socjaln', 'stypend', 'dochod', 'świadczen', 'osob'],
+  'zapomoga': ['świadczen', 'pomoc', 'zapomog', 'losow'],
+  'zapomogi': ['świadczen', 'pomoc', 'zapomog'],
+  'pomoc': ['świadczen', 'stypend', 'socjaln', 'materialn'],
+  'dochód': ['dochod', 'stypend', 'socjaln', 'osob', 'próg'],
+  'niepełnosprawność': ['niepełnosprawn', 'stypend', 'bon', 'osób'],
+  'bon': ['niepełnosprawn', 'osób'],
+
+  // ── Praktyki ──
+  // Akty: "praktyki zawodowe" (172x), "opiekun praktyk" (194x!), "zaliczenie praktyki" (17x)
+  'praktyka': ['praktyk', 'zawodow', 'studenck', 'opiekun', 'zaliczen'],
+  'praktyki': ['praktyk', 'zawodow', 'studenck', 'zaliczen', 'opiekun', 'rozlicz'],
+  'staż': ['praktyk', 'zawodow', 'staż'],
+  'opiekun': ['opiekun', 'praktyk', 'prac'],
+
+  // ── Sprawy pracownicze ──
+  // Akty: "umowa o pracę" (44x), "stosunek pracy", "pensum dydaktyczne", "godziny ponadwymiarowe" (8x),
+  //        "ocena okresowa" (9x), "dodatek funkcyjny/stażowy/zadaniowy", "nagroda jubileuszowa",
+  //        "odprawa emerytalna", "czas pracy" (6x), "ewidencja czasu pracy", "zakres obowiązków" (27x),
+  //        "regulamin wynagradzania", "regulamin pracy", "kodeks pracy", "ZFŚS"
+  'pensum': ['pensum', 'dydaktyczn', 'godzin', 'obciążen', 'ponadwymiarow'],
+  'obciążenie': ['pensum', 'dydaktyczn', 'godzin', 'ponadwymiarow'],
+  'nadgodziny': ['ponadwymiarow', 'godzin', 'nadliczbow', 'pensum'],
+  'etat': ['zatrudnien', 'pracownik', 'stanowisk', 'umow', 'prac'],
+  'zatrudnienie': ['zatrudnien', 'pracownik', 'stanowisk', 'konkurs', 'umow', 'stosunek'],
+  'awans': ['stanowisk', 'mianow', 'zatrudnien', 'powołani'],
+  'konkurs': ['konkurs', 'stanowisk', 'zatrudnien', 'nauczyciel', 'akademick'],
+  'wynagrodzenie': ['wynagrodzen', 'płac', 'dodatk', 'regulamin', 'stawk'],
+  'pensja': ['wynagrodzen', 'płac', 'stawk'],
+  'premia': ['wynagrodzen', 'nagrod', 'dodatk'],
+  'dodatek': ['dodatk', 'wynagrodzen', 'funkcyjn', 'stażow', 'zadaniow'],
+  'jubileuszowa': ['jubileuszow', 'nagrod', 'staż'],
+  'odprawa': ['odpraw', 'emerytaln', 'stosunek'],
+  'umowa': ['umow', 'prac', 'stosunek', 'wypowiedzeni'],
+  'wypowiedzenie': ['wypowiedzeni', 'umow', 'rozwiązan', 'stosunek'],
+  'zwolniony': ['rozwiązan', 'umow', 'wypowiedzeni', 'stosunek'],
+  'obowiązki': ['obowiązk', 'zakres', 'powierzeni'],
+
+  // ── Urlopy pracownicze ──
+  // Akty: "urlop macierzyński" (15x), "urlop rodzicielski" (4x), "urlop wypoczynkowy" (10x),
+  //        "urlop bezpłatny", "urlop wychowawczy", "urlop naukowy", "urlop na poratowanie zdrowia"
+  'sabbatical': ['urlop', 'naukow', 'badań', 'płatn'],
+  'macierzyński': ['macierzyńsk', 'urlop', 'rodzicielski'],
+  'tacierzyński': ['ojcowsk', 'urlop', 'rodzicielski'],
+  'ojcowski': ['ojcowsk', 'urlop', 'rodzicielski'],
+  'rodzicielski': ['rodzicielski', 'urlop', 'macierzyńsk'],
+  'wychowawczy': ['wychowawcz', 'urlop'],
+  'zdrowotny': ['poratowani', 'zdrowia', 'urlop'],
+  'rehabilitacja': ['poratowani', 'zdrowia', 'urlop'],
+  'wypoczynkowy': ['wypoczynkow', 'urlop'],
+  'bezpłatny': ['bezpłatn', 'urlop'],
+
+  // ── Ocena i dyscyplina ──
+  // Akty: "odpowiedzialność dyscyplinarna", "komisja dyscyplinarna" (7x), "rzecznik dyscyplinarny",
+  //        "postępowanie dyscyplinarne", "kara dyscyplinarna", "zawieszenie w prawach" (7x),
+  //        "kara upomnienia", "nagana", "ocena okresowa" (9x), "ocena śródokresowa" (259x — doktoranci)
+  'ocena': ['ocen', 'okresow', 'ewaluacj', 'śródokresow'],
+  'ewaluacja': ['ocen', 'okresow', 'ewaluacj', 'śródokresow'],
+  'śródokresowa': ['śródokresow', 'ocen', 'doktorant', 'komisj'],
+  'dyscyplinarny': ['dyscyplinar', 'postępowan', 'odpowiedzialno', 'komisj', 'rzecznik'],
+  'dyscyplinarka': ['dyscyplinar', 'postępowan', 'odpowiedzialno', 'komisj'],
+  'kara': ['dyscyplinar', 'porządkow', 'odpowiedzialno', 'upomn', 'nagana', 'zawieszeni'],
+  'nagana': ['nagana', 'kara', 'dyscyplinar'],
+  'zawieszenie': ['zawieszeni', 'praw', 'student', 'dyscyplinar'],
+
+  // ── Praca zdalna ──
+  'zdalnie': ['zdaln', 'prac', 'home'],
+  'zdalna': ['zdaln', 'prac'],
+  'homeoffice': ['zdaln', 'prac'],
+
+  // ── Organy i struktura ──
+  'dziekan': ['dziekan', 'prodziekan', 'wydział'],
+  'prodziekan': ['prodziekan', 'dziekan', 'studentck'],
+  'kjd': ['kierownik', 'jednostk', 'dydaktyczn'],
+  'senat': ['senat', 'uchwał'],
+  'rada': ['rada', 'dydaktyczn', 'wydział'],
+  'regulamin': ['regulamin', 'zasad', 'tryb'],
+
+  // ── ECTS ──
+  'ects': ['ects', 'punkt', 'zaliczan', 'osiągnięć'],
+  'punkty': ['ects', 'punkt', 'zaliczan'],
+
+  // ── Terminy ogólne ──
+  // Akty: "decyzja administracyjna" (61x), "rozstrzygnięcie" (144x), "odwołanie do Rektora" (4x),
+  //        "ponowne rozpatrzenie" (56x), "wniosek o przyznanie" (13x), "wniosek o wznowienie",
+  //        "wniosek o urlop", "wniosek o zmianę"
+  'termin': ['termin', 'sesj', 'egzamin', 'złożeni'],
+  'deadline': ['termin', 'data', 'ostateczn'],
+  'podanie': ['wniosek', 'podani', 'złożyć', 'przyznani'],
+  'wniosek': ['wniosek', 'podani', 'złożyć', 'przyznani', 'wznowieni'],
+  'odwołanie': ['odwoła', 'decyzj', 'komisj', 'ponown', 'rozpatrz', 'rektor'],
+  'skarga': ['odwoła', 'decyzj', 'wniosek', 'ponown'],
+  'decyzja': ['decyzj', 'administracyjn', 'rozstrzygnięci', 'odwoła'],
+  'rozstrzygnięcie': ['rozstrzygnięci', 'decyzj', 'administracyjn'],
+  'procedura': ['tryb', 'zasad', 'postępowan'],
+  'formularz': ['wniosek', 'podani', 'druk'],
+  'dziekanat': ['dziekan', 'podani', 'wniosek', 'obsług'],
+  'sekretariat': ['dziekan', 'obsług', 'administrac'],
+  'legitymacja': ['legitymacj', 'studenck', 'ważnoś'],
+  'zapisy': ['zapisy', 'zajęci', 'rejestr', 'przedmiot'],
+  'rejestracja': ['rejestr', 'zapisy', 'zajęci', 'przedmiot'],
+  'średnia': ['średni', 'ocen', 'ważon'],
+
+  // ── BHP i bezpieczeństwo ──
+  'bhp': ['bezpieczeńst', 'higien', 'prac'],
+  'ppoż': ['przeciwpożar', 'bezpieczeńst'],
+  'ewakuacja': ['ewakuacj', 'pożar', 'zagrożen', 'bezpieczeńst'],
+  'pożar': ['pożar', 'przeciwpożar', 'ewakuacj', 'zagrożen'],
+
+  // ── Szkoła doktorska i doktoranci ──
+  // Akty: "szkoła doktorska" (47x), "kształcenie doktorantów" (20x), "rozprawa doktorska" (14x),
+  //        "plan badawczy" (4x), "indywidualny plan badawczy", "ocena śródokresowa" (259x!),
+  //        "komisja ewaluacyjna", "stypendium doktoranckie" (23x), "przedłużenie terminu" (50x)
+  'doktorat': ['doktorsk', 'doktorant', 'rozprawa', 'promotor', 'stopień'],
+  'doktorant': ['doktorant', 'doktorsk', 'szkoł', 'stypend', 'kształceni', 'śródokresow'],
+  'doktoranci': ['doktorant', 'doktorsk', 'szkoł', 'kształceni'],
+  'doktorska': ['doktorsk', 'szkoł', 'doktorant', 'rekrutacj', 'kształceni'],
+  'doktorski': ['doktorsk', 'szkoł', 'doktorant'],
+  'phd': ['doktorsk', 'doktorant', 'szkoł'],
+  'rozprawa': ['rozpraw', 'doktorsk', 'doktorant', 'promotor', 'obron'],
+  'przewód': ['doktorsk', 'doktorant', 'stopień'],
+  'śródokresowa': ['śródokresow', 'ocen', 'doktorant', 'ewaluacyjn', 'komisj'],
+  'badawczy': ['badawcz', 'plan', 'indywidualn', 'doktorant'],
+
+  // ── Habilitacja i stopnie naukowe ──
+  'habilitacja': ['habilitacj', 'stopień', 'naukow', 'doktor'],
+  'habilitacyjny': ['habilitacj', 'stopień', 'naukow'],
+  'profesura': ['profesor', 'stanowisk', 'mianow', 'tytuł'],
+  'profesor': ['profesor', 'stanowisk', 'tytuł', 'zwyczajn'],
+  'tytuł': ['tytuł', 'naukow', 'stopień', 'profesor'],
+  'honoris': ['honoris', 'causa', 'doktor', 'tytuł'],
+
+  // ── Kadra akademicka — stanowiska ──
+  'adiunkt': ['adiunkt', 'stanowisk', 'nauczyciel', 'akademick'],
+  'asystent': ['asystent', 'stanowisk', 'nauczyciel', 'akademick'],
+  'wykładowca': ['wykładowc', 'nauczyciel', 'akademick', 'dydaktyczn'],
+  'lektor': ['lektor', 'nauczyciel', 'akademick', 'języków'],
+  'nauczyciel': ['nauczyciel', 'akademick', 'stanowisk'],
+
+  // ── Rekrutacja ──
+  'rekrutacja': ['rekrutacj', 'przyjęć', 'kandydat', 'limit'],
+  'rekrutacyjny': ['rekrutacj', 'komisj', 'kandydat'],
+  'przyjęcia': ['przyjęć', 'limit', 'rekrutacj', 'kandydat'],
+  'kandydat': ['kandydat', 'rekrutacj', 'przyjęć'],
+  'limity': ['limit', 'przyjęć', 'miejsc', 'rekrutacj'],
+  'nabór': ['rekrutacj', 'przyjęć', 'kandydat'],
+
+  // ── Programy studiów i efekty uczenia ──
+  'program': ['program', 'studiów', 'kierunek', 'kształcen'],
+  'kierunek': ['kierunek', 'studiów', 'program'],
+  'efekty': ['efekt', 'uczenia', 'kształcen', 'osiągnięć'],
+  'syllabus': ['program', 'przedmiot', 'efekt', 'kształcen'],
+  'siatka': ['program', 'plan', 'studiów', 'przedmiot'],
+  'plan': ['plan', 'studiów', 'program', 'zajęć'],
+  'przedmiot': ['przedmiot', 'zajęci', 'kurs', 'moduł'],
+  'kształcenie': ['kształcen', 'program', 'efekt', 'jakość'],
+  'akredytacja': ['akredytacj', 'jakość', 'kształcen', 'programow'],
+
+  // ── Studia podyplomowe ──
+  'podyplomowe': ['podyplomow', 'studia', 'kształcen'],
+  'podyplomówka': ['podyplomow', 'studia'],
+  'podyplomowych': ['podyplomow', 'studia', 'kształcen'],
+
+  // ── RODO i ochrona danych ──
+  'rodo': ['rodo', 'ochrona', 'danych', 'osobow', 'przetwarzani'],
+  'gdpr': ['rodo', 'ochrona', 'danych', 'osobow'],
+  'dane': ['danych', 'osobow', 'ochrona', 'przetwarzani'],
+  'prywatność': ['ochrona', 'danych', 'osobow', 'rodo'],
+  'przetwarzanie': ['przetwarzani', 'danych', 'osobow'],
+
+  // ── Systemy IT ──
+  'usos': ['usos', 'usosweb', 'system', 'rejestr'],
+  'usosweb': ['usos', 'usosweb', 'system', 'rejestr'],
+  'apd': ['apd', 'archiwum', 'prac', 'dyplomow'],
+
+  // ── Antyplagiat ──
+  'antyplagiat': ['antyplagiat', 'jsa', 'jednolity', 'plagiat'],
+  'jsa': ['jsa', 'jednolity', 'antyplagiat', 'plagiat'],
+
+  // ── Mobbing, dyskryminacja, sygnaliści ──
+  'mobbing': ['mobbing', 'molestow', 'dyskryminacj', 'nierówn'],
+  'dyskryminacja': ['dyskryminacj', 'molestow', 'nierówn', 'równ'],
+  'molestowanie': ['molestow', 'dyskryminacj', 'mobbing'],
+  'nękanie': ['mobbing', 'molestow', 'dyskryminacj'],
+  'sygnalista': ['sygnalist', 'whistleblow', 'zgłaszani', 'nieprawidłowoś'],
+  'whistleblower': ['sygnalist', 'whistleblow', 'zgłaszani'],
+
+  // ── Rejestr umów i finanse ──
+  'umowa': ['umow', 'rejestr', 'centraln'],
+  'rejestr': ['rejestr', 'umów', 'centraln'],
+  'faktura': ['faktur', 'rozliczen', 'płatnoś'],
+
+  // ── Własność intelektualna ──
+  'patent': ['patent', 'własność', 'intelektualn', 'wynalaz'],
+  'wynalazek': ['wynalaz', 'patent', 'własność'],
+  'komercjalizacja': ['komercjalizacj', 'własność', 'intelektualn', 'wynalaz'],
+  'własność': ['własność', 'intelektualn', 'patent', 'praw', 'autorsk'],
+  'autorskie': ['autorsk', 'praw', 'własność', 'intelektualn'],
+
+  // ── Poczta i komunikacja ──
+  'email': ['poczta', 'elektroniczn', 'mail', 'konto'],
+  'poczta': ['poczta', 'elektroniczn', 'mail', 'konto'],
+  'mail': ['poczta', 'elektroniczn', 'mail'],
+  'konto': ['konto', 'poczta', 'elektroniczn', 'system'],
+
+  // ── Organizacje studenckie i samorząd ──
+  'samorząd': ['samorząd', 'studenck', 'organizacj'],
+  'koło': ['koło', 'naukow', 'studenck', 'organizacj'],
+  'kółko': ['koło', 'naukow', 'studenck'],
+  'organizacja': ['organizacj', 'studenck', 'doktoranck', 'uczelni'],
+
+  // ── Nostryfikacja ──
+  'nostryfikacja': ['nostryfikacj', 'uznan', 'zagranicz', 'dyplom'],
+  'uznanie': ['uznan', 'zagranicz', 'nostryfikacj', 'dyplom'],
+
+  // ── Suplement do dyplomu ──
+  'suplement': ['suplement', 'dyplom', 'zaliczen', 'osiągnięć'],
+
+  // ── Organy uczelni — rozszerzone ──
+  'rektor': ['rektor', 'zarządzen', 'uczelni'],
+  'prorektor': ['prorektor', 'rektor', 'uczelni'],
+  'kanclerz': ['kanclerz', 'administracj', 'uczelni'],
+  'kwestor': ['kwestor', 'finansow', 'budżet'],
+  'statut': ['statut', 'uczelni', 'przepis'],
+
+  // ── Archiwum ──
+  'archiwum': ['archiwu', 'dokumentacj', 'przechowywani'],
+  'archiwizacja': ['archiwizacj', 'dokumentacj', 'przechowywani'],
+
+  // ── Zamówienia publiczne ──
+  'zamówienie': ['zamówien', 'publiczn', 'przetarg'],
+  'przetarg': ['przetarg', 'zamówien', 'publiczn'],
+
+  // ── Delegacje i podróże ──
+  'delegacja': ['delegacj', 'podróż', 'służbow'],
+  'wyjazd': ['wyjazd', 'delegacj', 'służbow', 'zagranicz'],
+  'podróż': ['podróż', 'delegacj', 'służbow'],
+
+  // ── Pełnomocnictwa ──
+  'pełnomocnictwo': ['pełnomocnictw', 'upoważnien', 'reprezentacj'],
+  'upoważnienie': ['upoważnien', 'pełnomocnictw'],
+
+  // ── Dni wolne i kalendarz ──
+  'wolne': ['woln', 'dni', 'prac', 'świąt'],
+  'ferie': ['woln', 'przerwa', 'zajęci'],
+  'wakacje': ['woln', 'przerwa', 'letni'],
+  'harmonogram': ['harmonogram', 'kalendarz', 'termin', 'organizacj'],
+  'kalendarz': ['kalendarz', 'harmonogram', 'termin', 'rok'],
+
+  // ── Sale i infrastruktura ──
+  'sala': ['sal', 'wynajm', 'pomieszczen'],
+  'wynajęcie': ['wynajm', 'sal', 'opłat'],
+  'rezerwacja': ['rezerwacj', 'sal', 'pomieszczen'],
+
+  // ── Fundusz i dotacje ──
+  // Akty: "zakładowy fundusz świadczeń socjalnych" (4x), "ZFŚS"
+  'dotacja': ['dotacj', 'fundusz', 'finansowan'],
+  'subwencja': ['subwencj', 'finansowan', 'budżet'],
+  'fundusz': ['fundusz', 'finansowan', 'środk', 'socjaln', 'zakładow'],
+  'zfśs': ['zakładow', 'fundusz', 'świadczeń', 'socjaln'],
+  'socjalny': ['socjaln', 'fundusz', 'zakładow', 'świadczeń'],
+
+  // ── Nagrody ──
+  'nagroda': ['nagrod', 'wyróżnien', 'premi', 'jubileuszow'],
+  'wyróżnienie': ['wyróżnien', 'nagrod', 'dyplom'],
+
+  // ── Rok akademicki i semestry ──
+  // Akty: "rok akademicki" (44x), "semestr zimowy/letni", "cykl dydaktyczny"
+  'semestr': ['semestr', 'zimow', 'letni', 'cykl', 'dydaktyczn'],
+  'zimowy': ['zimow', 'semestr', 'październik'],
+  'letni': ['letni', 'semestr', 'luty'],
+  'akademicki': ['akademick', 'rok', 'semestr'],
+};
+
+// ── Category tagging ──────────────────────────────────────
+const ACT_CATEGORIES = {
+  pl: {
+    'studenckie': 'Studenckie',
+    'dyplomowanie': 'Dyplomowanie',
+    'doktoranckie': 'Doktoranckie',
+    'kadra': 'Kadra / pracownicy',
+    'finanse': 'Finanse / opłaty',
+    'dydaktyka': 'Dydaktyka / programy',
+    'organizacja': 'Organizacja uczelni',
+    'bezpieczeństwo': 'Bezpieczeństwo / BHP',
+  },
+  en: {
+    'studenckie': 'Student affairs',
+    'dyplomowanie': 'Graduation',
+    'doktoranckie': 'Doctoral',
+    'kadra': 'Staff / HR',
+    'finanse': 'Finances / fees',
+    'dydaktyka': 'Teaching / programs',
+    'organizacja': 'University governance',
+    'bezpieczeństwo': 'Safety / OHS',
+  }
+};
+
+// Keyword-based auto-categorization rules
+const CATEGORY_RULES = [
+  { cat: 'studenckie', title: /student|urlop|skreśl|regulamin studi|samorząd|świadczeń|stypend|zapomog|praktyk|legitymacj/i,
+    body: /skreśleni\w+ z listy student|urlop od zajęć|wpis warunkow|powtarzanie|stypend|zapomog|praktyk zawodow/i },
+  { cat: 'dyplomowanie', title: /dyplom|seminari|antyplagiat|APD/i,
+    body: /praca dyplomowa|egzamin dyplomowy|seminarium dyplomowe|złożeni\w+ prac\w+ dyplomow|APD|antyplagiat/i },
+  { cat: 'doktoranckie', title: /doktorsk|doktorant|szkoł\w+ doktorsk/i,
+    body: /szkoł\w+ doktorsk|doktorant|rozprawa doktorsk|ocen\w+ śródokresow|plan badawcz|stypendi\w+ doktoranck/i },
+  { cat: 'kadra', title: /pensum|wynagrodz|regulamin pracy|ocen\w+ okresow|konkurs\w+ na stanowisk|pracownik|zatrudni/i,
+    body: /pensum dydaktyczn|umow\w+ o prac|stosunek pracy|wynagrodzen|ocen\w+ okresow|godzin\w+ ponadwymiarow|czas pracy/i },
+  { cat: 'finanse', title: /opłat|odpłatn|czesne|wynajm\w+ sal|fundusz|budget/i,
+    body: /opłat\w+ za usług\w+ edukacyj|opłat\w+ za powtarzanie|wynajm\w+ sal|odpłatn/i },
+  { cat: 'dydaktyka', title: /program\w+ studi|kierunk|kształcen|ECTS|zajęci|efekt\w+ uczeni|akredytacj|egzamin\w+ i ocen/i,
+    body: /program\w+ studi|efekt\w+ uczenia|sylab|plan\w+ studi|grupa\w+ studenck|minimum\w+ kadr/i },
+  { cat: 'organizacja', title: /statut|regulamin\w* wydział|senat|rada\w* uczelni|rektor|kanclerz|pełnomocnictw|poczta|rejestr\w+ umów|organizacj|komitet|powołani|zmian\w+ uchwał/i,
+    body: /statut|regulamin organizacyjn|rada uczelni|senat|pełnomocnictw/i },
+  { cat: 'bezpieczeństwo', title: /bhp|bezpieczeńst|ppoż|zagroż|ewakuacj/i,
+    body: /bezpieczeńst\w+ i higien|ewakuacj|pożar|zagrożen/i },
+];
+
+let ACT_TAGS = {}; // act_id → Set of category ids
+
+function categorizeActs() {
+  ACT_TAGS = {};
+  AKTY.forEach(a => {
+    const tags = new Set();
+    const title = (a.tytul || '').toLowerCase();
+    const body = (a.body_text || '').substring(0, 10000).toLowerCase(); // first 10K chars enough
+    CATEGORY_RULES.forEach(rule => {
+      if (rule.title.test(title) || rule.body.test(body)) {
+        tags.add(rule.cat);
+      }
+    });
+    if (tags.size === 0) tags.add('organizacja'); // default
+    ACT_TAGS[a.id] = tags;
+  });
+
+  // Populate category filter
+  const catSel = document.getElementById('filter-cat');
+  if (catSel) {
+    const lang = getUILang();
+    const labels = ACT_CATEGORIES[lang] || ACT_CATEGORIES.pl;
+    catSel.innerHTML = `<option value="">${lang === 'en' ? 'All categories' : 'Wszystkie'}</option>`;
+    // Count acts per category
+    const counts = {};
+    Object.values(ACT_TAGS).forEach(tags => tags.forEach(t => { counts[t] = (counts[t]||0) + 1; }));
+    Object.keys(labels).forEach(cat => {
+      if (counts[cat]) {
+        catSel.innerHTML += `<option value="${cat}">${labels[cat]} (${counts[cat]})</option>`;
+      }
+    });
+  }
+}
+
+function expandQueryTokens(tokens) {
+  const expanded = [...tokens];
+  tokens.forEach(t => {
+    const syns = QUERY_SYNONYMS[t];
+    if (syns) expanded.push(...syns);
+  });
+  return [...new Set(expanded)];
+}
+
+function tokenize(text) {
+  if (!text) return [];
+  return text.toLowerCase()
+    .replace(/[^\w\sąćęłńóśźż]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length > 2);
+}
+
+// ── Chunk-level BM25 ─────────────────────────────────────────
+let CHUNK_IDF = null;
+let CHUNK_AVG_DL = 100;
+
+function buildChunkIDF() {
+  if (CHUNK_IDF) return;
+  CHUNK_IDF = {};
+
+  // If chunks available, build IDF from chunks; else fallback to act-level
+  const docs = CHUNKS.length > 0 ? CHUNKS : AKTY;
+  const N = docs.length;
+
+  if (CHUNKS.length > 0) {
+    // Chunk-level IDF — each chunk is a "document"
+    let totalLen = 0;
+    CHUNKS.forEach(c => {
+      const tokens = (c._tokens || (c._tokens = tokenize(c.text)));
+      totalLen += tokens.length;
+      const words = new Set(tokens);
+      words.forEach(w => { CHUNK_IDF[w] = (CHUNK_IDF[w] || 0) + 1; });
+    });
+    CHUNK_AVG_DL = totalLen / N || 100;
+    // Also index act titles (boost title matches)
+    AKTY.forEach(a => {
+      const titleWords = new Set(tokenize(a.tytul));
+      titleWords.forEach(w => { CHUNK_IDF[w] = (CHUNK_IDF[w] || 0) + 1; });
+    });
+  } else {
+    // Fallback: act-level IDF (v1 behavior)
+    AKTY.forEach(a => {
+      const words = new Set([
+        ...tokenize(a.tytul),
+        ...tokenize(a.body_text?.substring(0, 30000))
+      ]);
+      words.forEach(w => { CHUNK_IDF[w] = (CHUNK_IDF[w] || 0) + 1; });
+    });
+    CHUNK_AVG_DL = 500;
+  }
+
+  const totalDocs = N + AKTY.length; // combined for IDF calc
+  Object.keys(CHUNK_IDF).forEach(w => {
+    CHUNK_IDF[w] = Math.log((totalDocs - CHUNK_IDF[w] + 0.5) / (CHUNK_IDF[w] + 0.5) + 1);
+  });
+}
+
+function bm25ScoreTokens(tokens, queryTokens, titleBoostTokens) {
+  buildChunkIDF();
+  const k1 = 1.5, b = 0.75;
+  // Add title tokens with 3x boost
+  const allTokens = titleBoostTokens
+    ? [...titleBoostTokens, ...titleBoostTokens, ...titleBoostTokens, ...tokens]
+    : tokens;
+  const dl = allTokens.length;
+
+  let score = 0;
+  const tf = {};
+  allTokens.forEach(w => { tf[w] = (tf[w] || 0) + 1; });
+
+  queryTokens.forEach(qt => {
+    Object.keys(tf).forEach(w => {
+      if (w.startsWith(qt) || qt.startsWith(w)) {
+        const f = tf[w];
+        const idf = CHUNK_IDF[w] || 1;
+        score += idf * (f * (k1 + 1)) / (f + k1 * (1 - b + b * dl / CHUNK_AVG_DL));
+      }
+    });
+  });
+  return score;
+}
+
+// Legacy wrapper — score an entire act (used by doSearch when no chunks)
+function bm25Score(akt, queryTokens) {
+  const titleTokens = tokenize(akt.tytul);
+  const bodyTokens = tokenize(akt.body_text?.substring(0, 50000));
+  return bm25ScoreTokens(bodyTokens, queryTokens, titleTokens);
+}
+
+// Score search at chunk level, return acts sorted by best chunk score
+function searchByChunks(queryTokens, aktyPool) {
+  if (CHUNKS.length === 0) {
+    // Fallback v1: score whole acts
+    return aktyPool
+      .map(a => ({ akt: a, score: bm25Score(a, queryTokens), bestChunkText: null }))
+      .filter(s => s.score > 0)
+      .sort((a, b) => b.score - a.score);
+  }
+
+  const poolIds = new Set(aktyPool.map(a => a.id));
+  const actScores = {};  // act_id → { bestScore, bestChunkText, totalScore }
+
+  CHUNKS.forEach(c => {
+    if (!poolIds.has(c.act_id)) return;
+    const tokens = (c._tokens || (c._tokens = tokenize(c.text)));
+    const akt = ACT_BY_ID[c.act_id];
+    const titleTokens = tokenize(akt?.tytul || '');
+    // Score chunk, with light title boost (1x instead of 3x — chunk itself is the signal)
+    const score = bm25ScoreTokens(tokens, queryTokens, titleTokens);
+    if (score <= 0) return;
+
+    if (!actScores[c.act_id]) {
+      actScores[c.act_id] = { bestScore: 0, bestChunkText: '', totalScore: 0 };
+    }
+    const as = actScores[c.act_id];
+    as.totalScore += score;
+    if (score > as.bestScore) {
+      as.bestScore = score;
+      as.bestChunkText = c.text;
+    }
+  });
+
+  // Also score title-only for acts without body_text
+  aktyPool.forEach(a => {
+    if (!a.body_text && !actScores[a.id]) {
+      const titleTokens = tokenize(a.tytul);
+      const score = bm25ScoreTokens(titleTokens, queryTokens, null);
+      if (score > 0) {
+        actScores[a.id] = { bestScore: score, bestChunkText: null, totalScore: score };
+      }
+    }
+  });
+
+  // Rank by combination: best chunk score + 0.3 * total (reward breadth)
+  return Object.entries(actScores)
+    .map(([actId, s]) => ({
+      akt: ACT_BY_ID[parseInt(actId)],
+      score: s.bestScore + 0.3 * s.totalScore,
+      bestChunkText: s.bestChunkText,
+    }))
+    .filter(s => s.akt)
+    .sort((a, b) => b.score - a.score);
+}
+
+function doSearch() {
+  const query = document.getElementById('search-input').value.trim();
+  const organ = document.getElementById('filter-organ').value;
+  const rok = document.getElementById('filter-rok').value;
+  const cat = document.getElementById('filter-cat')?.value || '';
+
+  let filtered = AKTY;
+  if (showBookmarksOnly) filtered = filtered.filter(a => bookmarks.has(a.id));
+  if (organ) filtered = filtered.filter(a => organGroup(a.organ) === organ);
+  if (rok) filtered = filtered.filter(a => a.rok === parseInt(rok));
+  if (cat) filtered = filtered.filter(a => ACT_TAGS[a.id]?.has(cat));
+
+  if (!query) {
+    renderResults(filtered.slice(0, 50), '');
+    return;
+  }
+
+  const queryTokens = expandQueryTokens(tokenize(query));
+  const scored = searchByChunks(queryTokens, filtered).slice(0, 50);
+
+  logSearch(query, scored.length);
+
+  document.getElementById('results-info').textContent =
+    `${t('searchFound')}: ${scored.length} ${t('searchResultsFor')} „${query}"`;
+  renderResults(scored.map(s => s.akt), query, scored);
+}
+
+// ============================================================
+// RENDER RESULTS
+// ============================================================
+function shortTitle(tytul, maxLen = 40) {
+  if (!tytul) return '';
+  // Remove common prefixes like UCHWAŁA..., ZARZĄDZENIE...
+  let t = tytul.replace(/^(UCHWAŁA|ZARZĄDZENIE|DOKUMENT|REGULAMIN|ZASADY|POLITYKA|SZCZEGÓŁOWE ZASADY|OŚWIADCZENIE|OCENA|DECREE)\b[^a-ząćęłńóśźż]*/i, '').trim();
+  if (!t) t = tytul; // fallback if nothing left
+  // Capitalize first letter
+  t = t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+  if (t.length > maxLen) t = t.substring(0, maxLen).replace(/\s\S*$/, '') + '…';
+  return t;
+}
+
+function renderResults(akty, query, scoredResults) {
+  const container = document.getElementById('results');
+  if (!akty.length) {
+    container.innerHTML = `<p style="color:var(--text-dim);padding:1.5rem;text-align:center">${getUILang() === 'en' ? 'No results.' : 'Brak wyników.'}</p>`;
+    document.getElementById('results-info').textContent = '';
+    return;
+  }
+  if (!query) {
+    document.getElementById('results-info').textContent = t('latestActs') + ` (${akty.length})`;
+  }
+
+  // Build bestChunkText map from scored results (if available)
+  const chunkMap = {};
+  if (scoredResults) scoredResults.forEach(s => { if (s.bestChunkText) chunkMap[s.akt.id] = s.bestChunkText; });
+
+  container.innerHTML = akty.map(a => {
+    const organCls = organGroup(a.organ).replace(/\s/g, '');
+    // Prefer best-matching chunk text for snippet (more relevant than searching whole body_text)
+    const snippetSource = chunkMap[a.id] || a.body_text || a.tytul;
+    const snippet = query ? getSnippet(snippetSource, query) : '';
+    const links = [];
+    if (a.body_text) links.push(`<a href="#" onclick="event.preventDefault();openDetail(${a.id})">${t('detailFullText')}</a>`);
+    if (a.url_pdf) links.push(`<a href="${a.url_pdf}" target="_blank">PDF</a>`);
+    if (a.url_szczegoly && !a.url_szczegoly.endsWith('/akty-prawne/')) links.push(`<a href="${a.url_szczegoly}" target="_blank">${a.zrodlo === 'wz_uw' ? 'Strona WZ' : 'Monitor UW'}</a>`);
+
+    const statusHtml = renderStatusTag(a.id);
+    const chainHtml = renderAmendmentChain(a.id);
+
+    const isBookmarked = bookmarks.has(a.id);
+
+    return `<div class="result-card">
+      <div class="result-header">
+        <div class="result-meta">
+          <span class="organ-tag organ-${organCls}">${a.organ}</span>
+          ${statusHtml}
+          <span class="result-date">${a.data_wydania || ''}</span>
+          <span class="result-source">${a.zrodlo === 'wz_uw' ? 'WZ UW' : a.zrodlo === 'direct_urls' ? 'Rejestr' : 'Monitor UW'}</span>
+        </div>
+        <button class="bookmark-btn${isBookmarked ? ' bookmarked' : ''}" data-id="${a.id}" onclick="toggleBookmark(${a.id})" title="${isBookmarked ? t('bookmarkRemove') : t('bookmarkAdd')}">&#9733;</button>
+      </div>
+      <div class="result-body">
+        <h3>${a.typ ? a.typ.charAt(0).toUpperCase() + a.typ.slice(1) : 'Akt'}${a.numer ? ' nr ' + a.numer : ''}</h3>
+        <div class="title-text">${a.tytul}</div>
+        ${snippet ? `<div class="snippet">${snippet}</div>` : ''}
+      </div>
+      ${chainHtml}
+      ${links.length ? `<div class="result-links">${links.join('')}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function getSnippet(text, query, ctx = 120) {
+  if (!text) return '';
+  const words = query.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+  const lower = text.toLowerCase();
+
+  for (const w of words) {
+    const idx = lower.indexOf(w);
+    if (idx >= 0) {
+      const start = Math.max(0, idx - ctx);
+      const end = Math.min(text.length, idx + w.length + ctx);
+      let snip = text.substring(start, end);
+      if (start > 0) snip = '...' + snip;
+      if (end < text.length) snip = snip + '...';
+      words.forEach(qw => {
+        snip = snip.replace(new RegExp(`(${escapeRegex(qw)})`, 'gi'), '<mark>$1</mark>');
+      });
+      return snip;
+    }
+  }
+  return text.substring(0, 250) + '...';
+}
+
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.mode-btn').forEach(el => {
+    el.classList.toggle('active', el.dataset.mode === tab);
+  });
+  document.getElementById('search-panel').style.display = tab === 'search' ? 'block' : 'none';
+  document.getElementById('qa-panel').classList.toggle('active', tab === 'qa');
+}
+
+// ============================================================
+// PROVIDER
+// ============================================================
+function setProvider(provider) {
+  currentProvider = provider;
+  document.querySelectorAll('.provider-tab').forEach(el => {
+    el.classList.toggle('active', el.dataset.provider === provider);
+  });
+
+  const keyField = document.getElementById('api-key-field');
+  const localFields = document.getElementById('local-fields');
+  const keyLabel = document.getElementById('apiKeyLabel');
+
+  if (provider === 'ollama') {
+    keyField.style.display = 'none';
+    localFields.classList.add('visible');
+  } else {
+    keyField.style.display = 'block';
+    localFields.classList.remove('visible');
+    const labels = { openai: t('apiKeyLabelOpenai'), anthropic: t('apiKeyLabelAnthropic'), google: t('apiKeyLabelGoogle') };
+    const placeholders = { openai: 'sk-...', anthropic: 'sk-ant-...', google: 'AIza...' };
+    keyLabel.textContent = labels[provider] || 'Klucz API';
+    document.getElementById('qa-apikey').placeholder = placeholders[provider] || '';
+  }
+}
+
+// ============================================================
+// Q&A
+// ============================================================
+function extractRelevantExcerpts(bodyText, queryTokens, maxChars = 6000) {
+  if (!bodyText) return '';
+  // Split by paragraphs (double newline or §)
+  const paragraphs = bodyText.split(/\n{2,}|\n(?=§)/);
+
+  // Score each paragraph by how many query tokens it contains
+  const scored = paragraphs.map((p, idx) => {
+    const lower = p.toLowerCase();
+    let hits = 0;
+    for (const token of queryTokens) {
+      if (lower.includes(token)) hits++;
+    }
+    return { text: p, hits, idx };
+  });
+
+  // Sort by relevance, then by position (to keep earlier context)
+  scored.sort((a, b) => b.hits - a.hits || a.idx - b.idx);
+
+  // Take top paragraphs until budget is reached
+  const selected = [];
+  let totalLen = 0;
+  for (const p of scored) {
+    if (p.hits === 0 && selected.length >= 2) break; // At least 2 paragraphs, then only relevant ones
+    if (totalLen + p.text.length > maxChars && selected.length > 0) break;
+    selected.push(p);
+    totalLen += p.text.length;
+  }
+
+  // Re-sort by original order for readability
+  selected.sort((a, b) => a.idx - b.idx);
+
+  if (selected.length === 0) return bodyText.substring(0, maxChars);
+  return selected.map(p => p.text).join('\n\n');
+}
+
+function findRelevantChunks(question, topK = 5) {
+  const queryTokens = expandQueryTokens(tokenize(question));
+
+  if (CHUNKS.length > 0) {
+    // Chunk-level retrieval: score each chunk, return top-K with metadata
+    const scored = CHUNKS.map(c => {
+      const tokens = (c._tokens || (c._tokens = tokenize(c.text)));
+      const score = bm25ScoreTokens(tokens, queryTokens, null);
+      return { chunk: c, score };
+    })
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topK * 3); // take more, then deduplicate per act
+
+    // Limit to topK unique acts but keep multiple chunks per act
+    const seenActs = new Set();
+    const result = [];
+    let actCount = 0;
+    for (const s of scored) {
+      if (!seenActs.has(s.chunk.act_id)) {
+        if (actCount >= topK) continue;
+        seenActs.add(s.chunk.act_id);
+        actCount++;
+      }
+      result.push(s);
+    }
+    return result; // Array of { chunk, score }
+  }
+
+  // Fallback: act-level (v1)
+  return AKTY
+    .filter(a => a.body_text)
+    .map(a => ({ akt: a, score: bm25Score(a, queryTokens) }))
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topK)
+    .map(s => ({ chunk: { act_id: s.akt.id, text: extractRelevantExcerpts(s.akt.body_text, queryTokens, 4000), section: null, ref: null }, score: s.score }));
+}
+
+function buildSystemPrompt(chunkResults) {
+  // chunkResults = Array of { chunk: { act_id, text, section, ref }, score }
+  // Group by act for readable context
+  const byAct = {};
+  chunkResults.forEach(cr => {
+    const actId = cr.chunk.act_id;
+    if (!byAct[actId]) byAct[actId] = [];
+    byAct[actId].push(cr.chunk);
+  });
+
+  let contextIdx = 0;
+  const context = Object.entries(byAct).map(([actId, chunks]) => {
+    const a = ACT_BY_ID[parseInt(actId)];
+    if (!a) return '';
+    contextIdx++;
+    const header = `[Akt ${contextIdx}] ${a.typ} nr ${a.numer || '?'} — ${a.organ}, ${a.data_wydania || '?'}\nTytuł: ${a.tytul}`;
+    const body = chunks.map(c => {
+      const locLabel = [c.section, c.ref].filter(Boolean).join(' → ');
+      return (locLabel ? `[${locLabel}]\n` : '') + c.text;
+    }).join('\n\n');
+    return header + '\nTreść (trafne fragmenty):\n' + body;
+  }).filter(Boolean).join('\n\n---\n\n');
+
+  const lang = document.getElementById('qa-lang')?.value || 'polski';
+  const isPolish = lang === 'polski';
+
+  const langInstruction = isPolish
+    ? '- Odpowiadaj po polsku, precyzyjnie i konkretnie.'
+    : `- ⚠ CRITICAL: Your ENTIRE response MUST be in ${lang}. Every sentence, heading, bullet point, and explanation — write in ${lang}. Do NOT use Polish or English for your own text.
+- The ONLY exceptions are: (1) names of legal acts (e.g. "Regulamin Studiów"), (2) paragraph numbers (e.g. § 24 ust. 1), (3) short verbatim quotes from the regulations — these stay in Polish because they are proper names or citations.
+- All your explanations, summaries, warnings, recommendations, section headings, and notes must be in ${lang}.
+- End with a brief note (in ${lang}): "Sources link to original documents in Polish."
+- The user is an international student or staff member who needs the answer in ${lang}.`;
+
+  // Compute max relevance score to pass to prompt
+  const maxScore = chunkResults.length ? Math.max(...chunkResults.map(c => c.score)) : 0;
+  const avgScore = chunkResults.length ? chunkResults.reduce((s, c) => s + c.score, 0) / chunkResults.length : 0;
+  const coverageNote = maxScore < 3
+    ? `\n⚠ UWAGA: Trafność dopasowania źródeł do pytania jest NISKA (max score: ${maxScore.toFixed(1)}). Prawdopodobnie ten temat nie jest objęty dostępnym korpusem aktów. W takiej sytuacji:\n- Powiedz wprost, że w dostępnych aktach nie ma przepisów regulujących to zagadnienie.\n- Nie buduj pozornej odpowiedzi z luźno powiązanych fragmentów.\n- Wskaż, gdzie szukać: Monitor UW (monitor.uw.edu.pl), intranet UW, lub konkretna jednostka (np. Kwestura, Biuro Prawne, Dział Kadr).\n`
+    : '';
+
+  return `Jesteś asystentem prawnym specjalizującym się w wewnętrznych aktach prawnych Uniwersytetu Warszawskiego (University of Warsaw) i Wydziału Zarządzania UW (Faculty of Management). Odpowiadasz na pytania WYŁĄCZNIE na podstawie poniższych aktów prawnych.
+
+STRUKTURA ODPOWIEDZI:
+1. Bezpośrednia odpowiedź na pytanie (1–3 zdania).
+2. Podstawa prawna — cytuj dosłownie numer aktu, § (paragraf), ust. (ustęp) i punkt, np. „§ 12 ust. 3 pkt 2 Zarządzenia nr 44/2026 Rektora UW". Jeśli przytaczasz treść przepisu, cytuj dosłownie po polsku — nie parafrazuj.
+3. Zastrzeżenia — jeśli tekst aktu jest niekompletny lub ucięty (zobaczysz „[...tekst skrócony...]"), zaznacz to wprost i wskaż, gdzie szukać pełnej wersji.
+
+CYTOWANIA:
+- Każdy akt w kontekście poniżej jest oznaczony numerem: [Akt 1], [Akt 2], itd.
+- Gdy powoływujesz się na konkretny akt, ZAWSZE dodaj odnośnik w nawiasach kwadratowych, np. „zgodnie z § 24 ust. 1 Regulaminu [Akt 2]" lub „(Akt 3)".
+- Używaj formatu [Akt N] konsekwentnie — to pozwoli użytkownikowi kliknąć i przejść do źródła.
+- Jeśli informacja pochodzi z wielu aktów, podaj wszystkie: [Akt 1, Akt 3].
+
+ZASADY:
+${langInstruction}
+- NIE wymyślaj informacji spoza podanego kontekstu. Nie uzupełniaj luk domysłami.
+- Jeśli nie znajdujesz odpowiedzi w podanych aktach, powiedz wprost że nie znalazłeś i WSKAŻ KONKRETNĄ JEDNOSTKĘ Z KATALOGU KONTAKTÓW PONIŻEJ — podaj nazwę, email, telefon i link do strony. Dopasuj jednostkę do tematu pytania.
+
+KATALOG KONTAKTÓW UW / WZ:
+• Dziekanat WZ UW — wz@wz.uw.edu.pl, tel. 22 55 34 002, https://wz.uw.edu.pl/kontakt/ (sprawy studenckie wydziałowe, tok studiów, podania)
+• Kwestura UW — sekretariat.kwestura@adm.uw.edu.pl, tel. 22 55 20 880, https://portal.uw.edu.pl/web/kwestura/ (opłaty, stypendia finansowe, rozliczenia, faktury)
+• Biuro Spraw Pracowniczych UW — bsp25@adm.uw.edu.pl, tel. 22 55 20 543, https://bsp.adm.uw.edu.pl/ (kadry, umowy, urlopy pracownicze, pensum)
+• Biuro Prawne UW — biuroprawne@adm.uw.edu.pl, tel. 22 55 20 334, http://bp.uw.edu.pl/ (interpretacja przepisów, umowy, regulacje prawne)
+• Centrum Informatyczne UW — helpdesk@uw.edu.pl, tel. 22 55 20 836, https://it.uw.edu.pl/ (USOS, poczta, systemy IT, konta)
+• Biuro ds. Pomocy Materialnej — bpm@uw.edu.pl, tel. 22 55 20 783, https://bpm.uw.edu.pl/ (stypendia socjalne, zapomogi, akademiki)
+• Biuro Współpracy z Zagranicą — international@adm.uw.edu.pl, tel. 22 55 24 010, https://bwz.uw.edu.pl/ (Erasmus, wymiana, studenci zagraniczni)
+• Biuro ds. Rekrutacji — rekrutacja@adm.uw.edu.pl, tel. 22 55 24 041, https://rekrutacja.uw.edu.pl/ (rekrutacja, IRK, progi przyjęć)
+• Biuro ds. Osób z Niepełnosprawnościami (BON) — bon@uw.edu.pl, tel. 22 55 24 222, https://bon.uw.edu.pl/ (dostosowania, pomoc dla osób z niepełnosprawnościami)
+• CNJO (Centrum Nauczania Języków Obcych) — student.cnjo@uw.edu.pl, tel. 22 55 20 523, https://szjo.uw.edu.pl/ (lektoraty, egzaminy językowe, certyfikaty)
+• Monitor UW — https://monitor.uw.edu.pl/ (oficjalne zarządzenia Rektora, uchwały Senatu, obwieszczenia — publikator aktów UW)
+• Biblioteka UW (BUW) — buw@uw.edu.pl, tel. 22 55 25 178, https://www.buw.uw.edu.pl/ (zbiory, wypożyczenia, dostęp do baz)
+- Jeśli podane fragmenty dotyczą tematu tylko luźno (np. termin pojawia się w treściach programowych, a nie w regulacji), zaznacz to wyraźnie — nie sugeruj, że znalazłeś regulację, gdy znalazłeś jedynie wzmiankę.
+- Jeśli pytanie dotyczy procedury (np. składanie wniosku, odwołanie, termin), przedstaw ją krok po kroku z odniesieniami do przepisów.
+- Podane niżej fragmenty aktów to wycinki — mogą nie zawierać pełnego tekstu aktu.
+- Baza obejmuje głównie akty dot. studiów, dydaktyki, organizacji uczelni i wydziału. Tematy takie jak rachunkowość, środki trwałe, zamówienia publiczne, inwestycje mogą być poza zasięgiem tego korpusu.
+${coverageNote}
+AKTY PRAWNE:
+${context}`;
+}
+
+function buildFullPrompt(systemPrompt, history) {
+  // For providers that need a single prompt string (Ollama)
+  let full = systemPrompt + '\n\n';
+  history.forEach(m => {
+    full += (m.role === 'user' ? 'PYTANIE: ' : 'ODPOWIEDŹ: ') + m.content + '\n\n';
+  });
+  return full;
+}
+
+async function callLLM(systemPrompt, messages) {
+  saveSettings();
+  const apiKey = document.getElementById('qa-apikey').value;
+
+  if (currentProvider === 'openai') {
+    if (!apiKey) throw new Error('Podaj klucz API OpenAI');
+    const oaiMessages = [
+      { role: 'system', content: systemPrompt },
+      ...messages.map(m => ({ role: m.role, content: m.content }))
+    ];
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: oaiMessages,
+        max_tokens: 2000,
+        temperature: 0.1,
+      })
+    });
+    if (!resp.ok) throw new Error(`OpenAI API: ${resp.status} ${await resp.text()}`);
+    const data = await resp.json();
+    return data.choices[0].message.content;
+  }
+
+  if (currentProvider === 'anthropic') {
+    if (!apiKey) throw new Error('Podaj klucz API Anthropic');
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 2000,
+        system: systemPrompt,
+        messages: messages.map(m => ({ role: m.role, content: m.content })),
+      })
+    });
+    if (!resp.ok) throw new Error(`Anthropic API: ${resp.status} ${await resp.text()}`);
+    const data = await resp.json();
+    return data.content[0].text;
+  }
+
+  if (currentProvider === 'google') {
+    if (!apiKey) throw new Error('Podaj klucz API Google (Gemini)');
+    const contents = [
+      { role: 'user', parts: [{ text: systemPrompt + '\n\n' + messages[0].content }] }
+    ];
+    for (let i = 1; i < messages.length; i++) {
+      contents.push({
+        role: messages[i].role === 'user' ? 'user' : 'model',
+        parts: [{ text: messages[i].content }]
+      });
+    }
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents,
+        generationConfig: { temperature: 0.1, maxOutputTokens: 2000 },
+      })
+    });
+    if (!resp.ok) throw new Error(`Google API: ${resp.status} ${await resp.text()}`);
+    const data = await resp.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Brak odpowiedzi od Gemini.';
+  }
+
+  if (currentProvider === 'ollama') {
+    const ollamaUrl = document.getElementById('ollama-url').value || 'http://localhost:11434';
+    const model = document.getElementById('ollama-model').value || 'llama3.1';
+    const prompt = buildFullPrompt(systemPrompt, messages);
+    const resp = await fetch(`${ollamaUrl}/api/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model, prompt, stream: false })
+    });
+    if (!resp.ok) throw new Error(`Ollama: ${resp.status}`);
+    const data = await resp.json();
+    return data.response;
+  }
+
+  throw new Error('Nieznany provider');
+}
+
+function renderMarkdown(text) {
+  // Escape HTML
+  let html = text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  // Split into lines for block-level parsing
+  const lines = html.split('\n');
+  const out = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Skip empty lines
+    if (line.trim() === '') { i++; continue; }
+
+    // Horizontal rule
+    if (/^-{3,}$/.test(line.trim()) || /^\*{3,}$/.test(line.trim())) {
+      out.push('<hr>');
+      i++; continue;
+    }
+
+    // Headers
+    const hMatch = line.match(/^(#{1,4})\s+(.+)/);
+    if (hMatch) {
+      const level = Math.min(hMatch[1].length + 1, 6); // ## → h3, ### → h4 (offset by 1 to keep hierarchy)
+      out.push(`<h${level}>${inlineFormat(hMatch[2])}</h${level}>`);
+      i++; continue;
+    }
+
+    // Unordered list block
+    if (/^\s*[-–•]\s/.test(line)) {
+      const items = [];
+      while (i < lines.length && (/^\s*[-–•]\s/.test(lines[i]) || (lines[i].trim() === '' && i + 1 < lines.length && /^\s*[-–•]\s/.test(lines[i+1])))) {
+        if (lines[i].trim() !== '') items.push(`<li>${inlineFormat(lines[i].replace(/^\s*[-–•]\s+/, ''))}</li>`);
+        i++;
+      }
+      out.push(`<ul>${items.join('')}</ul>`);
+      continue;
+    }
+
+    // Ordered list block
+    if (/^\s*\d+[.)]\s/.test(line)) {
+      const items = [];
+      while (i < lines.length && (/^\s*\d+[.)]\s/.test(lines[i]) || (lines[i].trim() === '' && i + 1 < lines.length && /^\s*\d+[.)]\s/.test(lines[i+1])))) {
+        if (lines[i].trim() !== '') items.push(`<li>${inlineFormat(lines[i].replace(/^\s*\d+[.)]\s+/, ''))}</li>`);
+        i++;
+      }
+      out.push(`<ol>${items.join('')}</ol>`);
+      continue;
+    }
+
+    // Paragraph — collect consecutive non-empty, non-special lines
+    const pLines = [];
+    while (i < lines.length && lines[i].trim() !== '' && !/^#{1,4}\s/.test(lines[i]) && !/^-{3,}$/.test(lines[i].trim()) && !/^\s*[-–•]\s/.test(lines[i]) && !/^\s*\d+[.)]\s/.test(lines[i])) {
+      pLines.push(inlineFormat(lines[i]));
+      i++;
+    }
+    if (pLines.length) out.push(`<p>${pLines.join('<br>')}</p>`);
+  }
+
+  return out.join('');
+}
+
+function inlineFormat(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code>$1</code>');
+}
+
+function highlightSource(n) {
+  // Remove previous highlights
+  document.querySelectorAll('.source-tag.highlighted').forEach(el => el.classList.remove('highlighted'));
+  const chip = document.getElementById('source-chip-' + n);
+  if (!chip) return;
+  chip.classList.add('highlighted');
+  chip.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => chip.classList.remove('highlighted'), 2500);
+}
+
+function postProcessCitations(html) {
+  // Replace [Akt N ...] patterns with clickable cite-ref badges.
+  // Handles: [Akt 3], [Akt 3, § 22], [Akt 1, Akt 3], [Akt 3, § 22 ust. 1]
+  return html.replace(/\[Akt\s+\d+(?:[^\[\]]*?)(?:,\s*Akt\s+\d+(?:[^\[\]]*?))*\]/g, (match) => {
+    // Extract all "Akt N" references and any trailing context per reference
+    const parts = [];
+    const re = /Akt\s+(\d+)((?:\s*,\s*(?:§|ust\.|pkt|art\.|zd\.)[\s\d/.a-ząćęłńóśźżA-ZĄĆĘŁŃÓŚŹŻ]*?)?)/g;
+    let m;
+    while ((m = re.exec(match)) !== null) {
+      const num = m[1];
+      const extra = m[2] ? m[2].replace(/^\s*,\s*/, ', ') : '';
+      parts.push({ num, extra });
+    }
+    if (!parts.length) return match;
+    return parts.map(p => {
+      const label = p.extra ? `${p.num}${p.extra}` : p.num;
+      return `<span class="cite-ref" onclick="highlightSource(${p.num})" title="Pokaż źródło">${label}</span>`;
+    }).join('');
+  });
+}
+
+function showAnswer(text, chunkResults, showActions, {append = false, label = null} = {}) {
+  if (!label) label = t('answerHeader');
+  const answerArea = document.getElementById('qa-answer-area');
+  const answerBody = document.getElementById('qa-answer-body');
+  const answerSources = document.getElementById('qa-answer-sources');
+  const actions = document.getElementById('qa-actions');
+
+  answerArea.classList.add('visible');
+
+  // Render markdown then post-process [Akt N] citations into clickable badges
+  const renderedText = postProcessCitations(renderMarkdown(text));
+
+  const block = `<div class="answer-block">
+    <div class="answer-label">${label}</div>
+    <div class="answer-text">${renderedText}</div>
+  </div>`;
+
+  if (append) {
+    answerBody.innerHTML += block;
+  } else {
+    answerBody.innerHTML = block;
+  }
+
+  // Extract unique source acts from chunk results
+  const seenIds = new Set();
+  const sourceAkty = [];
+  (chunkResults || []).forEach(cr => {
+    const actId = cr.chunk ? cr.chunk.act_id : cr.id;
+    if (seenIds.has(actId)) return;
+    seenIds.add(actId);
+    const a = cr.chunk ? ACT_BY_ID[actId] : cr;
+    if (a) sourceAkty.push(a);
+  });
+
+  const sourceTags = sourceAkty.map((a, idx) => {
+    const n = idx + 1;
+    const id = a.numer ? `nr ${a.numer}` : shortTitle(a.tytul);
+    const chipLabel = `${a.typ} ${id} — ${a.organ}`;
+    const numBadge = `<span class="source-num">${n}</span>`;
+    return `<span class="source-tag" id="source-chip-${n}" onclick="openDetail(${a.id})" style="cursor:pointer">${numBadge}${chipLabel}</span>`;
+  }).join('');
+  const legendHTML = `
+    <div class="source-legend-toggle" onclick="this.nextElementSibling.classList.toggle('open')">${t('legendToggle')}</div>
+    <div class="source-legend">
+      <div class="source-legend-item"><span class="legend-swatch swatch-cite">3</span> ${t('legendCiteRef')}</div>
+      <div class="source-legend-item"><span class="legend-swatch swatch-chip">1</span> ${t('legendChipCited')}</div>
+      <div class="source-legend-item"><span class="legend-swatch swatch-uncited">4</span> ${t('legendChipUncited')}</div>
+    </div>`;
+  answerSources.innerHTML = `<span style="font-weight:600">${t('sourcesLabel')}</span> ${sourceTags}${legendHTML}`;
+
+  // Dim source chips not cited in the answer
+  const citedNums = new Set();
+  answerBody.querySelectorAll('.cite-ref').forEach(el => {
+    const n = parseInt(el.textContent);
+    if (!isNaN(n)) citedNums.add(n);
+    // Also parse from onclick attribute for multi-info badges like "3, § 22"
+    const onclick = el.getAttribute('onclick') || '';
+    const m = onclick.match(/highlightSource\((\d+)\)/);
+    if (m) citedNums.add(parseInt(m[1]));
+  });
+  if (citedNums.size > 0) {
+    sourceAkty.forEach((_, idx) => {
+      const chip = document.getElementById('source-chip-' + (idx + 1));
+      if (chip && !citedNums.has(idx + 1)) {
+        chip.classList.add('uncited');
+      }
+    });
+  }
+
+  if (showActions) {
+    actions.classList.add('visible');
+    document.getElementById('followup-input').value = '';
+    document.getElementById('followup-input').focus();
+  }
+
+  // Scroll to the new block
+  if (append) {
+    answerBody.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function showLoading(msg) {
+  const answerArea = document.getElementById('qa-answer-area');
+  const answerBody = document.getElementById('qa-answer-body');
+  const answerSources = document.getElementById('qa-answer-sources');
+  const actions = document.getElementById('qa-actions');
+
+  answerArea.classList.add('visible');
+  answerBody.innerHTML = `<div class="qa-loading">${msg || t('loadingAnswer')}</div>`;
+  answerSources.innerHTML = '';
+  actions.classList.remove('visible');
+}
+
+async function doQA() {
+  const question = document.getElementById('qa-input').value.trim();
+  if (!question) return;
+
+  // Reset conversation
+  conversationHistory = [];
+  lastChunks = [];
+
+  showLoading();
+
+  try {
+    lastQueryTokens = expandQueryTokens(tokenize(question));
+    const chunks = findRelevantChunks(question, 5);
+    if (!chunks.length) {
+      document.getElementById('qa-answer-body').innerHTML = t('noChunksFound');
+      return;
+    }
+
+    lastChunks = chunks;
+    const systemPrompt = buildSystemPrompt(chunks);
+
+    conversationHistory.push({ role: 'user', content: question });
+    const answer = await callLLM(systemPrompt, conversationHistory);
+    conversationHistory.push({ role: 'assistant', content: answer });
+
+    showAnswer(answer, chunks, true);
+
+    // Log Q&A — extract cited act IDs from rendered cite-refs
+    const citedNums = new Set();
+    document.querySelectorAll('#qa-answer-body .cite-ref').forEach(el => {
+      const m = (el.getAttribute('onclick') || '').match(/highlightSource\((\d+)\)/);
+      if (m) citedNums.add(parseInt(m[1]));
+    });
+    // Map cite numbers back to act IDs
+    const seenIds = new Set();
+    const sourceAktyForLog = [];
+    (chunks || []).forEach(cr => {
+      const actId = cr.chunk ? cr.chunk.act_id : cr.id;
+      if (!seenIds.has(actId)) { seenIds.add(actId); sourceAktyForLog.push(actId); }
+    });
+    const citedActIds = [...citedNums].map(n => sourceAktyForLog[n - 1]).filter(Boolean);
+    logQA(question, chunks, citedActIds);
+
+  } catch(e) {
+    document.getElementById('qa-answer-body').innerHTML = `<div class="error-msg">${e.message}</div>`;
+  }
+}
+
+async function doFollowUp() {
+  const input = document.getElementById('followup-input');
+  const question = input.value.trim();
+  if (!question || !lastChunks.length) return;
+
+  // Show loading indicator appended
+  const answerBody = document.getElementById('qa-answer-body');
+  answerBody.innerHTML += `<div class="answer-block answer-loading"><div class="answer-label">${(getUILang()==='pl'?'Pytanie':'Question')}: ${question.replace(/</g,'&lt;')}</div><div class="qa-loading">${t('loadingFollowup')}</div></div>`;
+  answerBody.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    const systemPrompt = buildSystemPrompt(lastChunks);
+    conversationHistory.push({ role: 'user', content: question });
+    const answer = await callLLM(systemPrompt, conversationHistory);
+    conversationHistory.push({ role: 'assistant', content: answer });
+
+    // Remove loading block, append real answer
+    const loadingBlock = answerBody.querySelector('.answer-loading');
+    if (loadingBlock) loadingBlock.remove();
+    showAnswer(answer, lastChunks, true, { append: true, label: `${(getUILang()==='pl'?'Pytanie':'Question')}: ${question.replace(/</g,'&lt;')}` });
+
+  } catch(e) {
+    const loadingBlock = answerBody.querySelector('.answer-loading');
+    if (loadingBlock) loadingBlock.innerHTML = `<div class="error-msg">${e.message}</div>`;
+  }
+}
+
+async function doExplain() {
+  if (!lastChunks.length || conversationHistory.length < 2) return;
+
+  const answerBody = document.getElementById('qa-answer-body');
+  answerBody.innerHTML += `<div class="answer-block answer-loading"><div class="answer-label">${t('explainLabel')}</div><div class="qa-loading">${t('loadingExplain')}</div></div>`;
+  answerBody.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    const systemPrompt = buildSystemPrompt(lastChunks);
+    const explainQ = t('explainPrompt');
+    conversationHistory.push({ role: 'user', content: explainQ });
+    const answer = await callLLM(systemPrompt, conversationHistory);
+    conversationHistory.push({ role: 'assistant', content: answer });
+
+    const loadingBlock = answerBody.querySelector('.answer-loading');
+    if (loadingBlock) loadingBlock.remove();
+    showAnswer(answer, lastChunks, true, { append: true, label: t('explainLabel') });
+
+  } catch(e) {
+    const loadingBlock = answerBody.querySelector('.answer-loading');
+    if (loadingBlock) loadingBlock.innerHTML = `<div class="error-msg">${e.message}</div>`;
+  }
+}
+
+function doNewQuestion() {
+  conversationHistory = [];
+  lastChunks = [];
+  document.getElementById('qa-answer-area').classList.remove('visible');
+  document.getElementById('qa-actions').classList.remove('visible');
+  document.getElementById('qa-input').value = '';
+  document.getElementById('qa-input').focus();
+}
+
+// ============================================================
+// PDF EXPORT
+// ============================================================
+function exportAnswerPdf() {
+  // Set print header
+  const printTitle = document.getElementById('print-title');
+  const printDate = document.getElementById('print-date');
+  if (printTitle) printTitle.textContent = t('printTitle');
+  if (printDate) {
+    const locale = getUILang() === 'en' ? 'en-US' : 'pl-PL';
+    printDate.textContent = new Date().toLocaleDateString(locale, {
+      day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+  }
+  window.print();
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+let bookmarks = new Set();
+let showBookmarksOnly = false;
+
+function loadBookmarks() {
+  try {
+    const saved = localStorage.getItem('intralex-bookmarks');
+    if (saved) bookmarks = new Set(JSON.parse(saved));
+  } catch(e) {}
+}
+
+function saveBookmarks() {
+  try {
+    localStorage.setItem('intralex-bookmarks', JSON.stringify([...bookmarks]));
+  } catch(e) {}
+}
+
+function toggleBookmark(aktId) {
+  if (bookmarks.has(aktId)) {
+    bookmarks.delete(aktId);
+  } else {
+    bookmarks.add(aktId);
+  }
+  saveBookmarks();
+  updateBookmarkBtn(aktId);
+  updateBookmarkFilterBtn();
+}
+
+function updateBookmarkBtn(aktId) {
+  const btn = document.querySelector(`.bookmark-btn[data-id="${aktId}"]`);
+  if (!btn) return;
+  const isBookmarked = bookmarks.has(aktId);
+  btn.classList.toggle('bookmarked', isBookmarked);
+  btn.title = isBookmarked ? t('bookmarkRemove') : t('bookmarkAdd');
+}
+
+function updateBookmarkFilterBtn() {
+  const btn = document.getElementById('bookmark-filter-btn');
+  if (!btn) return;
+  const count = bookmarks.size;
+  btn.textContent = count > 0 ? t('bookmarkFilterCount').replace('{count}', count) : t('bookmarkFilter');
+  btn.classList.toggle('active', showBookmarksOnly);
+}
+
+function toggleBookmarkFilter() {
+  showBookmarksOnly = !showBookmarksOnly;
+  updateBookmarkFilterBtn();
+  doSearch();
+}
+
+// ============================================================
+// ACT STATUS & AMENDMENT CHAINS
+// ============================================================
+let AMENDMENT_MAP = null; // { aktId: { status, amends: [id], amendedBy: [id], consolidates: [id] } }
+
+function buildAmendmentMap() {
+  if (AMENDMENT_MAP) return;
+  AMENDMENT_MAP = {};
+
+  // Initialize all acts
+  AKTY.forEach(a => {
+    AMENDMENT_MAP[a.id] = { status: 'active', amends: [], amendedBy: [], consolidates: [] };
+  });
+
+  // Heuristic: detect amendments from titles
+  // Patterns: "zmieniające zarządzenie...", "zmieniająca uchwałę...", "w sprawie zmian..."
+  const rAmends = /zmieni(?:ające|ająca|ający)\s+(zarządzenie|uchwałę|regulamin|zasady)/i;
+  const rRepeal = /uchyla(?:jące|jąca|jący)|traci\s+moc/i;
+  const rConsolidated = /tekst(?:u)?\s+jednoli(?:ty|tego)/i;
+  const rRefNr = /(?:zarządzeni[ea]|uchwał[ęy]|obwieszczeni[ea])\s+nr\s+(\d+)/i;
+
+  AKTY.forEach(a => {
+    const title = a.tytul || '';
+
+    // Detect consolidated texts (tekst jednolity)
+    if (rConsolidated.test(title)) {
+      AMENDMENT_MAP[a.id].status = 'consolidated';
+
+      // Try to find the original act this consolidates
+      const refMatch = title.match(rRefNr);
+      if (refMatch) {
+        const refNr = refMatch[1];
+        const original = AKTY.find(other =>
+          other.id !== a.id &&
+          other.numer && other.numer.startsWith(refNr) &&
+          other.organ === a.organ
+        );
+        if (original) {
+          AMENDMENT_MAP[a.id].consolidates.push(original.id);
+        }
+      }
+      return; // consolidated text is not an amendment
+    }
+
+    // Detect amendments
+    if (rAmends.test(title)) {
+      // This act amends something — find the target
+      const refMatch = title.match(rRefNr);
+      if (refMatch) {
+        const refNr = refMatch[1];
+        // Find original act with same organ and matching number
+        const targets = AKTY.filter(other =>
+          other.id !== a.id &&
+          other.numer && other.numer.startsWith(refNr) &&
+          other.organ === a.organ &&
+          other.rok <= a.rok
+        );
+        if (targets.length > 0) {
+          // Pick the most recent matching act
+          const target = targets.sort((x, y) => (y.rok || 0) - (x.rok || 0))[0];
+          AMENDMENT_MAP[a.id].amends.push(target.id);
+          AMENDMENT_MAP[target.id].amendedBy.push(a.id);
+          AMENDMENT_MAP[target.id].status = 'amended';
+        }
+      }
+    }
+
+    // Detect repeals
+    if (rRepeal.test(title)) {
+      // This act repeals something, but we mark the act itself as active
+      // The repealed act is harder to identify without structured data
+    }
+  });
+}
+
+function getActStatus(aktId) {
+  buildAmendmentMap();
+  return AMENDMENT_MAP[aktId] || { status: 'active', amends: [], amendedBy: [], consolidates: [] };
+}
+
+function renderStatusTag(aktId) {
+  const info = getActStatus(aktId);
+  const statusMap = {
+    'active': { cls: 'status-obowiazujacy', key: 'statusActive' },
+    'amended': { cls: 'status-zmieniony', key: 'statusAmended' },
+    'repealed': { cls: 'status-uchylony', key: 'statusRepealed' },
+    'consolidated': { cls: 'status-tekst-jednolity', key: 'statusConsolidated' },
+  };
+  const s = statusMap[info.status] || statusMap['active'];
+  return `<span class="status-tag ${s.cls}">${t(s.key)}</span>`;
+}
+
+function renderAmendmentChain(aktId) {
+  const info = getActStatus(aktId);
+  const parts = [];
+
+  if (info.amends.length) {
+    const links = info.amends.map(id => {
+      const a = AKTY.find(x => x.id === id);
+      if (!a) return '';
+      const label = `${a.typ || 'akt'} nr ${a.numer || '?'}`;
+      return a.body_text
+        ? `<a href="#" onclick="event.preventDefault();openDetail(${a.id})">${label}</a>`
+        : `<span>${label}</span>`;
+    }).filter(Boolean);
+    if (links.length) parts.push(`${t('amendmentAmends')} ${links.join(', ')}`);
+  }
+
+  if (info.amendedBy.length) {
+    const links = info.amendedBy.map(id => {
+      const a = AKTY.find(x => x.id === id);
+      if (!a) return '';
+      const label = `${a.typ || 'akt'} nr ${a.numer || '?'}`;
+      return a.body_text
+        ? `<a href="#" onclick="event.preventDefault();openDetail(${a.id})">${label}</a>`
+        : `<span>${label}</span>`;
+    }).filter(Boolean);
+    if (links.length) parts.push(`${t('amendmentAmendedBy')} ${links.join(', ')}`);
+  }
+
+  if (info.consolidates.length) {
+    const links = info.consolidates.map(id => {
+      const a = AKTY.find(x => x.id === id);
+      if (!a) return '';
+      const label = `${a.typ || 'akt'} nr ${a.numer || '?'}`;
+      return a.body_text
+        ? `<a href="#" onclick="event.preventDefault();openDetail(${a.id})">${label}</a>`
+        : `<span>${label}</span>`;
+    }).filter(Boolean);
+    if (links.length) parts.push(`${t('amendmentConsolidates')} ${links.join(', ')}`);
+  }
+
+  if (!parts.length) return '';
+  return `<div class="amendment-chain">${parts.join(' · ')}</div>`;
+}
+
+// ============================================================
+// DETAIL VIEW
+// ============================================================
+// ── Cross-references between acts ──────────────────────────
+let CROSS_REFS = {}; // act_id → [{targetId, label}]
+
+function buildCrossReferences() {
+  CROSS_REFS = {};
+  // Build lookup: "typ nr" → act_id (e.g., "zarządzenie nr 67" → 92)
+  const actByRef = {};
+  AKTY.forEach(a => {
+    if (a.typ && a.numer) {
+      const key = a.typ.toLowerCase().replace(/ł/g, 'l') + ' nr ' + a.numer.toString().replace(/\s/g, '');
+      actByRef[key] = a.id;
+      // Also store without "nr"
+      actByRef[a.typ.toLowerCase().replace(/ł/g, 'l') + ' ' + a.numer.toString().replace(/\s/g, '')] = a.id;
+    }
+  });
+
+  // Pattern to find references in body_text
+  const refPattern = /(?:zarządzen\w+|uchwał\w+|obwieszczen\w+)\s+nr\s+(\d+[\w/]*)/gi;
+
+  AKTY.forEach(a => {
+    if (!a.body_text) return;
+    const refs = new Map(); // targetId → label
+    let match;
+    const text = a.body_text;
+    refPattern.lastIndex = 0;
+
+    while ((match = refPattern.exec(text)) !== null) {
+      const fullMatch = match[0];
+      const numer = match[1];
+      // Try to find matching act
+      const typWord = fullMatch.split(/\s/)[0].toLowerCase();
+      let typ = 'zarządzenie';
+      if (typWord.startsWith('uchwał')) typ = 'uchwała';
+      else if (typWord.startsWith('obwieszczen')) typ = 'obwieszczenie';
+
+      const lookupKey = typ.replace(/ł/g, 'l') + ' nr ' + numer.replace(/\s/g, '');
+      const targetId = actByRef[lookupKey];
+      if (targetId && targetId !== a.id) {
+        refs.set(targetId, typ.charAt(0).toUpperCase() + typ.slice(1) + ' nr ' + numer);
+      }
+    }
+
+    if (refs.size > 0) {
+      CROSS_REFS[a.id] = [...refs.entries()].map(([targetId, label]) => ({ targetId, label }));
+    }
+  });
+}
+
+function parseActStructure(bodyText) {
+  if (!bodyText) return { sections: [], flat: [] };
+
+  const lines = bodyText.split('\n');
+  const sections = [];
+  let currentSection = { title: null, id: null, level: 0, paragraphs: [] };
+
+  // Regex patterns for Polish legal structure
+  const rSection = /^(Rozdział|ROZDZIAŁ|Dział|DZIAŁ)\s+([IVXLCDM\d]+\.?)\s*(.*)/i;
+  const rParagraph = /^§\s*(\d+[\w]*\.?)/;
+  const rArticle = /^(Art\.|Artykuł)\s*(\d+[\w]*\.?)/i;
+
+  let sectionCounter = 0;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Check for section/chapter heading
+    const sMatch = line.match(rSection);
+    if (sMatch) {
+      if (currentSection.paragraphs.length > 0 || currentSection.title) {
+        sections.push(currentSection);
+      }
+      sectionCounter++;
+      const sId = 'sec-' + sectionCounter;
+      const sTitle = (sMatch[1] + ' ' + sMatch[2] + (sMatch[3] ? ' ' + sMatch[3] : '')).trim();
+      currentSection = { title: sTitle, id: sId, level: 1, paragraphs: [] };
+      continue;
+    }
+
+    // Check for paragraph (§) or article
+    const pMatch = line.match(rParagraph) || line.match(rArticle);
+    if (pMatch) {
+      const ref = pMatch[0].trim();
+      // Collect the full paragraph text (current line + continuation lines)
+      let pText = line;
+      while (i + 1 < lines.length && lines[i + 1].trim() &&
+             !lines[i + 1].trim().match(rSection) &&
+             !lines[i + 1].trim().match(rParagraph) &&
+             !lines[i + 1].trim().match(rArticle) &&
+             !lines[i + 1].trim().match(/^(Rozdział|ROZDZIAŁ|Dział|DZIAŁ)\s/i)) {
+        i++;
+        pText += '\n' + lines[i];
+      }
+      sectionCounter++;
+      currentSection.paragraphs.push({ ref, text: pText, id: 'sec-' + sectionCounter });
+      continue;
+    }
+
+    // Regular text — append to last paragraph or create unnamed block
+    if (currentSection.paragraphs.length > 0) {
+      currentSection.paragraphs[currentSection.paragraphs.length - 1].text += '\n' + line;
+    } else {
+      // Preamble or text before first §
+      currentSection.paragraphs.push({ ref: null, text: line, id: 'sec-pre-' + i });
+    }
+  }
+
+  // Push last section
+  if (currentSection.paragraphs.length > 0 || currentSection.title) {
+    sections.push(currentSection);
+  }
+
+  // If no structure found at all, create a single section from the raw text
+  if (sections.length === 0) {
+    sections.push({ title: null, id: 'sec-all', level: 0, paragraphs: [{ ref: null, text: bodyText, id: 'sec-all-text' }] });
+  }
+
+  return { sections };
+}
+
+function openDetail(aktId) {
+  const akt = AKTY.find(a => a.id === aktId);
+  if (!akt) return;
+
+  const overlay = document.getElementById('detail-overlay');
+  const header = document.getElementById('detail-header');
+  const nav = document.getElementById('detail-nav');
+  const content = document.getElementById('detail-content');
+  const breadcrumb = document.getElementById('detail-breadcrumb');
+  const backBtn = overlay.querySelector('.detail-back');
+
+  // i18n
+  backBtn.textContent = t('detailBack');
+
+  // Breadcrumb
+  const organCls = organGroup(akt.organ).replace(/\s/g, '');
+  breadcrumb.innerHTML = `<span class="organ-tag organ-${organCls}" style="font-size:0.65rem">${akt.organ}</span> ${akt.data_wydania || ''}`;
+
+  // Header
+  const links = [];
+  if (akt.url_pdf) links.push(`<a href="${akt.url_pdf}" target="_blank">PDF</a>`);
+  if (akt.url_szczegoly && !akt.url_szczegoly.endsWith('/akty-prawne/')) links.push(`<a href="${akt.url_szczegoly}" target="_blank">${akt.zrodlo === 'wz_uw' ? 'Strona WZ' : 'Monitor UW'}</a>`);
+
+  header.innerHTML = `
+    <div class="detail-meta">
+      <span class="organ-tag organ-${organCls}">${akt.organ}</span>
+      <span class="result-date">${akt.data_wydania || ''}</span>
+      <span class="result-source">${akt.zrodlo === 'wz_uw' ? 'WZ UW' : akt.zrodlo === 'direct_urls' ? 'Rejestr' : 'Monitor UW'}</span>
+    </div>
+    <h2>${akt.typ ? akt.typ.charAt(0).toUpperCase() + akt.typ.slice(1) : 'Akt'}${akt.numer ? ' nr ' + akt.numer : ''}</h2>
+    <div class="detail-title-full">${akt.tytul}</div>
+    ${links.length ? `<div class="detail-links">${links.join('')}</div>` : ''}
+  `;
+
+  if (!akt.body_text) {
+    nav.style.display = 'none';
+    content.innerHTML = `<div class="detail-no-text">${t('detailNoText')}</div>`;
+    overlay.classList.add('visible');
+    overlay.scrollTop = 0;
+    return;
+  }
+
+  nav.style.display = '';
+
+  // Parse structure
+  const { sections } = parseActStructure(akt.body_text);
+
+  // Build navigation
+  let navHtml = `<div class="detail-nav-title">${t('detailContents')}</div>`;
+  sections.forEach(sec => {
+    if (sec.title) {
+      navHtml += `<a href="#${sec.id}" class="nav-level-1" onclick="scrollToSection(event,'${sec.id}')">${sec.title}</a>`;
+    }
+    sec.paragraphs.forEach(p => {
+      if (p.ref) {
+        navHtml += `<a href="#${p.id}" class="nav-level-2" onclick="scrollToSection(event,'${p.id}')">${p.ref}</a>`;
+      }
+    });
+  });
+  nav.innerHTML = navHtml;
+
+  // Build content
+  let contentHtml = '';
+  sections.forEach(sec => {
+    if (sec.title) {
+      contentHtml += `<div class="section-heading" id="${sec.id}">${sec.title}</div>`;
+    }
+    sec.paragraphs.forEach(p => {
+      const escaped = p.text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const formatted = escaped
+        .replace(/^(§\s*\d+[\w]*\.?)/m, '<span class="paragraph-ref">$1</span>')
+        .replace(/^(Art\.\s*\d+[\w]*\.?)/im, '<span class="paragraph-ref">$1</span>')
+        .replace(/\n/g, '<br>');
+      // Copy citation + deep link buttons for named paragraphs
+      const parActions = p.ref ? `<span class="par-actions">` +
+        `<button class="par-btn par-copy" onclick="copyCitation(${akt.id},'${p.ref.replace(/'/g, "\\'")}');" title="${t('lang')==='en'?'Copy citation':'Skopiuj cytat'}">📋</button>` +
+        `<button class="par-btn par-link" onclick="copyDeepLink(${akt.id},'${p.ref.replace(/'/g, "\\'")}')" title="${t('lang')==='en'?'Copy link':'Skopiuj link'}">🔗</button>` +
+        `</span>` : '';
+      contentHtml += `<div class="paragraph-block" id="${p.id}">${parActions}${formatted}</div>`;
+    });
+  });
+  // Cross-references section
+  const xrefs = CROSS_REFS[aktId];
+  // Also find acts that reference THIS act (back-references)
+  const backRefs = [];
+  for (const [srcId, refs] of Object.entries(CROSS_REFS)) {
+    if (refs.some(r => r.targetId === aktId)) {
+      const srcAkt = AKTY.find(a => a.id === parseInt(srcId));
+      if (srcAkt) {
+        const lbl = (srcAkt.typ ? srcAkt.typ.charAt(0).toUpperCase() + srcAkt.typ.slice(1) : 'Akt') + (srcAkt.numer ? ' nr ' + srcAkt.numer : '');
+        backRefs.push({ targetId: parseInt(srcId), label: lbl });
+      }
+    }
+  }
+  if ((xrefs && xrefs.length) || backRefs.length) {
+    contentHtml += `<div class="cross-refs-section">`;
+    contentHtml += `<div class="cross-refs-title">${t('detailRelated')}</div>`;
+    if (xrefs && xrefs.length) {
+      contentHtml += `<div class="cross-refs-group"><span class="cross-refs-label">${t('lang')==='en'?'References':'Odwołuje się do'}:</span>`;
+      xrefs.forEach(r => {
+        const tgt = AKTY.find(a => a.id === r.targetId);
+        const shortTitle = tgt ? (tgt.tytul||'').substring(0, 80) + ((tgt.tytul||'').length > 80 ? '…' : '') : '';
+        contentHtml += `<a href="#" class="cross-ref-link" onclick="event.preventDefault();openDetail(${r.targetId})" title="${shortTitle}">${r.label}</a>`;
+      });
+      contentHtml += `</div>`;
+    }
+    if (backRefs.length) {
+      contentHtml += `<div class="cross-refs-group"><span class="cross-refs-label">${t('lang')==='en'?'Referenced by':'Przywoływany w'}:</span>`;
+      backRefs.forEach(r => {
+        const tgt = AKTY.find(a => a.id === r.targetId);
+        const shortTitle = tgt ? (tgt.tytul||'').substring(0, 80) + ((tgt.tytul||'').length > 80 ? '…' : '') : '';
+        contentHtml += `<a href="#" class="cross-ref-link" onclick="event.preventDefault();openDetail(${r.targetId})" title="${shortTitle}">${r.label}</a>`;
+      });
+      contentHtml += `</div>`;
+    }
+    contentHtml += `</div>`;
+  }
+
+  content.innerHTML = contentHtml;
+
+  overlay.classList.add('visible');
+  overlay.scrollTop = 0;
+
+  // Update URL hash for deep linking
+  history.replaceState(null, '', '#akt=' + aktId);
+
+  // Set up scroll spy for nav highlighting
+  setupScrollSpy();
+}
+
+// ── Deep link: open act (and optionally scroll to §) from URL hash ──
+function handleDeepLink() {
+  const hash = location.hash;
+  if (!hash.startsWith('#akt=')) return;
+  const params = new URLSearchParams(hash.substring(1));
+  const aktId = parseInt(params.get('akt'));
+  const par = params.get('par'); // e.g. "43" → scroll to § 43
+  if (!aktId || !AKTY.length) return;
+
+  openDetail(aktId);
+
+  if (par) {
+    // Wait for DOM to render, then find and scroll to matching §
+    setTimeout(() => {
+      const blocks = document.querySelectorAll('#detail-content .paragraph-block');
+      for (const bl of blocks) {
+        const ref = bl.textContent.match(/^§\s*(\d+)/);
+        if (ref && ref[1] === par) {
+          bl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          bl.classList.add('highlight-flash');
+          setTimeout(() => bl.classList.remove('highlight-flash'), 2000);
+          break;
+        }
+      }
+    }, 100);
+  }
+}
+
+// ── Copy citation for a paragraph ──
+function copyCitation(aktId, ref) {
+  const akt = ACT_BY_ID[aktId] || AKTY.find(a => a.id === aktId);
+  if (!akt) return;
+
+  // Build formatted citation
+  const shortTitle = (akt.tytul || '').replace(/^(ZARZĄDZENIE|UCHWAŁA|OBWIESZCZENIE)\s+/i, '').trim();
+  const typ = akt.typ ? akt.typ.charAt(0).toUpperCase() + akt.typ.slice(1) : '';
+  const numer = akt.numer ? ' nr ' + akt.numer : '';
+  const organ = akt.organ || '';
+  const data = akt.data_wydania || '';
+
+  let citation = ref;
+  citation += ` — ${typ}${numer} ${organ}`;
+  if (data) citation += ` z dnia ${data}`;
+
+  // Build deep link URL
+  const parNum = ref.match(/§\s*(\d+)/);
+  const baseUrl = location.href.split('#')[0];
+  const deepLink = baseUrl + '#akt=' + aktId + (parNum ? '&par=' + parNum[1] : '');
+
+  const fullText = citation + '\n' + deepLink;
+
+  navigator.clipboard.writeText(fullText).then(() => {
+    // Show brief feedback
+    const toast = document.createElement('div');
+    toast.className = 'copy-toast';
+    toast.textContent = t('lang') === 'en' ? 'Citation copied!' : 'Cytat skopiowany!';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1500);
+  }).catch(() => {
+    // Fallback
+    prompt(t('lang') === 'en' ? 'Copy citation:' : 'Skopiuj cytat:', fullText);
+  });
+}
+
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('visible');
+  // Clear hash when closing detail
+  if (location.hash.startsWith('#akt=')) {
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+}
+
+function scrollToSection(event, id) {
+  event.preventDefault();
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Update active nav
+    document.querySelectorAll('#detail-nav a').forEach(a => a.classList.remove('active'));
+    const navLink = document.querySelector(`#detail-nav a[href="#${id}"]`);
+    if (navLink) navLink.classList.add('active');
+  }
+}
+
+function setupScrollSpy() {
+  const overlay = document.getElementById('detail-overlay');
+  const navLinks = document.querySelectorAll('#detail-nav a[href^="#sec-"]');
+  if (!navLinks.length) return;
+
+  let ticking = false;
+  overlay.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrollTop = overlay.scrollTop + 100;
+        let activeId = null;
+
+        navLinks.forEach(link => {
+          const targetId = link.getAttribute('href').substring(1);
+          const target = document.getElementById(targetId);
+          if (target && target.offsetTop <= scrollTop) {
+            activeId = targetId;
+          }
+        });
+
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + activeId));
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+}
+
+// Keyboard: Escape closes detail
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('detail-overlay').classList.contains('visible')) {
+    closeDetail();
+  }
+});
+
+// ── Copy deep link only ──
+function copyDeepLink(aktId, ref) {
+  const parNum = ref.match(/§\s*(\d+)/);
+  const baseUrl = location.href.split('#')[0];
+  const deepLink = baseUrl + '#akt=' + aktId + (parNum ? '&par=' + parNum[1] : '');
+  navigator.clipboard.writeText(deepLink).then(() => {
+    const toast = document.createElement('div');
+    toast.className = 'copy-toast';
+    toast.textContent = t('lang') === 'en' ? 'Link copied!' : 'Link skopiowany!';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1500);
+  });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+// ============================================================
+// ── Search & Q&A logs ────────────────────────────────────────
+// ============================================================
+const SEARCH_LOG_KEY = 'lex_uwwz_search_log';
+const QA_LOG_KEY = 'lex_uwwz_qa_log';
+const SEARCH_LOG_MAX = 500;
+const QA_LOG_MAX = 200;
+
+function logSearch(query, resultCount) {
+  if (!query) return;
+  try {
+    const log = JSON.parse(localStorage.getItem(SEARCH_LOG_KEY) || '[]');
+    log.push({ q: query.toLowerCase().trim(), n: resultCount, ts: Date.now() });
+    if (log.length > SEARCH_LOG_MAX) log.splice(0, log.length - SEARCH_LOG_MAX);
+    localStorage.setItem(SEARCH_LOG_KEY, JSON.stringify(log));
+  } catch (e) { /* quota exceeded — ignore */ }
+}
+
+function logQA(question, chunks, citedActIds) {
+  if (!question) return;
+  try {
+    const maxScore = chunks.length ? Math.max(...chunks.map(c => c.score)) : 0;
+    const avgScore = chunks.length ? chunks.reduce((s, c) => s + c.score, 0) / chunks.length : 0;
+    const sourceActIds = [...new Set(chunks.map(c => c.chunk ? c.chunk.act_id : c.id))];
+    const log = JSON.parse(localStorage.getItem(QA_LOG_KEY) || '[]');
+    log.push({
+      q: question.trim(),
+      maxScore: Math.round(maxScore * 10) / 10,
+      avgScore: Math.round(avgScore * 10) / 10,
+      sourceActIds,
+      citedActIds: citedActIds || [],
+      ts: Date.now()
+    });
+    if (log.length > QA_LOG_MAX) log.splice(0, log.length - QA_LOG_MAX);
+    localStorage.setItem(QA_LOG_KEY, JSON.stringify(log));
+  } catch (e) {}
+}
+
+function getSearchLog() {
+  try { return JSON.parse(localStorage.getItem(SEARCH_LOG_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function getQALog() {
+  try { return JSON.parse(localStorage.getItem(QA_LOG_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function showAnalytics() {
+  const log = getSearchLog();
+  const overlay = document.getElementById('analytics-overlay');
+  const body = document.getElementById('analytics-body');
+
+  if (!log.length) {
+    body.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:2rem">Brak zapisanych wyszukiwań.</p>';
+    overlay.classList.add('visible');
+    return;
+  }
+
+  // Top queries
+  const freq = {};
+  const zeroResults = {};
+  log.forEach(e => {
+    freq[e.q] = (freq[e.q] || 0) + 1;
+    if (e.n === 0) zeroResults[e.q] = (zeroResults[e.q] || 0) + 1;
+  });
+  const topQueries = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 20);
+  const topZero = Object.entries(zeroResults).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+  // Daily counts (last 30 days)
+  const now = Date.now();
+  const day = 86400000;
+  const dailyCounts = {};
+  log.forEach(e => {
+    const d = new Date(e.ts).toISOString().slice(0, 10);
+    dailyCounts[d] = (dailyCounts[d] || 0) + 1;
+  });
+  const days = Object.entries(dailyCounts).sort((a, b) => a[0].localeCompare(b[0])).slice(-30);
+
+  let html = `<div class="analytics-section">`;
+  html += `<h3>Statystyki wyszukiwań</h3>`;
+  html += `<p style="font-size:0.82rem;color:var(--text-muted)">Łącznie zapytań: <strong>${log.length}</strong> | Unikalne: <strong>${Object.keys(freq).length}</strong></p>`;
+
+  // Sparkline bar chart
+  if (days.length > 1) {
+    const maxD = Math.max(...days.map(d => d[1]));
+    html += `<div class="analytics-chart-title">Aktywność (ostatnie 30 dni)</div>`;
+    html += `<div class="analytics-bars">`;
+    days.forEach(([d, c]) => {
+      const pct = Math.max(4, (c / maxD) * 100);
+      html += `<div class="analytics-bar-col" title="${d}: ${c}"><div class="analytics-bar" style="height:${pct}%"></div><span class="analytics-bar-label">${d.slice(5)}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Top queries table
+  html += `<div class="analytics-chart-title" style="margin-top:1.2rem">Najczęstsze zapytania</div>`;
+  html += `<table class="analytics-table"><thead><tr><th>#</th><th>Zapytanie</th><th>Liczba</th></tr></thead><tbody>`;
+  topQueries.forEach(([q, c], i) => {
+    html += `<tr><td>${i + 1}</td><td>${q}</td><td>${c}</td></tr>`;
+  });
+  html += `</tbody></table>`;
+
+  // Zero-result queries
+  if (topZero.length) {
+    html += `<div class="analytics-chart-title" style="margin-top:1.2rem">Zapytania bez wyników</div>`;
+    html += `<table class="analytics-table"><thead><tr><th>Zapytanie</th><th>Liczba</th></tr></thead><tbody>`;
+    topZero.forEach(([q, c]) => {
+      html += `<tr><td>${q}</td><td>${c}</td></tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // ── Q&A Analytics ──
+  const qaLog = getQALog();
+  if (qaLog.length) {
+    html += `<hr style="margin:1.5rem 0;border:none;border-top:1px solid var(--border)">`;
+    html += `<h3>Pytania AI (Q&A)</h3>`;
+    html += `<p style="font-size:0.82rem;color:var(--text-muted)">Łącznie pytań: <strong>${qaLog.length}</strong></p>`;
+
+    // Low-score queries (gaps in corpus)
+    const lowScore = qaLog.filter(e => e.maxScore < 3).sort((a, b) => a.maxScore - b.maxScore);
+    if (lowScore.length) {
+      html += `<div class="analytics-chart-title" style="margin-top:1rem">⚠ Braki w korpusie (niska trafność, score &lt; 3)</div>`;
+      html += `<table class="analytics-table"><thead><tr><th>Pytanie</th><th>Max score</th><th>Data</th></tr></thead><tbody>`;
+      lowScore.slice(0, 20).forEach(e => {
+        const d = new Date(e.ts).toLocaleDateString('pl-PL');
+        html += `<tr><td>${e.q.replace(/</g,'&lt;')}</td><td style="color:#e55;font-weight:600">${e.maxScore}</td><td>${d}</td></tr>`;
+      });
+      html += `</tbody></table>`;
+      if (lowScore.length > 20) html += `<p style="font-size:0.72rem;color:var(--text-muted)">...i ${lowScore.length - 20} więcej</p>`;
+    } else {
+      html += `<p style="font-size:0.82rem;color:var(--text-muted);margin-top:0.5rem">✓ Wszystkie pytania miały dobre dopasowanie źródeł (score ≥ 3).</p>`;
+    }
+
+    // All Q&A queries table
+    html += `<div class="analytics-chart-title" style="margin-top:1.2rem">Ostatnie pytania</div>`;
+    html += `<table class="analytics-table"><thead><tr><th>Pytanie</th><th>Score</th><th>Źródeł</th><th>Cytowanych</th></tr></thead><tbody>`;
+    [...qaLog].reverse().slice(0, 30).forEach(e => {
+      const scoreColor = e.maxScore < 3 ? '#e55' : e.maxScore < 5 ? '#c90' : 'var(--fg)';
+      html += `<tr><td>${e.q.replace(/</g,'&lt;').substring(0, 80)}${e.q.length > 80 ? '…' : ''}</td><td style="color:${scoreColor};font-weight:600">${e.maxScore}</td><td>${e.sourceActIds?.length || '?'}</td><td>${e.citedActIds?.length || 0}</td></tr>`;
+    });
+    html += `</tbody></table>`;
+
+    // Cited vs uncited acts
+    const citedCount = {};
+    const sourceCount = {};
+    qaLog.forEach(e => {
+      (e.sourceActIds || []).forEach(id => { sourceCount[id] = (sourceCount[id] || 0) + 1; });
+      (e.citedActIds || []).forEach(id => { citedCount[id] = (citedCount[id] || 0) + 1; });
+    });
+
+    // Most cited acts
+    const topCited = Object.entries(citedCount).sort((a, b) => b[1] - a[1]).slice(0, 15);
+    if (topCited.length) {
+      html += `<div class="analytics-chart-title" style="margin-top:1.2rem">Najczęściej cytowane akty w odpowiedziach</div>`;
+      html += `<table class="analytics-table"><thead><tr><th>Akt</th><th>Cytowany</th><th>W źródłach</th></tr></thead><tbody>`;
+      topCited.forEach(([idStr, c]) => {
+        const a = ACT_BY_ID[parseInt(idStr)];
+        const label = a ? `${a.typ} ${a.numer || ''} — ${a.organ}` : `#${idStr}`;
+        const sc = sourceCount[idStr] || 0;
+        html += `<tr><td>${label}</td><td style="font-weight:600">${c}</td><td>${sc}</td></tr>`;
+      });
+      html += `</tbody></table>`;
+    }
+
+    // Never-cited acts (provided as source but never used)
+    const neverCited = Object.entries(sourceCount)
+      .filter(([id]) => !citedCount[id])
+      .sort((a, b) => b[1] - a[1]).slice(0, 10);
+    if (neverCited.length) {
+      html += `<div class="analytics-chart-title" style="margin-top:1.2rem">Akty w źródłach, ale nigdy nie cytowane</div>`;
+      html += `<table class="analytics-table"><thead><tr><th>Akt</th><th>Razy w źródłach</th></tr></thead><tbody>`;
+      neverCited.forEach(([idStr, c]) => {
+        const a = ACT_BY_ID[parseInt(idStr)];
+        const label = a ? `${a.typ} ${a.numer || ''} — ${a.organ}` : `#${idStr}`;
+        html += `<tr><td>${label}</td><td>${c}</td></tr>`;
+      });
+      html += `</tbody></table>`;
+    }
+  }
+
+  html += `<div style="margin-top:1rem;text-align:right"><button class="btn-clear-log" onclick="clearSearchLog()">Wyczyść logi</button></div>`;
+  html += `</div>`;
+
+  body.innerHTML = html;
+  overlay.classList.add('visible');
+}
+
+function closeAnalytics() {
+  document.getElementById('analytics-overlay').classList.remove('visible');
+}
+
+function clearSearchLog() {
+  if (!confirm(getUILang() === 'en' ? 'Delete all search and Q&A logs?' : 'Usunąć wszystkie logi wyszukiwań i Q&A?')) return;
+  localStorage.removeItem(SEARCH_LOG_KEY);
+  localStorage.removeItem(QA_LOG_KEY);
+  closeAnalytics();
+}
+
+loadData().then(() => {
+  // Handle deep link on page load
+  handleDeepLink();
+  window.addEventListener('hashchange', handleDeepLink);
+});
+</script>
+
+</body>
+</html>
