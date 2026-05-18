@@ -2881,6 +2881,7 @@ function doSearch() {
   if (cat) filtered = filtered.filter(a => ACT_TAGS[a.id]?.has(cat));
 
   if (!query) {
+    lastSearchResults = [];
     renderResults(filtered.slice(0, 50), '');
     return;
   }
@@ -2920,6 +2921,7 @@ function renderResults(akty, query, scoredResults) {
     return;
   }
   if (!query) {
+    lastSearchResults = [];
     document.getElementById('results-info').textContent = t('latestActs') + ` (${akty.length})`;
   }
 
@@ -3628,7 +3630,11 @@ async function doFollowUp() {
 
   } catch(e) {
     const loadingBlock = answerBody.querySelector('.answer-loading');
-    if (loadingBlock) loadingBlock.innerHTML = `<div class="error-msg">${e.message}</div>`;
+    if (e.name === 'AbortError') {
+      if (loadingBlock) loadingBlock.innerHTML = `<div class="qa-loading">${getUILang()==='pl'?'Przerwano.':'Cancelled.'}</div>`;
+    } else {
+      if (loadingBlock) loadingBlock.innerHTML = `<div class="error-msg">${e.message}</div>`;
+    }
   }
 }
 
@@ -3652,7 +3658,11 @@ async function doExplain() {
 
   } catch(e) {
     const loadingBlock = answerBody.querySelector('.answer-loading');
-    if (loadingBlock) loadingBlock.innerHTML = `<div class="error-msg">${e.message}</div>`;
+    if (e.name === 'AbortError') {
+      if (loadingBlock) loadingBlock.innerHTML = `<div class="qa-loading">${getUILang()==='pl'?'Przerwano.':'Cancelled.'}</div>`;
+    } else {
+      if (loadingBlock) loadingBlock.innerHTML = `<div class="error-msg">${e.message}</div>`;
+    }
   }
 }
 
@@ -4109,8 +4119,8 @@ function openDetail(aktId) {
         .replace(/\n/g, '<br>');
       // Copy citation + deep link buttons for named paragraphs
       const parActions = p.ref ? `<span class="par-actions">` +
-        `<button class="par-btn par-copy" onclick="copyCitation(${akt.id},'${p.ref.replace(/'/g, "\\'")}');" title="${t('lang')==='en'?'Copy citation':'Skopiuj cytat'}">📋</button>` +
-        `<button class="par-btn par-link" onclick="copyDeepLink(${akt.id},'${p.ref.replace(/'/g, "\\'")}')" title="${t('lang')==='en'?'Copy link':'Skopiuj link'}">🔗</button>` +
+        `<button class="par-btn par-copy" onclick="copyCitation(${akt.id},'${p.ref.replace(/'/g, "\\'")}');" title="${getUILang()==='en'?'Copy citation':'Skopiuj cytat'}">📋</button>` +
+        `<button class="par-btn par-link" onclick="copyDeepLink(${akt.id},'${p.ref.replace(/'/g, "\\'")}')" title="${getUILang()==='en'?'Copy link':'Skopiuj link'}">🔗</button>` +
         `</span>` : '';
       contentHtml += `<div class="paragraph-block" id="${p.id}">${parActions}${formatted}</div>`;
     });
@@ -4132,7 +4142,7 @@ function openDetail(aktId) {
     contentHtml += `<div class="cross-refs-section">`;
     contentHtml += `<div class="cross-refs-title">${t('detailRelated')}</div>`;
     if (xrefs && xrefs.length) {
-      contentHtml += `<div class="cross-refs-group"><span class="cross-refs-label">${t('lang')==='en'?'References':'Odwołuje się do'}:</span>`;
+      contentHtml += `<div class="cross-refs-group"><span class="cross-refs-label">${getUILang()==='en'?'References':'Odwołuje się do'}:</span>`;
       xrefs.forEach(r => {
         const tgt = AKTY.find(a => a.id === r.targetId);
         const shortTitle = tgt ? (tgt.tytul||'').substring(0, 80) + ((tgt.tytul||'').length > 80 ? '…' : '') : '';
@@ -4141,7 +4151,7 @@ function openDetail(aktId) {
       contentHtml += `</div>`;
     }
     if (backRefs.length) {
-      contentHtml += `<div class="cross-refs-group"><span class="cross-refs-label">${t('lang')==='en'?'Referenced by':'Przywoływany w'}:</span>`;
+      contentHtml += `<div class="cross-refs-group"><span class="cross-refs-label">${getUILang()==='en'?'Referenced by':'Przywoływany w'}:</span>`;
       backRefs.forEach(r => {
         const tgt = AKTY.find(a => a.id === r.targetId);
         const shortTitle = tgt ? (tgt.tytul||'').substring(0, 80) + ((tgt.tytul||'').length > 80 ? '…' : '') : '';
@@ -4219,12 +4229,12 @@ function copyCitation(aktId, ref) {
     // Show brief feedback
     const toast = document.createElement('div');
     toast.className = 'copy-toast';
-    toast.textContent = t('lang') === 'en' ? 'Citation copied!' : 'Cytat skopiowany!';
+    toast.textContent = getUILang() === 'en' ? 'Citation copied!' : 'Cytat skopiowany!';
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 1500);
   }).catch(() => {
     // Fallback
-    prompt(t('lang') === 'en' ? 'Copy citation:' : 'Skopiuj cytat:', fullText);
+    prompt(getUILang() === 'en' ? 'Copy citation:' : 'Skopiuj cytat:', fullText);
   });
 }
 
@@ -4291,7 +4301,7 @@ function copyDeepLink(aktId, ref) {
   navigator.clipboard.writeText(deepLink).then(() => {
     const toast = document.createElement('div');
     toast.className = 'copy-toast';
-    toast.textContent = t('lang') === 'en' ? 'Link copied!' : 'Link skopiowany!';
+    toast.textContent = getUILang() === 'en' ? 'Link copied!' : 'Link skopiowany!';
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 1500);
   });
