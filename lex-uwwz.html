@@ -113,8 +113,10 @@ body {
 }
 .info-toggle-btn:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
 .info-toggle-btn.active { background: var(--accent-teal); color: #fff; border-color: var(--accent-teal); }
-.info-box { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.25s ease; margin-bottom: 0; padding-top: 0; padding-bottom: 0; }
-.info-box.open { max-height: 500px; opacity: 1; margin-bottom: 0.75rem; padding-top: 0.8rem; padding-bottom: 0.8rem; }
+.info-box { display: none; opacity: 0; overflow: hidden; margin-bottom: 0; padding-top: 0; padding-bottom: 0; }
+.info-box.open { display: block; opacity: 1; margin-bottom: 0.75rem; padding-top: 0.8rem; padding-bottom: 0.8rem; animation: infoFadeIn 0.25s ease; }
+@keyframes infoFadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
 
 /* ── Elapsed time ── */
 .elapsed-time { font-size: 0.84rem; color: var(--text-dim); margin-left: 0.5rem; }
@@ -1473,6 +1475,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
       <button class="info-toggle-btn" onclick="toggleInfoPanel(3)" id="info-btn-3">Źródła danych</button>
     </div>
 
+    <div class="info-panels-container">
     <div class="info-box" id="info-panel-0">
       <div class="info-title">Jak korzystać z narzędzia</div>
       <div class="info-content">
@@ -1511,8 +1514,9 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
         <strong>WZ UW</strong> (wz.uw.edu.pl) — zarządzenia Dziekana, uchwały KJD, uchwały Rady Dydaktycznej, uchwały Rady Wydziału.
       </div>
     </div>
+    </div>
 
-    <div class="hero-author">WZ UW IntraLex · Piotr Nawrocki · CSRI · Wydział Zarządzania UW</div>
+    <div class="hero-author">WZ UW IntraLex · by Piotr Nawrocki</div>
   </div>
   <div class="hero-bar"></div>
 
@@ -1777,7 +1781,7 @@ const UI_STRINGS = {
     noChunksFound: 'Nie znalazłem aktów pasujących do pytania. Spróbuj inne słowa kluczowe.',
     explainPrompt: 'Wyjaśnij powyższą odpowiedź prostszym, bardziej przystępnym językiem. Zachowaj odniesienia do konkretnych aktów, ale unikaj żargonu prawniczego. Pisz krótko i na temat.',
     orgBadge: 'Centre for Socially Responsible Innovations (CSRI)',
-    heroAuthor: 'WZ UW IntraLex · Piotr Nawrocki · CSRI · Wydział Zarządzania UW',
+    heroAuthor: 'WZ UW IntraLex · by Piotr Nawrocki',
     hqToggle: 'Wyższa jakość modelu (wolniejszy, droższy)',
     exportCSV: 'Eksportuj CSV',
     exportTXT: 'Eksportuj TXT',
@@ -1877,7 +1881,7 @@ const UI_STRINGS = {
     noChunksFound: 'No matching regulations found. Try different keywords.',
     explainPrompt: 'Explain the above answer in simpler, more accessible language. Keep references to specific regulations, but avoid legal jargon. Be concise.',
     orgBadge: 'Centre for Socially Responsible Innovations (CSRI)',
-    heroAuthor: 'WZ UW IntraLex · Piotr Nawrocki · CSRI · Faculty of Management, University of Warsaw',
+    heroAuthor: 'WZ UW IntraLex · by Piotr Nawrocki',
     hqToggle: 'Higher quality model (slower, more expensive)',
     exportCSV: 'Export CSV',
     exportTXT: 'Export TXT',
