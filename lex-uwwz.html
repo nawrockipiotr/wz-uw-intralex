@@ -1220,6 +1220,98 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
   .print-header h1 { font-size: 1.2rem; margin-bottom: 0.3rem; }
   .print-header .print-date { font-size: 0.9rem; color: #666; }
 }
+
+/* ── Q&A Progress Bar ── */
+.qa-progress {
+  width: 100%;
+  height: 3px;
+  background: var(--surface2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.qa-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-teal) 50%, var(--accent) 100%);
+  background-size: 200% 100%;
+  animation: qaProgressPulse 1.5s ease-in-out infinite;
+  border-radius: 2px;
+}
+@keyframes qaProgressPulse {
+  0% { background-position: 200% 0; width: 30%; }
+  50% { background-position: 0% 0; width: 60%; }
+  100% { background-position: -200% 0; width: 30%; }
+}
+
+/* ── Stop button ── */
+.stop-btn {
+  padding: 0.4rem 1rem;
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 10px;
+  font-family: 'Titillium Web', Arial, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.stop-btn:hover { opacity: 0.8; }
+
+/* ── Model quality toggle ── */
+.model-quality-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.model-quality-row label {
+  font-size: 0.9rem !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  display: inline !important;
+  font-weight: 400 !important;
+  color: var(--text) !important;
+  cursor: pointer;
+}
+.model-quality-row input[type="checkbox"] {
+  accent-color: var(--accent-teal);
+}
+
+/* ── Provider hint ── */
+.provider-hint {
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  margin-top: 0.3rem;
+  line-height: 1.5;
+}
+
+/* ── Export buttons for search results ── */
+.export-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+.export-btn {
+  padding: 0.35rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Titillium Web', Arial, sans-serif;
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.export-btn:hover {
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
+}
+
 </style>
 </head>
 <body>
@@ -1251,6 +1343,19 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
         <strong>2.</strong> Zakładka <strong>Zadaj pytanie (AI)</strong> — wpisz pytanie w języku naturalnym. Narzędzie znajdzie najbardziej trafne akty i wyśle je do wybranego modelu AI, który odpowie z cytatami źródłowymi.<br>
         <strong>3.</strong> Do trybu AI potrzebujesz klucza API (OpenAI, Anthropic lub Google) albo lokalnego serwera (Ollama).<br>
         <strong>4.</strong> Po otrzymaniu odpowiedzi możesz kliknąć <strong>Wyjaśnij prostszym językiem</strong> lub zadać pytanie uzupełniające — AI zachowa kontekst rozmowy.
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-title">Jak czytać odpowiedzi AI</div>
+      <div class="info-content">
+        Każda odpowiedź AI zawiera <strong>numerowane cytowania</strong> w tekście, np. <span style="display:inline-block;background:var(--accent-teal-dim);color:var(--accent-teal);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.84rem;font-weight:700;cursor:pointer">[1]</span> — kliknij, aby podświetlić źródło na liście poniżej.<br>
+        Pod odpowiedzią znajdziesz <strong>listę źródeł</strong> z trafnością (score) i linkami do pełnego tekstu aktu. Wyższy score = lepsze dopasowanie do pytania.<br>
+        <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--red-dim);color:var(--red);border:1px solid var(--red)">Rektor</span>
+        <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue)">Senat</span>
+        <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--green-dim);color:var(--green);border:1px solid var(--green)">Kanclerz</span>
+        <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--yellow-dim);color:var(--yellow);border:1px solid var(--yellow)">Dziekan</span>
+        — kolorowe tagi oznaczają organ wydający akt.
       </div>
     </div>
 
@@ -1356,6 +1461,12 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
         <label class="save-check">
           <input type="checkbox" id="saveKey"> <span id="saveKeyText">Zapamiętaj ustawienia na tym komputerze</span>
         </label>
+
+        <div class="model-quality-row">
+          <label><input type="checkbox" id="highQualityToggle" onchange="toggleHighQuality(this.checked)"> <span id="hqLabel">Wyższa jakość modelu (wolniejszy, droższy)</span></label>
+        </div>
+
+        <div class="provider-hint" id="provider-hint"></div>
       </div>
 
       <!-- Response language -->
@@ -1513,6 +1624,8 @@ const UI_STRINGS = {
     howToContent: '<strong>1.</strong> Zakładka <strong>Wyszukiwarka</strong> — wpisz frazę, opcjonalnie zawęź organ i rok.<br><strong>2.</strong> Zakładka <strong>Zadaj pytanie (AI)</strong> — wpisz pytanie w języku naturalnym. Narzędzie znajdzie trafne akty i wyśle je do modelu AI.<br><strong>3.</strong> Do trybu AI potrzebujesz klucza API lub lokalnego serwera (Ollama).<br><strong>4.</strong> Po odpowiedzi możesz kliknąć <strong>Wyjaśnij prostszym językiem</strong> lub zadać pytanie uzupełniające.',
     updateTitle: 'Aktualizacja bazy aktów',
     updateContent: 'Baza jest ładowana z pliku <code>data/akty.json</code>. Aby pobrać najnowsze akty, uruchom w terminalu:<br><code>python -m src.ingestion.monitor_uw && python -m src.ingestion.wz_uw && python -c "from src.ingestion.direct_urls import main; main()" && python -m src.export_json</code>',
+    readAITitle: 'Jak czytać odpowiedzi AI',
+    readAIContent: 'Każda odpowiedź AI zawiera <strong>numerowane cytowania</strong> w tekście, np. <span style="display:inline-block;background:var(--accent-teal-dim);color:var(--accent-teal);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.84rem;font-weight:700;cursor:pointer">[1]</span> — kliknij, aby podświetlić źródło na liście poniżej.<br>Pod odpowiedzią znajdziesz <strong>listę źródeł</strong> z trafnością (score) i linkami do pełnego tekstu aktu. Wyższy score = lepsze dopasowanie do pytania.<br><span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--red-dim);color:var(--red);border:1px solid var(--red)">Rektor</span> <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue)">Senat</span> <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--green-dim);color:var(--green);border:1px solid var(--green)">Kanclerz</span> <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--yellow-dim);color:var(--yellow);border:1px solid var(--yellow)">Dziekan</span> — kolorowe tagi oznaczają organ wydający akt.',
     sourcesTitle: 'Źródła danych',
     sourcesContent: '<strong>Monitor UW</strong> (monitor.uw.edu.pl) — bieżące zarządzenia Rektora, uchwały Senatu, zarządzenia Kanclerza.<br><strong>WZ UW</strong> (wz.uw.edu.pl) — zarządzenia Dziekana i KJD, uchwały Rady Dydaktycznej i Rady Wydziału.<br><strong>Akty fundamentalne</strong> — Statut UW, Regulamin Studiów, regulamin świadczeń, zasady opłat, procedury dyplomowania, regulamin praktyk, regulamin organizacyjny WZ.',
     loadingAnswer: 'Szukam w aktach i generuję odpowiedź...',
@@ -1523,6 +1636,9 @@ const UI_STRINGS = {
     explainPrompt: 'Wyjaśnij powyższą odpowiedź prostszym, bardziej przystępnym językiem. Zachowaj odniesienia do konkretnych aktów, ale unikaj żargonu prawniczego. Pisz krótko i na temat.',
     orgBadge: 'Centre for Socially Responsible Innovations (CSRI)',
     heroAuthor: 'WZ UW IntraLex · Piotr Nawrocki · CSRI · Wydział Zarządzania UW',
+    hqToggle: 'Wyższa jakość modelu (wolniejszy, droższy)',
+    exportCSV: 'Eksportuj CSV',
+    exportTXT: 'Eksportuj TXT',
     statsActs: 'Aktów w bazie',
     statsWithText: 'Z pełnym tekstem',
     apiKeyHint: 'Klucz jest przechowywany wyłącznie w przeglądarce (localStorage) i wysyłany tylko do wybranego providera.',
@@ -1600,6 +1716,8 @@ const UI_STRINGS = {
     howToContent: '<strong>1.</strong> <strong>Search</strong> tab — enter a phrase, optionally filter by body and year.<br><strong>2.</strong> <strong>Ask a question (AI)</strong> tab — type a question in natural language. The tool finds relevant regulations and sends them to an AI model.<br><strong>3.</strong> AI mode requires an API key or a local server (Ollama).<br><strong>4.</strong> After receiving an answer, click <strong>Explain in simpler terms</strong> or ask a follow-up.',
     updateTitle: 'Database update',
     updateContent: 'The database loads from <code>data/akty.json</code>. To fetch latest regulations, run in terminal:<br><code>python -m src.ingestion.monitor_uw && python -m src.ingestion.wz_uw && python -c "from src.ingestion.direct_urls import main; main()" && python -m src.export_json</code>',
+    readAITitle: 'How to read AI answers',
+    readAIContent: 'Each AI answer contains <strong>numbered citations</strong>, e.g. <span style="display:inline-block;background:var(--accent-teal-dim);color:var(--accent-teal);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.84rem;font-weight:700;cursor:pointer">[1]</span> — click to highlight the source below.<br>Below the answer you\'ll find a <strong>source list</strong> with relevance scores and links to full text. Higher score = better match.<br><span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--red-dim);color:var(--red);border:1px solid var(--red)">Rector</span> <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue)">Senate</span> <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--green-dim);color:var(--green);border:1px solid var(--green)">Chancellor</span> <span style="display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--yellow-dim);color:var(--yellow);border:1px solid var(--yellow)">Dean</span> — colored tags indicate the issuing body.',
     sourcesTitle: 'Data sources',
     sourcesContent: '<strong>Monitor UW</strong> (monitor.uw.edu.pl) — current Rector\'s orders, Senate resolutions, Chancellor\'s orders.<br><strong>WZ UW</strong> (wz.uw.edu.pl) — Dean\'s and KJD orders, Teaching Council and Faculty Council resolutions.<br><strong>Foundational acts</strong> — UW Statute, Study Regulations, student benefits regulations, tuition fees, thesis defense procedures, internship rules, FoM organizational regulations.',
     loadingAnswer: 'Searching regulations and generating answer...',
@@ -1610,6 +1728,9 @@ const UI_STRINGS = {
     explainPrompt: 'Explain the above answer in simpler, more accessible language. Keep references to specific regulations, but avoid legal jargon. Be concise.',
     orgBadge: 'Centre for Socially Responsible Innovations (CSRI)',
     heroAuthor: 'WZ UW IntraLex · Piotr Nawrocki · CSRI · Faculty of Management, University of Warsaw',
+    hqToggle: 'Higher quality model (slower, more expensive)',
+    exportCSV: 'Export CSV',
+    exportTXT: 'Export TXT',
     statsActs: 'Regulations',
     statsWithText: 'With full text',
     apiKeyHint: 'Key is stored only in your browser (localStorage) and sent exclusively to the selected provider.',
@@ -1736,9 +1857,15 @@ function updateUILanguage() {
     const title = box.querySelector('.info-title');
     const content = box.querySelector('.info-content');
     if (i === 0 && title) { title.textContent = t('howToTitle'); if (content) content.innerHTML = t('howToContent'); }
-    if (i === 1 && title) { title.textContent = t('updateTitle'); if (content) content.innerHTML = t('updateContent'); }
-    if (i === 2 && title) { title.textContent = t('sourcesTitle'); if (content) content.innerHTML = t('sourcesContent'); }
+    if (i === 1 && title) { title.textContent = t('readAITitle'); if (content) content.innerHTML = t('readAIContent'); }
+    if (i === 2 && title) { title.textContent = t('updateTitle'); if (content) content.innerHTML = t('updateContent'); }
+    if (i === 3 && title) { title.textContent = t('sourcesTitle'); if (content) content.innerHTML = t('sourcesContent'); }
   });
+
+  // HQ toggle label
+  if ($('hqLabel')) $('hqLabel').textContent = t('hqToggle');
+  // Provider hint (model name depends on lang)
+  updateProviderHint();
 
   // API hint
   const apiHint = $('api-key-field')?.querySelector('.api-hint');
@@ -2104,6 +2231,7 @@ function restoreSettings() {
     if (s.saveKey) { document.getElementById('saveKey').checked = true; }
     if (s.lang) { document.getElementById('qa-lang').value = s.lang; }
     if (s.uiLang) { uiLang = s.uiLang; document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.uilang === s.uiLang)); }
+    if (s.highQuality) { currentHighQuality = true; const cb = document.getElementById('highQualityToggle'); if (cb) cb.checked = true; }
     updateUILanguage();
   } catch(e) {}
 }
@@ -2121,6 +2249,7 @@ function saveSettings() {
       ollamaModel: document.getElementById('ollama-model').value,
       lang: document.getElementById('qa-lang').value,
       uiLang: uiLang,
+      highQuality: currentHighQuality,
       saveKey: true,
     }));
   } catch(e) {}
@@ -2738,6 +2867,7 @@ function searchByChunks(queryTokens, aktyPool) {
     .sort((a, b) => b.score - a.score);
 }
 
+let lastSearchResults = [];
 function doSearch() {
   const query = document.getElementById('search-input').value.trim();
   const organ = document.getElementById('filter-organ').value;
@@ -2760,9 +2890,12 @@ function doSearch() {
 
   logSearch(query, scored.length);
 
+  const resultAkty = scored.map(s => s.akt);
+  lastSearchResults = resultAkty;
+
   document.getElementById('results-info').textContent =
     `${t('searchFound')}: ${scored.length} ${t('searchResultsFor')} „${query}"`;
-  renderResults(scored.map(s => s.akt), query, scored);
+  renderResults(resultAkty, query, scored);
 }
 
 // ============================================================
@@ -2794,7 +2927,10 @@ function renderResults(akty, query, scoredResults) {
   const chunkMap = {};
   if (scoredResults) scoredResults.forEach(s => { if (s.bestChunkText) chunkMap[s.akt.id] = s.bestChunkText; });
 
-  container.innerHTML = akty.map(a => {
+  // Export bar (only when search query present)
+  const exportBarHtml = query ? `<div class="export-bar"><button class="export-btn" onclick="exportSearchCSV()" title="${t('exportCSV')}">⬇ ${t('exportCSV')}</button></div>` : '';
+
+  container.innerHTML = exportBarHtml + akty.map(a => {
     const organCls = organGroup(a.organ).replace(/\s/g, '');
     // Prefer best-matching chunk text for snippet (more relevant than searching whole body_text)
     const snippetSource = chunkMap[a.id] || a.body_text || a.tytul;
@@ -2890,6 +3026,45 @@ function setProvider(provider) {
     keyLabel.textContent = labels[provider] || 'Klucz API';
     document.getElementById('qa-apikey').placeholder = placeholders[provider] || '';
   }
+  updateProviderHint();
+}
+
+
+function toggleHighQuality(checked) {
+  currentHighQuality = checked;
+  updateProviderHint();
+  saveSettings();
+}
+
+function updateProviderHint() {
+  const hint = document.getElementById('provider-hint');
+  if (!hint) return;
+  const hq = currentHighQuality;
+  const lang = getUILang();
+  const hints = {
+    openai: hq
+      ? (lang==='pl' ? 'GPT-4o — dokładniejszy, ~15× droższy, wolniejszy' : 'GPT-4o — more accurate, ~15× more expensive, slower')
+      : (lang==='pl' ? 'GPT-4o-mini — szybki i tani, dobry do większości pytań' : 'GPT-4o-mini — fast and cheap, good for most questions'),
+    anthropic: hq
+      ? (lang==='pl' ? 'Claude Sonnet 4 — dokładny, ~15× droższy niż Haiku' : 'Claude Sonnet 4 — accurate, ~15× more expensive than Haiku')
+      : (lang==='pl' ? 'Claude Haiku 3.5 — szybki i tani, dobry do większości pytań' : 'Claude Haiku 3.5 — fast and cheap, good for most questions'),
+    google: hq
+      ? (lang==='pl' ? 'Gemini 2.5 Pro — najdokładniejszy, wolniejszy' : 'Gemini 2.5 Pro — most accurate, slower')
+      : (lang==='pl' ? 'Gemini 2.0 Flash — szybki i darmowy (do limitu)' : 'Gemini 2.0 Flash — fast and free (within quota)'),
+    ollama: lang==='pl' ? 'Model lokalny — brak kosztów, jakość zależy od modelu' : 'Local model — no cost, quality depends on model',
+  };
+  hint.textContent = hints[currentProvider] || '';
+  
+  // Update tab labels
+  const tabLabels = {
+    openai: hq ? 'OpenAI (GPT-4o)' : 'OpenAI (GPT-4o-mini)',
+    anthropic: hq ? 'Anthropic (Claude Sonnet)' : 'Anthropic (Claude Haiku)',
+    google: hq ? 'Google (Gemini Pro)' : 'Google (Gemini Flash)',
+  };
+  document.querySelectorAll('.provider-tab').forEach(el => {
+    const p = el.dataset.provider;
+    if (tabLabels[p]) el.textContent = tabLabels[p];
+  });
 }
 
 // ============================================================
@@ -3059,7 +3234,36 @@ function buildFullPrompt(systemPrompt, history) {
   return full;
 }
 
+function formatApiError(provider, status, rawText) {
+  const lang = getUILang();
+  let detail = '';
+  try { const j = JSON.parse(rawText); detail = j.error?.message || j.error?.type || j.message || ''; } catch(e) { detail = rawText?.substring(0, 200) || ''; }
+  
+  const statusMsgs = {
+    401: lang==='pl' ? 'Nieprawidłowy klucz API' : 'Invalid API key',
+    403: lang==='pl' ? 'Brak dostępu — sprawdź uprawnienia klucza' : 'Access denied — check key permissions',
+    429: lang==='pl' ? 'Przekroczono limit zapytań — spróbuj za chwilę' : 'Rate limit exceeded — try again shortly',
+    500: lang==='pl' ? 'Błąd serwera providera' : 'Provider server error',
+    503: lang==='pl' ? 'Usługa tymczasowo niedostępna' : 'Service temporarily unavailable',
+  };
+  
+  const msg = statusMsgs[status] || (lang==='pl' ? `Błąd HTTP ${status}` : `HTTP error ${status}`);
+  return `${provider}: ${msg}${detail ? ' — ' + detail : ''}`;
+}
+
+let currentAbortController = null;
+let currentHighQuality = false;
+
+function abortQA() {
+  if (currentAbortController) {
+    currentAbortController.abort();
+    currentAbortController = null;
+  }
+}
+
 async function callLLM(systemPrompt, messages) {
+  currentAbortController = new AbortController();
+  const signal = currentAbortController.signal;
   saveSettings();
   const apiKey = document.getElementById('qa-apikey').value;
 
@@ -3072,14 +3276,15 @@ async function callLLM(systemPrompt, messages) {
     const resp = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      signal,
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: currentHighQuality ? 'gpt-4o' : 'gpt-4o-mini',
         messages: oaiMessages,
         max_tokens: 2000,
         temperature: 0.1,
       })
     });
-    if (!resp.ok) throw new Error(`OpenAI API: ${resp.status} ${await resp.text()}`);
+    if (!resp.ok) { const errText = await resp.text(); throw new Error(formatApiError('OpenAI', resp.status, errText)); }
     const data = await resp.json();
     return data.choices[0].message.content;
   }
@@ -3094,14 +3299,15 @@ async function callLLM(systemPrompt, messages) {
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true',
       },
+      signal,
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: currentHighQuality ? 'claude-sonnet-4-6' : 'claude-haiku-4-5-20251001',
         max_tokens: 2000,
         system: systemPrompt,
         messages: messages.map(m => ({ role: m.role, content: m.content })),
       })
     });
-    if (!resp.ok) throw new Error(`Anthropic API: ${resp.status} ${await resp.text()}`);
+    if (!resp.ok) { const errText = await resp.text(); throw new Error(formatApiError('Anthropic', resp.status, errText)); }
     const data = await resp.json();
     return data.content[0].text;
   }
@@ -3117,15 +3323,16 @@ async function callLLM(systemPrompt, messages) {
         parts: [{ text: messages[i].content }]
       });
     }
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${currentHighQuality ? 'gemini-2.5-pro' : 'gemini-2.0-flash'}:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal,
       body: JSON.stringify({
         contents,
         generationConfig: { temperature: 0.1, maxOutputTokens: 2000 },
       })
     });
-    if (!resp.ok) throw new Error(`Google API: ${resp.status} ${await resp.text()}`);
+    if (!resp.ok) { const errText = await resp.text(); throw new Error(formatApiError('Google', resp.status, errText)); }
     const data = await resp.json();
     return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Brak odpowiedzi od Gemini.';
   }
@@ -3137,15 +3344,17 @@ async function callLLM(systemPrompt, messages) {
     const resp = await fetch(`${ollamaUrl}/api/generate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal,
       body: JSON.stringify({ model, prompt, stream: false })
     });
-    if (!resp.ok) throw new Error(`Ollama: ${resp.status}`);
+    if (!resp.ok) throw new Error(formatApiError('Ollama', resp.status, ''));
     const data = await resp.json();
     return data.response;
   }
 
   throw new Error('Nieznany provider');
 }
+
 
 function renderMarkdown(text) {
   // Escape HTML
@@ -3337,7 +3546,7 @@ function showLoading(msg) {
   const actions = document.getElementById('qa-actions');
 
   answerArea.classList.add('visible');
-  answerBody.innerHTML = `<div class="qa-loading">${msg || t('loadingAnswer')}</div>`;
+  answerBody.innerHTML = `<div class="qa-progress"><div class="qa-progress-bar"></div></div><div class="qa-loading">${msg || t('loadingAnswer')}<br><button class="stop-btn" onclick="abortQA()">&#9632; ${getUILang()==='pl'?'Zatrzymaj':'Stop'}</button></div>`;
   answerSources.innerHTML = '';
   actions.classList.remove('visible');
 }
@@ -3386,7 +3595,13 @@ async function doQA() {
     logQA(question, chunks, citedActIds);
 
   } catch(e) {
-    document.getElementById('qa-answer-body').innerHTML = `<div class="error-msg">${e.message}</div>`;
+    if (e.name === 'AbortError') {
+      document.getElementById('qa-answer-body').innerHTML = `<div class="qa-loading">${getUILang()==='pl'?'Przerwano przez użytkownika.':'Cancelled by user.'}</div>`;
+    } else {
+      document.getElementById('qa-answer-body').innerHTML = `<div class="error-msg">${e.message}</div>`;
+    }
+  } finally {
+    currentAbortController = null;
   }
 }
 
@@ -3448,6 +3663,47 @@ function doNewQuestion() {
   document.getElementById('qa-actions').classList.remove('visible');
   document.getElementById('qa-input').value = '';
   document.getElementById('qa-input').focus();
+}
+
+
+// ============================================================
+// EXPORT SEARCH RESULTS
+// ============================================================
+function exportSearchCSV() {
+  const results = lastSearchResults || [];
+  if (!results.length) return;
+  
+  const header = 'ID,Organ,Data wydania,Typ,Numer,Tytuł,Źródło,URL\n';
+  const rows = results.map(a => {
+    const title = (a.tytul || '').replace(/"/g, '""');
+    const url = a.url_szczegoly || a.url_pdf || '';
+    const src = a.zrodlo === 'wz_uw' ? 'WZ UW' : a.zrodlo === 'direct_urls' ? 'Rejestr' : 'Monitor UW';
+    return `"${a.id}","${a.organ || ''}","${a.data_wydania || ''}","${a.typ || ''}","${a.numer || ''}","${title}","${src}","${url}"`;
+  }).join('\n');
+  
+  const blob = new Blob([header + rows], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'intralex-wyniki.csv';
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function exportActText(aktId) {
+  const akt = AKTY.find(a => a.id === aktId);
+  if (!akt) return;
+  
+  let text = akt.tytul + '\n';
+  text += (akt.organ || '') + ' | ' + (akt.data_wydania || '') + '\n';
+  text += '='.repeat(60) + '\n\n';
+  text += akt.body_text || '(brak treści)';
+  
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = (akt.id || 'akt') + '.txt';
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 // ============================================================
@@ -3809,7 +4065,7 @@ function openDetail(aktId) {
     </div>
     <h2>${akt.typ ? akt.typ.charAt(0).toUpperCase() + akt.typ.slice(1) : 'Akt'}${akt.numer ? ' nr ' + akt.numer : ''}</h2>
     <div class="detail-title-full">${akt.tytul}</div>
-    ${links.length ? `<div class="detail-links">${links.join('')}</div>` : ''}
+    <div class="detail-links">${links.join('')}${akt.body_text ? `<button class="export-btn" onclick="exportActText(${akt.id})" style="margin-left:0.5rem">⬇ ${t('exportTXT')}</button>` : ''}</div>
   `;
 
   if (!akt.body_text) {

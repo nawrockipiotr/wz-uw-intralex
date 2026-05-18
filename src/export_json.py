@@ -196,9 +196,6 @@ def export(db_path, output_path):
             chunk_id += 1
         all_chunks.extend(act_chunks)
 
-        # Still truncate body_text in akty array (for detail view)
-        if body and len(body) > 50000:
-            akt["body_text"] = body[:50000] + "\n[...tekst skrócony...]"
         akty.append(akt)
 
     stats_row = conn.execute("""

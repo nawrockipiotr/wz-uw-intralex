@@ -282,3 +282,215 @@ akty:
   #   url_pdf: ""  # TODO: znaleźć PDF
   #   url_page: ""
   #   kategoria: "studia"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # E. AKTY Z PODSTRON WZ UW — wazne-dokumenty, praktyki, podyplomowe
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - id: "direct_kalendarz_2025_2026"
+    tytul: "Kalendarz akademicki 2025/2026"
+    organ: "Rektor"
+    typ: "postanowienie"
+    rok: 2025
+    data_wydania: "2025-04-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2025/04/M.2025.15.Post_.1.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "organizacja"
+
+  - id: "direct_niezbednik_studenta_2025"
+    tytul: "Niezbędnik dla studentów WZ UW na rok akademicki 2025/2026"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2025
+    data_wydania: "2025-09-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2025/09/WZ_UW_Niezbednik_studenta_2025_2026_com.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_mlegitymacja"
+    tytul: "mLegitymacja — instrukcja aktywacji elektronicznej legitymacji studenckiej"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2023
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/mLegitymacja.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_zasady_podan_wz"
+    tytul: "Zasady składania podań studenckich na Wydziale Zarządzania UW (08.02.2024)"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2024
+    data_wydania: "2024-02-08"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2024/02/ZASADY-SKLADANIA-PODAN-08.02.2024.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_rejestracja_grup_wz"
+    tytul: "Rejestracja do grup na WZ UW — zasady i instrukcja"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2023
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/Rejestracja-do-grup.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_rejestracja_zetonowa"
+    tytul: "Rejestracja żetonowa — zasady i instrukcja"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2024
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2024/12/Rejestracja-zetonowa.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_uchwala_rd_egzaminy_2025"
+    tytul: "UCHWAŁA RD nr 1/9/2025 w sprawie przeprowadzania egzaminów i oceniania"
+    organ: "Rada Dydaktyczna"
+    typ: "uchwała"
+    rok: 2025
+    data_wydania: "2025-10-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2025/10/UCHWALA_RD-nr-1_9_2025-w-spr.-przeprowadzania-egzaminow-i-oceniania.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_kjd_kwalifikacyjny_zagraniczne_2024"
+    tytul: "ZARZĄDZENIE NR 3/2024 KJD WZ UW — Regulamin postępowania kwalifikacyjnego dla studentów ubiegających się o wyjazd na studia zagraniczne"
+    organ: "KJD"
+    typ: "zarządzenie"
+    rok: 2024
+    data_wydania: "2024-02-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2024/02/ZARZADZENIE-NR-3_2024-KIEROWNIKA-JD-WZ-UW-regulamin-kwalifikacyjny-studia-zagraniczne.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_kjd_rozliczanie_zagraniczne_2024"
+    tytul: "ZARZĄDZENIE NR 4/2024 KJD WZ UW — Regulamin rozliczania częściowych studiów zagranicznych"
+    organ: "KJD"
+    typ: "zarządzenie"
+    rok: 2024
+    data_wydania: "2024-02-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2024/02/ZARZADZENIE-NR-4_2024-KJD-WZ-UW-Regulamin-rozliczania-częściowych-studiow-zagranicznych.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_uchwala_jezyki_obce"
+    tytul: "UCHWAŁA NR 8 Rady Koordynacyjnej ds. Nauczania Języków Obcych i Certyfikacji Biegłości Językowej z dnia 23 września 2022 r."
+    organ: "Rada Koordynacyjna"
+    typ: "uchwała"
+    rok: 2022
+    data_wydania: "2022-09-23"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/uchwala_8_rada_koordynacyjna_jezyki.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_rekomendacje_wf"
+    tytul: "Rekomendacje dotyczące uznawania zajęć z wychowania fizycznego zaliczonych przez studenta poza UW"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2023
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/Rekomendacje_WF.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_ulgi_platnosci_niestacjonarni"
+    tytul: "Uchwała w sprawie przyznawania ulg w płatnościach studentom studiów niestacjonarnych"
+    organ: "Rada Dydaktyczna"
+    typ: "uchwała"
+    rok: 2022
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/uchwala_ulgi_w_platnosciach.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "opłaty"
+
+  - id: "direct_pierwsza_strona_pracy"
+    tytul: "Pierwsze strony pracy dyplomowej — wzór"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2023
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/Pierwsza_strona_pracy_dyplomowej.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "dyplomowanie"
+
+  - id: "direct_procedura_egzamin_zdalny"
+    tytul: "Procedura składania pracy dyplomowej i przeprowadzania egzaminu dyplomowego w trybie zdalnym (24.05.2021)"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2021
+    data_wydania: "2021-05-24"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/PROCEDURA_EGZAMIN_ZDALNY_24.05.2021.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "dyplomowanie"
+
+  - id: "direct_uchwala_zmiana_formy_studiow"
+    tytul: "Uchwała Rady Dydaktycznej WZ UW w sprawie zmiany formy odbywania studiów"
+    organ: "Rada Dydaktyczna"
+    typ: "uchwała"
+    rok: 2022
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/UCHWALA_RD_zmiana_formy_odbywania_studiow.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_praktyki_sprawozdanie_wzor"
+    tytul: "Sprawozdanie z praktyk zawodowych — wzór"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2021
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/Praktyki-zawodowe_2021_sprawozdanie-1.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/praktyki-studenckie/"
+    kategoria: "praktyki"
+
+  - id: "direct_praktyki_instrukcja_2023"
+    tytul: "Praktyki studenckie — instrukcja (październik 2023)"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2023
+    data_wydania: "2023-10-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/10/Praktyki-instrukcja-10.2023.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/praktyki-studenckie/"
+    kategoria: "praktyki"
+
+  - id: "direct_syllabus_praktyki_friu"
+    tytul: "Syllabus praktyk zawodowych — Finanse, Rachunkowość i Ubezpieczenia"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2023
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/Syllabus-PRAKTYKI_FRiU_PL.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/praktyki-studenckie/"
+    kategoria: "praktyki"
+
+  - id: "direct_syllabus_praktyki_zarzadzanie"
+    tytul: "Syllabus praktyk zawodowych — Zarządzanie"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2023
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2023/01/Syllabus-PRAKTYKI_Zarzadzanie_PL.pdf"
+    url_page: "https://wz.uw.edu.pl/student/dla-studenta/praktyki-studenckie/"
+    kategoria: "praktyki"
+
+  - id: "direct_niezbednik_podyplomowe_2025"
+    tytul: "Niezbędnik uczestnika studiów podyplomowych WZ UW 2025/2026"
+    organ: "WZ"
+    typ: "dokument"
+    rok: 2025
+    data_wydania: "2025-09-01"
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2025/09/1.-WZ_UW_Niezbednik_Uczestnika_podyplomowe_2025_2026.pdf"
+    url_page: "https://wz.uw.edu.pl/studia-podyplomowe/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_regulamin_podyplomowych"
+    tytul: "Zarządzenie nr 116 Rektora UW — Regulamin studiów podyplomowych na Uniwersytecie Warszawskim"
+    organ: "Rektor"
+    typ: "zarządzenie"
+    rok: 2021
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2025/11/M.2021.238.Zarz_.116.pdf"
+    url_page: "https://wz.uw.edu.pl/studia-podyplomowe/wazne-dokumenty/"
+    kategoria: "studia"
+
+  - id: "direct_oplata_rekrutacyjna_podyplomowe"
+    tytul: "Postanowienie Rektora UW w sprawie wysokości opłaty rekrutacyjnej na studia podyplomowe (tekst jednolity)"
+    organ: "Rektor"
+    typ: "postanowienie"
+    rok: 2025
+    url_pdf: "https://wz.uw.edu.pl/wp-content/uploads/2025/12/Studia_podyplomowe_oplata-postan-jednolit.pdf"
+    url_page: "https://wz.uw.edu.pl/studia-podyplomowe/wazne-dokumenty/"
+    kategoria: "opłaty"
