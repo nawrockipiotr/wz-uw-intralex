@@ -1157,15 +1157,16 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
 }
 /* Analytics */
 .analytics-btn {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  background: none;
+  border: none;
   cursor: pointer;
-  font-size: 0.9rem;
-  padding: 0.35rem 0.6rem;
-  transition: background 0.15s;
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  padding: 0.2rem 0;
+  transition: color 0.15s;
+  white-space: nowrap;
 }
-.analytics-btn:hover { background: var(--accent-teal); color: #fff; }
+.analytics-btn:hover { color: var(--accent-teal); }
 .analytics-section h3 { margin: 0 0 0.5rem; font-size: 1rem; }
 .analytics-chart-title { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.3rem; }
 .analytics-bars { display: flex; align-items: flex-end; gap: 2px; height: 80px; border-bottom: 1px solid var(--border); margin-bottom: 0.3rem; }
@@ -1417,10 +1418,12 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
           </div>
           <button class="search-btn" onclick="doSearch()">Szukaj</button>
           <button class="bookmark-filter" id="bookmark-filter-btn" onclick="toggleBookmarkFilter()">Ulubione</button>
-          <button class="analytics-btn" onclick="showAnalytics()" title="Statystyki wyszukiwań">📊</button>
         </div>
       </div>
-      <div class="results-info" id="results-info"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.5rem">
+        <div class="results-info" id="results-info"></div>
+        <button class="analytics-btn" id="analytics-link" onclick="showAnalytics()"><span id="analyticsLabel">📊 Statystyki wyszukiwań</span></button>
+      </div>
       <div id="results"></div>
     </div>
 
@@ -1546,7 +1549,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
   <div class="detail-container" style="max-width:720px">
     <div class="detail-topbar">
       <button class="detail-back" onclick="closeAnalytics()">← Powrót</button>
-      <span style="font-size:0.9rem;color:var(--text-dim)">Analityka wyszukiwań</span>
+      <span style="font-size:0.9rem;color:var(--text-dim)" id="analyticsOverlayTitle">Analityka wyszukiwań</span>
     </div>
     <div class="detail-content" id="analytics-body" style="padding:1rem"></div>
   </div>
@@ -1639,6 +1642,7 @@ const UI_STRINGS = {
     hqToggle: 'Wyższa jakość modelu (wolniejszy, droższy)',
     exportCSV: 'Eksportuj CSV',
     exportTXT: 'Eksportuj TXT',
+    analyticsBtn: '📊 Statystyki wyszukiwań',
     statsActs: 'Aktów w bazie',
     statsWithText: 'Z pełnym tekstem',
     apiKeyHint: 'Klucz jest przechowywany wyłącznie w przeglądarce (localStorage) i wysyłany tylko do wybranego providera.',
@@ -1731,6 +1735,7 @@ const UI_STRINGS = {
     hqToggle: 'Higher quality model (slower, more expensive)',
     exportCSV: 'Export CSV',
     exportTXT: 'Export TXT',
+    analyticsBtn: '📊 Search statistics',
     statsActs: 'Regulations',
     statsWithText: 'With full text',
     apiKeyHint: 'Key is stored only in your browser (localStorage) and sent exclusively to the selected provider.',
@@ -1838,6 +1843,7 @@ function updateUILanguage() {
   const searchLabel = $('search-input')?.closest('.field')?.querySelector('label');
   if (searchLabel) searchLabel.textContent = t('searchLabel');
   $$('.search-btn').forEach(b => b.textContent = t('searchBtn'));
+  if ($('analyticsLabel')) $('analyticsLabel').textContent = t('analyticsBtn');
   const organLabel = $('filter-organ')?.closest('.field')?.querySelector('label');
   if (organLabel) organLabel.textContent = t('filterOrganLabel');
   const yearLabel = $('filter-rok')?.closest('.field')?.querySelector('label');
