@@ -14,6 +14,14 @@
 *:focus-visible { outline: 2px solid var(--accent-teal); outline-offset: 2px; border-radius: 2px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
+/* ── Lucide icon sizes ── */
+.icon-xs { width: 14px; height: 14px; vertical-align: -2px; stroke-width: 2; display: inline-block; }
+.icon-sm { width: 16px; height: 16px; vertical-align: -3px; stroke-width: 2; display: inline-block; }
+.icon-lg { width: 36px; height: 36px; stroke-width: 1.5; color: var(--text-dim); }
+@keyframes icon-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.icon-spin { animation: icon-spin 1.2s linear infinite; }
+
+
 
 :root {
   --bg: transparent;
@@ -153,9 +161,10 @@ body {
 .dark-mode mark { background: #fbbf2440; color: var(--text); }
 .dark-mode code { background: var(--surface2); color: var(--accent-teal); }
 .dark-toggle {
-  background: none; border: 1px solid var(--border); border-radius: 6px;
-  cursor: pointer; font-size: 1rem; padding: 0.15rem 0.4rem;
+  background: none; border: 1px solid var(--border); border-radius: 20px;
+  padding: 0.2rem 0.6rem; cursor: pointer; font-size: 0.85rem;
   color: var(--text-dim); transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.3rem;
 }
 .dark-toggle:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
 
@@ -1432,6 +1441,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
 }
 
 </style>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
@@ -1445,7 +1455,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
         <button class="lang-btn active" data-uilang="pl" onclick="switchUILang('pl')">PL</button>
         <button class="lang-btn" data-uilang="en" onclick="switchUILang('en')">EN</button>
       </div>
-      <button class="dark-toggle" id="dark-toggle" onclick="toggleDarkMode()" title="Dark mode">🌙</button>
+      <button class="dark-toggle" id="dark-toggle" onclick="toggleDarkMode()" title="Dark mode"><i data-lucide="moon" class="icon-sm"></i> Dark</button>
       <span class="version-badge">v1.0</span>
     </div>
 
@@ -1548,7 +1558,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.5rem">
         <div class="results-info" id="results-info"></div>
-        <button class="analytics-btn" id="analytics-link" onclick="showAnalytics()"><span id="analyticsLabel">📊 Statystyki wyszukiwań</span></button>
+        <button class="analytics-btn" id="analytics-link" onclick="showAnalytics()"><i data-lucide="bar-chart-2" class="icon-xs"></i> <span id="analyticsLabel">Statystyki wyszukiwań</span></button>
       </div>
       <div id="results"></div>
     </div>
@@ -1596,8 +1606,8 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
         </div>
 
         <div class="provider-hint" id="provider-hint"></div>
-          <div class="api-security-badge green" id="api-security-green"><span>🔒</span> <span id="securityGreenText">Klucz przechowywany wyłącznie w tej przeglądarce — wysyłany tylko do wybranego providera.</span></div>
-          <div class="api-security-badge yellow" id="api-security-yellow"><span>⚠</span> <span id="securityYellowText">Treść aktów prawnych jest przesyłana do zewnętrznego API. Upewnij się, że jest to zgodne z polityką ochrony danych Twojej organizacji.</span></div>
+          <div class="api-security-badge green" id="api-security-green"><span><i data-lucide="lock" class="icon-xs"></i></span> <span id="securityGreenText">Klucz przechowywany wyłącznie w tej przeglądarce — wysyłany tylko do wybranego providera.</span></div>
+          <div class="api-security-badge yellow" id="api-security-yellow"><span><i data-lucide="alert-triangle" class="icon-xs"></i></span> <span id="securityYellowText">Treść aktów prawnych jest przesyłana do zewnętrznego API. Upewnij się, że jest to zgodne z polityką ochrony danych Twojej organizacji.</span></div>
       </div>
 
       <!-- Response language -->
@@ -1654,7 +1664,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
         <!-- Actions: explain + follow-up -->
         <div class="qa-actions" id="qa-actions">
           <div class="qa-actions-row">
-            <button class="retry-btn" onclick="retryQA()" id="retryBtn">↻ Ponów</button>
+            <button class="retry-btn" onclick="retryQA()" id="retryBtn"><i data-lucide="refresh-ccw" class="icon-xs"></i> <span id="retryLabel">Ponów</span></button>
               <button class="explain-btn" onclick="doExplain()">Wyjaśnij prostszym językiem</button>
             <button class="explain-btn" onclick="exportAnswerPdf()">Eksportuj do PDF</button>
             <button class="new-question-btn" onclick="doNewQuestion()">Nowe pytanie</button>
@@ -1771,10 +1781,10 @@ const UI_STRINGS = {
     hqToggle: 'Wyższa jakość modelu (wolniejszy, droższy)',
     exportCSV: 'Eksportuj CSV',
     exportTXT: 'Eksportuj TXT',
-    analyticsBtn: '📊 Statystyki wyszukiwań',
+    analyticsBtn: 'Statystyki wyszukiwań',
     securityGreen: 'Klucz przechowywany wyłącznie w tej przeglądarce — wysyłany tylko do wybranego providera.',
     securityYellow: 'Treść aktów prawnych jest przesyłana do zewnętrznego API. Upewnij się, że jest to zgodne z polityką ochrony danych Twojej organizacji.',
-    retryBtn: '↻ Ponów',
+    retryBtn: 'Ponów',
     infoBtnHow: 'Jak korzystać',
     infoBtnAI: 'Odpowiedzi AI',
     infoBtnUpdate: 'Aktualizacja bazy',
@@ -1871,10 +1881,10 @@ const UI_STRINGS = {
     hqToggle: 'Higher quality model (slower, more expensive)',
     exportCSV: 'Export CSV',
     exportTXT: 'Export TXT',
-    analyticsBtn: '📊 Search statistics',
+    analyticsBtn: 'Search statistics',
     securityGreen: 'Key stored in this browser only — sent only to the selected provider.',
     securityYellow: 'Legal act content is transmitted to an external API. Ensure this complies with your organization\'s data protection policy.',
-    retryBtn: '↻ Retry',
+    retryBtn: 'Retry',
     infoBtnHow: 'How to use',
     infoBtnAI: 'AI answers',
     infoBtnUpdate: 'Database update',
@@ -3086,7 +3096,7 @@ function renderResults(akty, query, scoredResults) {
   if (scoredResults) scoredResults.forEach(s => { if (s.bestChunkText) chunkMap[s.akt.id] = s.bestChunkText; });
 
   // Export bar (only when search query present)
-  const exportBarHtml = query ? `<div class="export-bar"><button class="export-btn" onclick="exportSearchCSV()" title="${t('exportCSV')}">⬇ ${t('exportCSV')}</button></div>` : '';
+  const exportBarHtml = query ? `<div class="export-bar"><button class="export-btn" onclick="exportSearchCSV()" title="${t('exportCSV')}"><i data-lucide="download" class="icon-xs"></i> ${t('exportCSV')}</button></div>` : '';
 
   container.innerHTML = exportBarHtml + akty.map(a => {
     const organCls = organGroup(a.organ).replace(/\s/g, '');
@@ -3111,7 +3121,7 @@ function renderResults(akty, query, scoredResults) {
           <span class="result-date">${a.data_wydania || ''}</span>
           <span class="result-source">${a.zrodlo === 'wz_uw' ? 'WZ UW' : a.zrodlo === 'direct_urls' ? 'Rejestr' : 'Monitor UW'}</span>
         </div>
-        <button class="result-toggle" onclick="toggleResultCollapse(this)" title="Zwiń/rozwiń">▼</button><button class="bookmark-btn${isBookmarked ? ' bookmarked' : ''}" data-id="${a.id}" onclick="toggleBookmark(${a.id})" title="${isBookmarked ? t('bookmarkRemove') : t('bookmarkAdd')}">&#9733;</button>
+        <button class="result-toggle" onclick="toggleResultCollapse(this)" title="Zwiń/rozwiń"><i data-lucide="chevron-down" class="icon-sm"></i></button><button class="bookmark-btn${isBookmarked ? ' bookmarked' : ''}" data-id="${a.id}" onclick="toggleBookmark(${a.id})" title="${isBookmarked ? t('bookmarkRemove') : t('bookmarkAdd')}">&#9733;</button>
       </div>
       <div class="result-body">
         <h3>${a.typ ? a.typ.charAt(0).toUpperCase() + a.typ.slice(1) : 'Akt'}${a.numer ? ' nr ' + a.numer : ''}</h3>
@@ -3122,6 +3132,7 @@ function renderResults(akty, query, scoredResults) {
       ${links.length ? `<div class="result-links">${links.join('')}</div>` : ''}
     </div>`;
   }).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons({nameAttr:'data-lucide'});
 }
 
 function getSnippet(text, query, ctx = 120) {
@@ -4235,7 +4246,7 @@ function openDetail(aktId) {
     </div>
     <h2>${akt.typ ? akt.typ.charAt(0).toUpperCase() + akt.typ.slice(1) : 'Akt'}${akt.numer ? ' nr ' + akt.numer : ''}</h2>
     <div class="detail-title-full">${akt.tytul}</div>
-    <div class="detail-links">${links.join('')}${akt.body_text ? `<button class="export-btn" onclick="exportActText(${akt.id})" style="margin-left:0.5rem">⬇ ${t('exportTXT')}</button>` : ''}</div>
+    <div class="detail-links">${links.join('')}${akt.body_text ? `<button class="export-btn" onclick="exportActText(${akt.id})" style="margin-left:0.5rem"><i data-lucide="download" class="icon-xs"></i> ${t('exportTXT')}</button>` : ''}</div>
   `;
 
   if (!akt.body_text) {
@@ -4279,8 +4290,8 @@ function openDetail(aktId) {
         .replace(/\n/g, '<br>');
       // Copy citation + deep link buttons for named paragraphs
       const parActions = p.ref ? `<span class="par-actions">` +
-        `<button class="par-btn par-copy" onclick="copyCitation(${akt.id},'${p.ref.replace(/'/g, "\\'")}');" title="${getUILang()==='en'?'Copy citation':'Skopiuj cytat'}">📋</button>` +
-        `<button class="par-btn par-link" onclick="copyDeepLink(${akt.id},'${p.ref.replace(/'/g, "\\'")}')" title="${getUILang()==='en'?'Copy link':'Skopiuj link'}">🔗</button>` +
+        `<button class="par-btn par-copy" onclick="copyCitation(${akt.id},'${p.ref.replace(/'/g, "\\'")}');" title="${getUILang()==='en'?'Copy citation':'Skopiuj cytat'}"><i data-lucide="clipboard" class="icon-xs"></i></button>` +
+        `<button class="par-btn par-link" onclick="copyDeepLink(${akt.id},'${p.ref.replace(/'/g, "\\'")}')" title="${getUILang()==='en'?'Copy link':'Skopiuj link'}"><i data-lucide="link" class="icon-xs"></i></button>` +
         `</span>` : '';
       contentHtml += `<div class="paragraph-block" id="${p.id}">${parActions}${formatted}</div>`;
     });
@@ -4593,7 +4604,7 @@ function showAnalytics() {
     // Low-score queries (gaps in corpus)
     const lowScore = qaLog.filter(e => e.maxScore < 3).sort((a, b) => a.maxScore - b.maxScore);
     if (lowScore.length) {
-      html += `<div class="analytics-chart-title" style="margin-top:1rem">⚠ Braki w korpusie (niska trafność, score &lt; 3)</div>`;
+      html += `<div class="analytics-chart-title" style="margin-top:1rem"><i data-lucide="alert-triangle" class="icon-xs"></i> Braki w korpusie (niska trafność, score &lt; 3)</div>`;
       html += `<table class="analytics-table"><thead><tr><th>Pytanie</th><th>Max score</th><th>Data</th></tr></thead><tbody>`;
       lowScore.slice(0, 20).forEach(e => {
         const d = new Date(e.ts).toLocaleDateString('pl-PL');
@@ -4684,15 +4695,20 @@ loadData().then(() => {
 function toggleDarkMode() {
   const isDark = document.documentElement.classList.toggle('dark-mode');
   localStorage.setItem('lex_dark_mode', isDark ? '1' : '0');
-  document.getElementById('dark-toggle').textContent = isDark ? '☀️' : '🌙';
+  const btn = document.getElementById('dark-toggle');
+  if (btn) { btn.innerHTML = isDark ? '<i data-lucide="sun" class="icon-sm"></i> Light' : '<i data-lucide="moon" class="icon-sm"></i> Dark'; lucide.createIcons({nameAttr:'data-lucide', node: btn}); }
 }
 (function() {
   if (localStorage.getItem('lex_dark_mode') === '1') {
     document.documentElement.classList.add('dark-mode');
     const btn = document.getElementById('dark-toggle');
-    if (btn) btn.textContent = '☀️';
+    if (btn) { btn.innerHTML = '<i data-lucide="sun" class="icon-sm"></i> Light'; }
   }
+  if (typeof lucide !== 'undefined') lucide.createIcons({nameAttr:'data-lucide'});
 })();
+
+// Init Lucide icons
+if (typeof lucide !== 'undefined') lucide.createIcons({nameAttr:'data-lucide'});
 
 // 4. SESSION RESTORE
 function saveSession(question, answerHtml, chunks) {
@@ -4783,10 +4799,16 @@ function retryQA() {
 
 // 9. COLLAPSIBLE RESULT BLOCKS
 function toggleResultCollapse(btn) {
-  const body = btn.closest('.result-card')?.querySelector('.result-body');
-  if (!body) return;
+  const body = btn.closest('.result-card').querySelector('.result-body');
   btn.classList.toggle('collapsed');
   body.classList.toggle('collapsed');
+  // Swap chevron icon
+  const icon = btn.querySelector('[data-lucide]');
+  if (icon) {
+    const newName = btn.classList.contains('collapsed') ? 'chevron-right' : 'chevron-down';
+    icon.setAttribute('data-lucide', newName);
+    lucide.createIcons({nameAttr:'data-lucide', node: btn});
+  }
 }
 
 // 10. TABBED Q&A SECTIONS
