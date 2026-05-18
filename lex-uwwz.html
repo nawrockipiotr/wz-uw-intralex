@@ -45,6 +45,7 @@
   --radius: 14px;
 }
 
+html, body { background: transparent !important; background-color: transparent !important; }
 body {
   font-family: 'Titillium Web', Arial, sans-serif;
   background: transparent !important;
@@ -86,7 +87,8 @@ body {
 }
 .result-toggle.collapsed { transform: rotate(-90deg); }
 .result-body.collapsed { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.25s ease, opacity 0.2s ease; }
-.result-body { transition: max-height 0.25s ease, opacity 0.2s ease; }
+.result-html, body { background: transparent !important; background-color: transparent !important; }
+body { transition: max-height 0.25s ease, opacity 0.2s ease; }
 
 /* ── Retry button ── */
 .retry-btn {
@@ -153,7 +155,7 @@ body {
   --blue: #60a5fa;
   --blue-dim: #60a5fa15;
 }
-.dark-mode body, .dark-mode { color: var(--text); background: var(--bg); }
+.dark-mode body, .dark-mode { color: var(--text); }
 .dark-mode .hero, .dark-mode .result-card, .dark-mode .info-box,
 .dark-mode .detail-container, .dark-mode .qa-section,
 .dark-mode .search-section { background: var(--surface); border-color: var(--border); }
@@ -243,6 +245,15 @@ body {
   position: relative;
   top: -2px;
 }
+.version-tag {
+  font-size: 0.45em;
+  font-weight: 400;
+  color: var(--text-dim);
+  vertical-align: super;
+  margin-left: 0.3rem;
+  opacity: 0.7;
+}
+
 
 .hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
 .hero-update { color: var(--text-dim); font-size: 0.88rem; margin-top: 0.15rem; margin-bottom: 0.6rem; }
@@ -469,7 +480,8 @@ body {
   opacity: 0.7;
 }
 
-.result-body { padding: 0.75rem 1rem; }
+.result-html, body { background: transparent !important; background-color: transparent !important; }
+body { padding: 0.75rem 1rem; }
 
 .result-body h3 {
   font-size: 0.9rem;
@@ -817,7 +829,8 @@ body {
   color: var(--text);
 }
 
-.qa-answer-body {
+.qa-answer-html, body { background: transparent !important; background-color: transparent !important; }
+body {
   padding: 1rem;
   font-size: 0.84rem;
   line-height: 1.7;
@@ -1050,7 +1063,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: var(--bg);
+  background: var(--surface);
   overflow-y: auto;
   padding: 1.5rem;
 }
@@ -1337,7 +1350,8 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
 /* ── Print styles for PDF export ── */
 @media print {
   .dark-mode { --bg: #fff; --surface: #fff; --text: #000; --text-dim: #333; --border: #ccc; }
-  body { padding: 0; background: #fff; }
+  html, body { background: transparent !important; background-color: transparent !important; }
+body { padding: 0; background: #fff; }
   .hero, .stats-bar, .mode-toggle, .search-section, .qa-config,
   .qa-lang-section, .faq-section, .qa-input-section, .qa-actions,
   #search-panel, .detail-overlay, .bookmark-filter { display: none !important; }
@@ -1345,7 +1359,8 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
   .qa-section { display: block !important; }
   .qa-answer-area { border: none; box-shadow: none; }
   .qa-answer-area.visible { display: block !important; }
-  .qa-answer-body { max-height: none; overflow: visible; }
+  .qa-answer-html, body { background: transparent !important; background-color: transparent !important; }
+body { max-height: none; overflow: visible; }
   .qa-answer-header { font-size: 1.1rem; }
   .answer-text { font-size: 0.95rem; }
   .source-tag { border: 1px solid #999; color: #333; background: #f0f0f0; }
@@ -1463,7 +1478,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
       <button class="dark-toggle" id="dark-toggle" onclick="toggleDarkMode()" title="Dark mode"><i data-lucide="moon" class="icon-sm"></i> Dark</button>
     </div>
 
-    <h1>WZ UW IntraLex <span class="version-badge">v1.0</span></h1>
+    <h1>WZ UW IntraLex <span class="version-tag">v1.0</span></h1>
     <p class="hero-update" id="hero-update"></p>
     <p class="hero-lead">
       Wyszukiwarka i baza aktów wewnętrznych <strong>Uniwersytetu Warszawskiego</strong> oraz
