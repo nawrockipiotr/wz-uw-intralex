@@ -10,6 +10,11 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* ── Accessibility ── */
+*:focus-visible { outline: 2px solid var(--accent-teal); outline-offset: 2px; border-radius: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+
 :root {
   --bg: transparent;
   --surface: #ffffff;
@@ -41,6 +46,118 @@ body {
 }
 
 .container { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+
+
+
+
+
+
+
+
+/* ── Q&A result tabs ── */
+.qa-result-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 0.75rem; }
+.qa-result-tab {
+  padding: 0.4rem 0.8rem; border: none; background: none; color: var(--text-dim);
+  font-size: 0.84rem; font-family: inherit; cursor: pointer; border-bottom: 2px solid transparent;
+  margin-bottom: -2px; transition: all 0.15s;
+}
+.qa-result-tab:hover { color: var(--text); }
+.qa-result-tab.active { color: var(--accent-teal); border-bottom-color: var(--accent-teal); font-weight: 600; }
+.qa-tab-panel { display: none; }
+.qa-tab-panel.active { display: block; animation: tabFadeIn 0.2s ease; }
+@keyframes tabFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.qa-expand-all { margin-left: auto; font-size: 0.78rem; color: var(--text-dim); background: none; border: none; cursor: pointer; font-family: inherit; }
+.qa-expand-all:hover { color: var(--accent-teal); }
+
+/* ── Collapsible results ── */
+.result-toggle {
+  background: none; border: none; cursor: pointer; font-size: 0.9rem;
+  color: var(--text-dim); padding: 0.2rem; transition: transform 0.2s;
+  line-height: 1;
+}
+.result-toggle.collapsed { transform: rotate(-90deg); }
+.result-body.collapsed { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.25s ease, opacity 0.2s ease; }
+.result-body { transition: max-height 0.25s ease, opacity 0.2s ease; }
+
+/* ── Retry button ── */
+.retry-btn {
+  padding: 0.3rem 0.7rem; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-dim); font-size: 0.84rem;
+  font-family: inherit; cursor: pointer; transition: all 0.15s;
+}
+.retry-btn:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+/* ── Security badges ── */
+.api-security-badge {
+  display: flex; align-items: flex-start; gap: 0.4rem; padding: 0.5rem 0.7rem;
+  border-radius: 8px; font-size: 0.84rem; margin-top: 0.5rem; line-height: 1.4;
+}
+.api-security-badge.green { background: var(--green-dim); border: 1px solid var(--green); color: var(--green); }
+.api-security-badge.yellow { background: var(--yellow-dim); border: 1px solid var(--yellow); color: var(--yellow); }
+
+/* ── Accordion info panels ── */
+.info-toggles { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+.info-toggle-btn {
+  padding: 0.3rem 0.7rem; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-dim); font-size: 0.84rem;
+  font-family: inherit; cursor: pointer; transition: all 0.2s;
+}
+.info-toggle-btn:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+.info-toggle-btn.active { background: var(--accent-teal); color: #fff; border-color: var(--accent-teal); }
+.info-box { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.25s ease; margin-bottom: 0; padding-top: 0; padding-bottom: 0; }
+.info-box.open { max-height: 500px; opacity: 1; margin-bottom: 0.75rem; padding-top: 0.8rem; padding-bottom: 0.8rem; }
+
+/* ── Elapsed time ── */
+.elapsed-time { font-size: 0.84rem; color: var(--text-dim); margin-left: 0.5rem; }
+
+/* ── Session restore ── */
+.session-bar {
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 1rem;
+  background: var(--accent-teal-dim); border: 1px solid var(--accent-teal);
+  border-radius: 10px; margin-bottom: 1rem; font-size: 0.84rem;
+}
+.session-bar-text { flex: 1; color: var(--text); }
+.session-bar-btn { padding: 0.3rem 0.7rem; border-radius: 6px; cursor: pointer; font-size: 0.84rem; font-family: inherit; }
+.session-bar-restore { background: var(--accent-teal); color: #fff; border: none; }
+.session-bar-dismiss { background: none; border: 1px solid var(--border); color: var(--text-dim); }
+
+/* ── Dark mode ── */
+.dark-mode {
+  --bg: #0f1419;
+  --surface: #1a2332;
+  --surface2: #243040;
+  --border: #3a4a5c;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #7ba4d4;
+  --accent-dim: #1e3050;
+  --accent-teal: #8faed0;
+  --accent-teal-dim: #1a2a40;
+  --green: #4ade80;
+  --green-dim: #16a34a20;
+  --yellow: #fbbf24;
+  --yellow-dim: #ca8a0420;
+  --red: #f87171;
+  --red-dim: #dc262620;
+  --blue: #60a5fa;
+  --blue-dim: #3b82f620;
+}
+.dark-mode body { background: var(--bg) !important; background-color: var(--bg) !important; }
+.dark-mode .hero, .dark-mode .result-card, .dark-mode .info-box,
+.dark-mode .detail-container, .dark-mode .qa-section,
+.dark-mode .search-section { background: var(--surface); border-color: var(--border); }
+.dark-mode input, .dark-mode select, .dark-mode textarea { background: var(--surface2); color: var(--text); border-color: var(--border); }
+.dark-mode .mode-btn { background: var(--surface); color: var(--text-dim); border-color: var(--border); }
+.dark-mode .mode-btn.active { background: var(--accent); color: #fff; }
+.dark-mode mark { background: #fbbf2440; color: var(--text); }
+.dark-mode code { background: var(--surface2); color: var(--accent-teal); }
+.dark-toggle {
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; font-size: 1rem; padding: 0.15rem 0.4rem;
+  color: var(--text-dim); transition: all 0.2s;
+}
+.dark-toggle:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
 
 /* ── Hero ── */
 .hero {
@@ -1205,6 +1322,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
 
 /* ── Print styles for PDF export ── */
 @media print {
+  .dark-mode { --bg: #fff; --surface: #fff; --text: #000; --text-dim: #333; --border: #ccc; }
   body { padding: 0; background: #fff; }
   .hero, .stats-bar, .mode-toggle, .search-section, .qa-config,
   .qa-lang-section, .faq-section, .qa-input-section, .qa-actions,
@@ -1327,6 +1445,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
         <button class="lang-btn active" data-uilang="pl" onclick="switchUILang('pl')">PL</button>
         <button class="lang-btn" data-uilang="en" onclick="switchUILang('en')">EN</button>
       </div>
+      <button class="dark-toggle" id="dark-toggle" onclick="toggleDarkMode()" title="Dark mode">🌙</button>
       <span class="version-badge">v1.0</span>
     </div>
 
@@ -1337,7 +1456,14 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
       <strong>Wydziału Zarządzania UW</strong>. Wyszukuj pełnotekstowo lub zadawaj pytania w języku naturalnym z wykorzystaniem AI.
     </p>
 
-    <div class="info-box">
+    <div class="info-toggles">
+      <button class="info-toggle-btn" onclick="toggleInfoPanel(0)" id="info-btn-0">Jak korzystać</button>
+      <button class="info-toggle-btn" onclick="toggleInfoPanel(1)" id="info-btn-1">Odpowiedzi AI</button>
+      <button class="info-toggle-btn" onclick="toggleInfoPanel(2)" id="info-btn-2">Aktualizacja bazy</button>
+      <button class="info-toggle-btn" onclick="toggleInfoPanel(3)" id="info-btn-3">Źródła danych</button>
+    </div>
+
+    <div class="info-box" id="info-panel-0">
       <div class="info-title">Jak korzystać z narzędzia</div>
       <div class="info-content">
         <strong>1.</strong> Zakładka <strong>Wyszukiwarka</strong> — wpisz frazę (np. „rekrutacja", „pensum", „środki trwałe"), opcjonalnie zawęź organ i rok. Wyniki sortowane wg trafności (BM25).<br>
@@ -1347,7 +1473,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
       </div>
     </div>
 
-    <div class="info-box">
+    <div class="info-box" id="info-panel-1">
       <div class="info-title">Jak czytać odpowiedzi AI</div>
       <div class="info-content">
         Każda odpowiedź AI zawiera <strong>numerowane cytowania</strong> w tekście, np. <span style="display:inline-block;background:var(--accent-teal-dim);color:var(--accent-teal);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.84rem;font-weight:700;cursor:pointer">[1]</span> — kliknij, aby podświetlić źródło na liście poniżej.<br>
@@ -1360,7 +1486,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
       </div>
     </div>
 
-    <div class="info-box">
+    <div class="info-box" id="info-panel-2">
       <div class="info-title">Aktualizacja bazy aktów</div>
       <div class="info-content">
         Baza jest ładowana z pliku <code>data/akty.json</code>. Aby pobrać najnowsze akty, uruchom w terminalu:<br>
@@ -1368,7 +1494,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
       </div>
     </div>
 
-    <div class="info-box">
+    <div class="info-box" id="info-panel-3">
       <div class="info-title">Źródła danych</div>
       <div class="info-content">
         <strong>Monitor UW</strong> (monitor.uw.edu.pl) — zarządzenia Rektora, uchwały Senatu, zarządzenia Kanclerza.<br>
@@ -1470,6 +1596,8 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
         </div>
 
         <div class="provider-hint" id="provider-hint"></div>
+          <div class="api-security-badge green" id="api-security-green"><span>🔒</span> <span id="securityGreenText">Klucz przechowywany wyłącznie w tej przeglądarce — wysyłany tylko do wybranego providera.</span></div>
+          <div class="api-security-badge yellow" id="api-security-yellow"><span>⚠</span> <span id="securityYellowText">Treść aktów prawnych jest przesyłana do zewnętrznego API. Upewnij się, że jest to zgodne z polityką ochrony danych Twojej organizacji.</span></div>
       </div>
 
       <!-- Response language -->
@@ -1521,12 +1649,13 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
       <!-- Answer -->
       <div class="qa-answer-area" id="qa-answer-area">
         <div class="qa-answer-header">Odpowiedź</div>
-        <div class="qa-answer-body" id="qa-answer-body"></div>
+        <div class="qa-answer-body" id="qa-answer-body" role="region" aria-live="polite"></div>
         <div class="qa-answer-sources" id="qa-answer-sources"></div>
         <!-- Actions: explain + follow-up -->
         <div class="qa-actions" id="qa-actions">
           <div class="qa-actions-row">
-            <button class="explain-btn" onclick="doExplain()">Wyjaśnij prostszym językiem</button>
+            <button class="retry-btn" onclick="retryQA()" id="retryBtn">↻ Ponów</button>
+              <button class="explain-btn" onclick="doExplain()">Wyjaśnij prostszym językiem</button>
             <button class="explain-btn" onclick="exportAnswerPdf()">Eksportuj do PDF</button>
             <button class="new-question-btn" onclick="doNewQuestion()">Nowe pytanie</button>
           </div>
@@ -1643,6 +1772,13 @@ const UI_STRINGS = {
     exportCSV: 'Eksportuj CSV',
     exportTXT: 'Eksportuj TXT',
     analyticsBtn: '📊 Statystyki wyszukiwań',
+    securityGreen: 'Klucz przechowywany wyłącznie w tej przeglądarce — wysyłany tylko do wybranego providera.',
+    securityYellow: 'Treść aktów prawnych jest przesyłana do zewnętrznego API. Upewnij się, że jest to zgodne z polityką ochrony danych Twojej organizacji.',
+    retryBtn: '↻ Ponów',
+    infoBtnHow: 'Jak korzystać',
+    infoBtnAI: 'Odpowiedzi AI',
+    infoBtnUpdate: 'Aktualizacja bazy',
+    infoBtnSources: 'Źródła danych',
     statsActs: 'Aktów w bazie',
     statsWithText: 'Z pełnym tekstem',
     apiKeyHint: 'Klucz jest przechowywany wyłącznie w przeglądarce (localStorage) i wysyłany tylko do wybranego providera.',
@@ -1736,6 +1872,13 @@ const UI_STRINGS = {
     exportCSV: 'Export CSV',
     exportTXT: 'Export TXT',
     analyticsBtn: '📊 Search statistics',
+    securityGreen: 'Key stored in this browser only — sent only to the selected provider.',
+    securityYellow: 'Legal act content is transmitted to an external API. Ensure this complies with your organization\'s data protection policy.',
+    retryBtn: '↻ Retry',
+    infoBtnHow: 'How to use',
+    infoBtnAI: 'AI answers',
+    infoBtnUpdate: 'Database update',
+    infoBtnSources: 'Data sources',
     statsActs: 'Regulations',
     statsWithText: 'With full text',
     apiKeyHint: 'Key is stored only in your browser (localStorage) and sent exclusively to the selected provider.',
@@ -1844,6 +1987,12 @@ function updateUILanguage() {
   if (searchLabel) searchLabel.textContent = t('searchLabel');
   $$('.search-btn').forEach(b => b.textContent = t('searchBtn'));
   if ($('analyticsLabel')) $('analyticsLabel').textContent = t('analyticsBtn');
+  if ($('securityGreenText')) $('securityGreenText').textContent = t('securityGreen');
+  if ($('securityYellowText')) $('securityYellowText').textContent = t('securityYellow');
+  if ($('retryBtn')) $('retryBtn').textContent = t('retryBtn');
+  // Accordion toggle buttons
+  const infoBtnKeys = ['infoBtnHow','infoBtnAI','infoBtnUpdate','infoBtnSources'];
+  infoBtnKeys.forEach((k, i) => { const b = $('info-btn-' + i); if (b) b.textContent = t(k); });
   const organLabel = $('filter-organ')?.closest('.field')?.querySelector('label');
   if (organLabel) organLabel.textContent = t('filterOrganLabel');
   const yearLabel = $('filter-rok')?.closest('.field')?.querySelector('label');
@@ -2153,6 +2302,7 @@ function initApp(data) {
   updateBookmarkFilterBtn();
   initFAQ();
   restoreSettings();
+  showSessionBar();
 }
 
 function organGroup(organ) {
@@ -2961,7 +3111,7 @@ function renderResults(akty, query, scoredResults) {
           <span class="result-date">${a.data_wydania || ''}</span>
           <span class="result-source">${a.zrodlo === 'wz_uw' ? 'WZ UW' : a.zrodlo === 'direct_urls' ? 'Rejestr' : 'Monitor UW'}</span>
         </div>
-        <button class="bookmark-btn${isBookmarked ? ' bookmarked' : ''}" data-id="${a.id}" onclick="toggleBookmark(${a.id})" title="${isBookmarked ? t('bookmarkRemove') : t('bookmarkAdd')}">&#9733;</button>
+        <button class="result-toggle" onclick="toggleResultCollapse(this)" title="Zwiń/rozwiń">▼</button><button class="bookmark-btn${isBookmarked ? ' bookmarked' : ''}" data-id="${a.id}" onclick="toggleBookmark(${a.id})" title="${isBookmarked ? t('bookmarkRemove') : t('bookmarkAdd')}">&#9733;</button>
       </div>
       <div class="result-body">
         <h3>${a.typ ? a.typ.charAt(0).toUpperCase() + a.typ.slice(1) : 'Akt'}${a.numer ? ' nr ' + a.numer : ''}</h3>
@@ -3554,7 +3704,8 @@ function showLoading(msg) {
   const actions = document.getElementById('qa-actions');
 
   answerArea.classList.add('visible');
-  answerBody.innerHTML = `<div class="qa-progress"><div class="qa-progress-bar"></div></div><div class="qa-loading">${msg || t('loadingAnswer')}<br><button class="stop-btn" onclick="abortQA()">&#9632; ${getUILang()==='pl'?'Zatrzymaj':'Stop'}</button></div>`;
+  startElapsedTimer();
+  answerBody.innerHTML = `<div class="qa-progress" role="progressbar" aria-label="Loading"><div class="qa-progress-bar"></div></div><div class="qa-loading"><span class="elapsed-time" id="qa-elapsed"></span> ${msg || t('loadingAnswer')}<br><button class="stop-btn" onclick="abortQA()">&#9632; ${getUILang()==='pl'?'Zatrzymaj':'Stop'}</button></div>`;
   answerSources.innerHTML = '';
   actions.classList.remove('visible');
 }
@@ -3562,6 +3713,7 @@ function showLoading(msg) {
 async function doQA() {
   const question = document.getElementById('qa-input').value.trim();
   if (!question) return;
+  lastQAQuestion = question;
 
   // Reset conversation
   conversationHistory = [];
@@ -3601,6 +3753,7 @@ async function doQA() {
     });
     const citedActIds = [...citedNums].map(n => sourceAktyForLog[n - 1]).filter(Boolean);
     logQA(question, chunks, citedActIds);
+    saveSession(question, document.getElementById('qa-answer-body').innerHTML, chunks);
 
   } catch(e) {
     if (e.name === 'AbortError') {
@@ -3610,6 +3763,7 @@ async function doQA() {
     }
   } finally {
     currentAbortController = null;
+    stopElapsedTimer();
   }
 }
 
@@ -4521,6 +4675,130 @@ loadData().then(() => {
   handleDeepLink();
   window.addEventListener('hashchange', handleDeepLink);
 });
+
+// ============================================================
+// BATCH 2 FEATURES
+// ============================================================
+
+// 1. DARK MODE
+function toggleDarkMode() {
+  const isDark = document.documentElement.classList.toggle('dark-mode');
+  localStorage.setItem('lex_dark_mode', isDark ? '1' : '0');
+  document.getElementById('dark-toggle').textContent = isDark ? '☀️' : '🌙';
+}
+(function() {
+  if (localStorage.getItem('lex_dark_mode') === '1') {
+    document.documentElement.classList.add('dark-mode');
+    const btn = document.getElementById('dark-toggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+
+// 4. SESSION RESTORE
+function saveSession(question, answerHtml, chunks) {
+  try {
+    const data = { question, answerHtml, chunks: chunks?.slice(0, 5), ts: Date.now() };
+    localStorage.setItem('lex_session', JSON.stringify(data));
+  } catch(e) {}
+}
+
+function showSessionBar() {
+  try {
+    const raw = localStorage.getItem('lex_session');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (Date.now() - data.ts > 86400000) { localStorage.removeItem('lex_session'); return; } // 24h expiry
+    const q = data.question?.substring(0, 60) || '';
+    const bar = document.createElement('div');
+    bar.className = 'session-bar';
+    bar.id = 'session-bar';
+    const lang = getUILang();
+    bar.innerHTML = `
+      <span class="session-bar-text">${lang==='pl'?'Poprzednia odpowiedź AI':'Previous AI answer'}: "${q}${q.length>=60?'…':''}"</span>
+      <button class="session-bar-btn session-bar-restore" onclick="restoreSession()">${lang==='pl'?'Przywróć':'Restore'}</button>
+      <button class="session-bar-btn session-bar-dismiss" onclick="dismissSession()">✕</button>
+    `;
+    const qaPanel = document.getElementById('qa-panel');
+    if (qaPanel) qaPanel.insertBefore(bar, qaPanel.firstChild);
+  } catch(e) {}
+}
+
+function restoreSession() {
+  try {
+    const data = JSON.parse(localStorage.getItem('lex_session'));
+    if (!data) return;
+    const answerArea = document.getElementById('qa-answer-area');
+    const answerBody = document.getElementById('qa-answer-body');
+    if (answerBody) answerBody.innerHTML = data.answerHtml || '';
+    if (answerArea) answerArea.classList.add('visible');
+    document.getElementById('qa-actions')?.classList.add('visible');
+    dismissSession();
+  } catch(e) {}
+}
+
+function dismissSession() {
+  document.getElementById('session-bar')?.remove();
+}
+
+// 5. ELAPSED TIME
+let qaElapsedInterval = null;
+function startElapsedTimer() {
+  stopElapsedTimer();
+  const start = Date.now();
+  qaElapsedInterval = setInterval(() => {
+    const el = document.getElementById('qa-elapsed');
+    if (el) {
+      const sec = Math.round((Date.now() - start) / 1000);
+      el.textContent = sec + 's';
+    }
+  }, 1000);
+}
+function stopElapsedTimer() {
+  if (qaElapsedInterval) { clearInterval(qaElapsedInterval); qaElapsedInterval = null; }
+}
+
+// 6. COLLAPSIBLE INFO PANELS
+let activeInfoPanel = -1;
+function toggleInfoPanel(idx) {
+  document.querySelectorAll('.info-box').forEach((box, i) => {
+    if (i === idx && activeInfoPanel !== idx) {
+      box.classList.add('open');
+    } else {
+      box.classList.remove('open');
+    }
+  });
+  document.querySelectorAll('.info-toggle-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx && activeInfoPanel !== idx);
+  });
+  activeInfoPanel = activeInfoPanel === idx ? -1 : idx;
+}
+
+// 8. RETRY
+let lastQAQuestion = '';
+function retryQA() {
+  if (!lastQAQuestion) return;
+  document.getElementById('qa-input').value = lastQAQuestion;
+  doQA();
+}
+
+// 9. COLLAPSIBLE RESULT BLOCKS
+function toggleResultCollapse(btn) {
+  const body = btn.closest('.result-card')?.querySelector('.result-body');
+  if (!body) return;
+  btn.classList.toggle('collapsed');
+  body.classList.toggle('collapsed');
+}
+
+// 10. TABBED Q&A SECTIONS
+function switchQATab(tabName) {
+  document.querySelectorAll('.qa-result-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+  document.querySelectorAll('.qa-tab-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tabName));
+}
+function expandAllQATabs() {
+  document.querySelectorAll('.qa-tab-panel').forEach(p => p.classList.add('active'));
+  document.querySelectorAll('.qa-result-tab').forEach(t => t.classList.add('active'));
+}
+
 </script>
 
 </body>
