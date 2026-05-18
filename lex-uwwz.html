@@ -87,8 +87,6 @@ body {
 }
 .result-toggle.collapsed { transform: rotate(-90deg); }
 .result-body.collapsed { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.25s ease, opacity 0.2s ease; }
-.result-html, body { background: transparent !important; background-color: transparent !important; }
-body { transition: max-height 0.25s ease, opacity 0.2s ease; }
 
 /* ── Retry button ── */
 .retry-btn {
@@ -115,8 +113,9 @@ body { transition: max-height 0.25s ease, opacity 0.2s ease; }
 }
 .info-toggle-btn:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
 .info-toggle-btn.active { background: var(--accent-teal); color: #fff; border-color: var(--accent-teal); }
+.info-panels-container { /* collapses when all children display:none */ }
 .info-box { display: none; opacity: 0; overflow: hidden; margin-bottom: 0; padding-top: 0; padding-bottom: 0; }
-.info-box.open { display: block; opacity: 1; margin-bottom: 0.75rem; padding-top: 0.8rem; padding-bottom: 0.8rem; animation: infoFadeIn 0.25s ease; }
+.info-box.open { display: block; opacity: 1; padding: 1rem 1.2rem; margin-top: 0.5rem; margin-bottom: 0.75rem; animation: infoFadeIn 0.25s ease; }
 @keyframes infoFadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 
@@ -262,9 +261,6 @@ body { transition: max-height 0.25s ease, opacity 0.2s ease; }
 .info-box {
   background: var(--surface2);
   border-radius: 14px;
-  padding: 1rem 1.2rem;
-  margin-top: 0.5rem;
-  overflow: hidden;
   border-left: 3px solid var(--accent);
 }
 .info-title { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
@@ -480,8 +476,7 @@ body { transition: max-height 0.25s ease, opacity 0.2s ease; }
   opacity: 0.7;
 }
 
-.result-html, body { background: transparent !important; background-color: transparent !important; }
-body { padding: 0.75rem 1rem; }
+.result-body { padding: 0.75rem 1rem; }
 
 .result-body h3 {
   font-size: 0.9rem;
@@ -829,8 +824,7 @@ body { padding: 0.75rem 1rem; }
   color: var(--text);
 }
 
-.qa-answer-html, body { background: transparent !important; background-color: transparent !important; }
-body {
+.qa-answer-body {
   padding: 1rem;
   font-size: 0.84rem;
   line-height: 1.7;
@@ -1350,8 +1344,7 @@ a.source-tag:hover .source-num, span.source-tag:hover .source-num {
 /* ── Print styles for PDF export ── */
 @media print {
   .dark-mode { --bg: #fff; --surface: #fff; --text: #000; --text-dim: #333; --border: #ccc; }
-  html, body { background: transparent !important; background-color: transparent !important; }
-body { padding: 0; background: #fff; }
+  body { padding: 0; background: #fff; }
   .hero, .stats-bar, .mode-toggle, .search-section, .qa-config,
   .qa-lang-section, .faq-section, .qa-input-section, .qa-actions,
   #search-panel, .detail-overlay, .bookmark-filter { display: none !important; }
@@ -1359,8 +1352,7 @@ body { padding: 0; background: #fff; }
   .qa-section { display: block !important; }
   .qa-answer-area { border: none; box-shadow: none; }
   .qa-answer-area.visible { display: block !important; }
-  .qa-answer-html, body { background: transparent !important; background-color: transparent !important; }
-body { max-height: none; overflow: visible; }
+  .qa-answer-body { max-height: none; overflow: visible; }
   .qa-answer-header { font-size: 1.1rem; }
   .answer-text { font-size: 0.95rem; }
   .source-tag { border: 1px solid #999; color: #333; background: #f0f0f0; }
